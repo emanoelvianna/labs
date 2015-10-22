@@ -8,7 +8,7 @@
 main:
 	la $t0, vet
 	la $t1, tam
-	lw $t1, 0($t1)
+	lw $t1, 0($t1) # $t1 <- tamanho do vetor
 	li $s0, 0
 		loop:
 			beq $s0, $t1, fim # case ($s0 == $t1) fim
@@ -31,9 +31,9 @@ main:
 	
 	
 calc_abs:
-	add $s1, $a0, $zero
-	abs $s1, $s1
-	add $v0, $s1, $zero
+	add $s1, $a0, $zero # recebe parametro
+	abs $s1, $s1 # transforma o parametro em valor absoluto
+	add $v0, $s1, $zero # retorna parametro
 	jr $ra 	
 
 fim:
