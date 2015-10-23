@@ -39,12 +39,38 @@ main:
 	
 	jal BinSearch
 	
-	jr $ra
+	# tratando o valor do retorno da funcao
+	lw      $ra, 0($sp)      
+        lw      $t0, 4($sp)       
+        addiu   $sp, $sp, 12  
+	
+	
+	jal fim
 
 BinSearch:
-		
-		
 
+	# desempilha e recursao?!
+		
+	add $a1, $t1, $zero # $a1 <- ref primeiro 
+	add $a2, $t2, $zero # $a2 <- ref ultimo
+	# if (Prim > Ult) return -1; // Valor não existe
+	slt $s0, $a2, $a1
+	beq $s0, $0, erro # Se verdade continua, se não erro	
+	
+	add $s1, $a1,$s2  # $s1 <- prim + ult
+	li $s2, 2 # auxiliar na divisao
+	div $s1, $s2 # $s1 / 2
+	mflo $s1 # $s1 <- $s1 / 2
+	
+	# if (Valor == A[Meio])
+	
+	# else if (Valor<A[Meio])
+	
+	# recursao?!
+
+erro:
+	# retorno -1
+	
 
 fim:
 	jr $ra
