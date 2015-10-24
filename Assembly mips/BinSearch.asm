@@ -50,7 +50,7 @@ BinSearch:
 	div $s5, $s6 		# meio / 2
 	mflo $s5		# meio recebe o resultado 	
 		
-	addu $s7, $s3, $s	# $s1 <- A[meio]
+	addu $s7, $s3, $s5	# $s1 <- A[meio]
 	beq $s2, $s0, acho	# caso $s7 == $s0 achou o elemento
 	
 	# if (Valor == A[Meio])
