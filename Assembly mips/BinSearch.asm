@@ -1,7 +1,5 @@
 # Trabalho 2, pesquisa binária.
-#
-# Para a realização do trabalho utilizamos uma pilha
-#
+# Para a realização do trabalho utilizamos uma pilha para a passagem dos argumentos
 
 
 .data
@@ -9,8 +7,6 @@
 	prim : .word 0
 	ult : .word 11
 	valor : .word 5 # * retorno deve ser 2
-	
-	meio : .word 0 # * ira variar segundo tam vetor
 	
 	
 .text 
@@ -31,12 +27,6 @@ main:
 	addiuj $sp, $sp, -4 # preparando para empilhar o $ra
 	sw $ra, 0($sp) # empilha o $ra
 	
-	addiu $sp, $sp, -16 # empilha o restante dos parametros
-	sw $a0, 0($sp) # passa para a pilha o A
-	sw $a1, 4($sp) # passa para a pilha o Pri
-	sw $a2, 8($sp) # passa para a pilha o Ult
-	sw $a3, 12($sp) # passa para a pilha o Valor a ser buscado
-	
 	jal BinSearch
 	
 	# tratando o valor do retorno da funcao
@@ -47,23 +37,21 @@ main:
 BinSearch:
 
 	# desempilha e recursao?!
-	lw $t0, 0($sp) # desempilha o valor a ser buscado
-	lw $t1, 0($sp) # desempilha valor Ult
-	lw $t2, 0($sp) # desempilha valor Pri
-	lw $t3, 0($sp) # desempilha ref vetor A
+	lw $s0, 0($sp) 	# desempilha o valor a ser buscado
+	lw $s1, 0($sp) 	# desempilha valor Ult
+	lw $s2, 0($sp) 	# desempilha valor Pri
+	lw $s3, 0($sp) 	# desempilha ref vetor A
 	
+	slt $s4, $s1, $s2 		# teste se ult < prim
+	beq $s4, $zero, retorna 	# caso sim retorna erro, se não continua
 	
+	add $s5,  $s2, $s1 	# meio <- pri + ult
+	li $s6, 2 		# axuliar na divisao
+	div $s5, $s6 		# meio / 2
+	mflo $s5		# meio recebe o resultado 	
 		
-	add $a1, $t1, $zero # $a1 <- ref primeiro 
-	add $a2, $t2, $zero # $a2 <- ref ultimo
-	# if (Prim > Ult) return -1; // Valor não existe
-	slt $s0, $a2, $a1
-	beq $s0, $0, erro # Se verdade continua, se não erro	
-	
-	add $s1, $a1,$s2  # $s1 <- prim + ult
-	li $s2, 2 # auxiliar na divisao
-	div $s1, $s2 # $s1 / 2
-	mflo $s1 # $s1 <- $s1 / 2
+	addu $s7, $s3, $s	# $s1 <- A[meio]
+	beq $s2, $s0, acho	# caso $s7 == $s0 achou o elemento
 	
 	# if (Valor == A[Meio])
 	
@@ -71,11 +59,12 @@ BinSearch:
 	
 	# recursao?!
 
-erro:
-	# retorno -1
+retorna:
+	# deve retornar -1
 	
 
 fim:
+	# fim do programa
 	jr $ra
 
 	
