@@ -53,11 +53,13 @@ BinSearch:
 	addu $s7, $s3, $s5	# $s1 <- A[meio]
 	beq $s2, $s0, acho	# caso $s7 == $s0 achou o elemento
 	
-	# if (Valor == A[Meio])
-	
-	# else if (Valor<A[Meio])
+	# else if(valor<A[meio]) retorna BinSearch(A, prim, meio-1, valor);
+	# else retorna BinSearch(A, prim, meio+1, valor);
 	
 	# recursao?!
+	
+acho:
+	# deve retornar a ref da posicao que achou o elemento
 
 retorna:
 	# deve retornar -1
