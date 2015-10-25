@@ -73,7 +73,8 @@ BinSearch:
 	
 achou:
 	# deve retornar a ref da posicao que achou o elemento
-
+	# eu devo fazer o retorno via pilha também?!
+	
 recursao:
 
 retorna:
