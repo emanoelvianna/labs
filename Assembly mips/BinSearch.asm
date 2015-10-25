@@ -76,6 +76,7 @@ achou:
 	# eu devo fazer o retorno via pilha também?!
 	
 recursao:
+	# recursao caso valor < a[meio]
 
 retorna:
 	# deve retornar -1
