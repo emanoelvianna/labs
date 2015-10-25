@@ -24,7 +24,7 @@ main:
 	la $a3, valor 
 	lw $a3, 0($a3) # valor a ser buscado
 	
-	addiuj $sp, $sp, -4 # preparando para empilhar o $ra
+	addiu $sp, $sp, -4 # preparando para empilhar o $ra
 	sw $ra, 0($sp) # empilha o $ra
 	
 	jal BinSearch
