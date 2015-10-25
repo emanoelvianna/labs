@@ -24,10 +24,16 @@ main:
 	la $a3, valor 
 	lw $a3, 0($a3) # valor a ser buscado
 	
-	addiu $sp, $sp, -4 # preparando para empilhar o $ra
-	sw $ra, 0($sp) # empilha o $ra
+	addiu $sp, $sp, -4 # empilha o $ra
+	sw $ra, 0($sp)
+	addiu $sp, $sp, -16 # empilha o restante dos parametros
+	sw $a0, 0($sp) # empilha A
+	sw $a1, 4($sp) # empilha o Pri
+	sw $a2, 8($sp) # empilha o Ult
+	sw $a3, 12($sp) # empilha o valor
 	
 	jal BinSearch
+	
 	
 	# tratando o valor do retorno da funcao
 	
