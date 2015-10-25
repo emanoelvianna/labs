@@ -1,5 +1,5 @@
-# Trabalho 2, pesquisa binária.
-# Para a realização do trabalho utilizamos uma pilha para a passagem dos argumentos
+# Trabalho 2, pesquisa binÃ¡ria.
+# Para a realizaÃ§Ã£o do trabalho utilizamos uma pilha para a passagem dos argumentos
 
 
 .data
@@ -16,7 +16,7 @@ main:
 	la $a0, vet 
 	
 	la $a1, prim
-	lw $a1, 0($a1)	# ref começo do vetor
+	lw $a1, 0($a1)	# ref comeco do vetor
 	
 	la $a2, ult 
 	lw $a2, 0($a2) # ref final do vetor
@@ -59,7 +59,7 @@ BinSearch:
 	beq $t7, $t3, achou
 		
 	# else if(valor<A[meio]) retorna BinSearch(A, prim, meio-1, valor);
-	blt $t3, $t7, recursao # Se valor < A[meio] ent�o recursao, sen�o  
+	blt $t3, $t7, recursao # Se valor < A[meio] então recursao, senão  
 	
 	# else retorna BinSearch(A, prim, meio+1, valor);
 	
