@@ -43,29 +43,38 @@ main:
 BinSearch:
 
 	# desempilha e recursao?!
-	lw $s0, 0($sp) 	# desempilha o valor a ser buscado
-	lw $s1, 0($sp) 	# desempilha valor Ult
-	lw $s2, 0($sp) 	# desempilha valor Pri
-	lw $s3, 0($sp) 	# desempilha ref vetor A
+	lw $t0, 0($sp) 	# desempilha ref vetor A 
+	lw $t1, 4($sp) 	# desempilha valor Pri
+	lw $t2, 8($sp) 	# desempilha valor Ult
+	lw $t3, 12($sp) # desempilha o valor a ser buscado	
 	
-	slt $s4, $s1, $s2 		# teste se ult < prim
-	beq $s4, $zero, retorna 	# caso sim retorna erro, se nÃ£o continua
+	bgt $t1, $t2, retorna		# teste se prim > ult
 	
-	add $s5,  $s2, $s1 	# meio <- pri + ult
-	li $s6, 2 		# axuliar na divisao
-	div $s5, $s6 		# meio / 2
-	mflo $s5		# meio recebe o resultado 	
+	add $t5,  $t1, $t2 	# meio <- pri + ult
+	li $t6, 2 		# axuliar na divisao
+	div $t5, $t6 		# meio / 2
+	mflo $t5		# meio recebe o resultado 	
+	
+	lw $t7, vet($t5)
+	beq $t7, $t3, achou
 		
-	addu $s7, $s3, $s5	# $s1 <- A[meio]
-	beq $s2, $s0, acho	# caso $s7 == $s0 achou o elemento
-	
 	# else if(valor<A[meio]) retorna BinSearch(A, prim, meio-1, valor);
+	blt $t3, $t7, recursao # Se valor < A[meio] então recursao, senão  
+	
 	# else retorna BinSearch(A, prim, meio+1, valor);
 	
-	# recursao?!
+	addiu $sp, $sp, -4 # empilha o $ra
+	sw $ra, 0($sp)
+	addiu $sp, $sp, -16 # empilha o restante dos parametros
+	sw $a0, 0($sp) # empilha A
+	sw $a1, 4($sp) # empilha o Pri
+	sw $a2, 8($sp) # empilha o Ult
+	sw $a3, 12($sp) # empilha o valor
 	
-acho:
+achou:
 	# deve retornar a ref da posicao que achou o elemento
+
+recursao:
 
 retorna:
 	# deve retornar -1
