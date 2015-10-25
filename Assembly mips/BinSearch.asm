@@ -7,7 +7,7 @@
 	prim : .word 0
 	ult : .word 11
 	valor : .word 5 # * retorno deve ser 2
-	
+	tam: .word 11
 	
 .text 
 .globl main
