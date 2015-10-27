@@ -6,7 +6,7 @@
 	vet : .word -5 -1 5 9 12 15 21 29 31 58 250 325 
 	prim : .word 0
 	ult : .word 11
-	valor : .word -5 # retorno deve ser ref 0
+	valor : .word -5 # * retorno deve ser 2
 	tam: .word 11
 .text 
 .globl main
@@ -78,7 +78,6 @@ BinSearch:
 	# else if(valor<A[meio]) retorna BinSearch(A, prim, meio-1, valor);
 	blt $t3, $t7, recursao # Se valor < A[meio] então recursao, senão  
 	
-	# se não realiza o else abaixo:
 	# else retorna BinSearch(A, prim, meio+1, valor);
 	addiu $sp, $sp, -4 # empilha o $ra
 	sw $ra, 0($sp)
@@ -93,7 +92,7 @@ BinSearch:
 
 	jal BinSearch
 
-	# retorno:
+	# retorno nas recursoes:
 	
 	#lê retorno
 	lw $s0, 0($sp)
@@ -115,6 +114,7 @@ achou:
 	sw $t5, 0($sp)
 
 	jr $ra
+	
 
 recursao:
 	addiu $t5, $t5, -1 # meio - 1
