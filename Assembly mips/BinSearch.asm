@@ -117,6 +117,7 @@ achou:
 	
 
 recursao:
+	# realiza retorna BinSearch(A, prim, meio-1, valor);
 	addiu $t5, $t5, -1 # meio - 1
 	 
 	addiu $sp, $sp, -4 # empilha o $ra
