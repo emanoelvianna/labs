@@ -70,6 +70,7 @@ BinSearch:
 	add $t6, $t5, $t5 	# caminhando no vetor 4 em 4	
 	add $t6, $t6, $t6 	# i * 4
 
+	# $t9 guarda a ref para o indice do vetor
 	add $t9, $t6, $t0 	# $t9 <- A[meio]
 
 	lw $t7, 0($t9) 		# $t7 <- recebe valor A[meio]
@@ -110,9 +111,9 @@ BinSearch:
 
 achou:
 	# deve retornar a ref da posicao que achou o elemento
-	addiu $sp, $sp, 4	
+	add $v0, $t9, $zero	
 	addiu $sp, $sp, -4
-	sw $t9, 0($sp)
+	sw $v0, 0($sp)
 
 	jr $ra
 	
