@@ -110,8 +110,9 @@ BinSearch:
 
 achou:
 	# deve retornar a ref da posicao que achou o elemento
+	addiu $sp, $sp, 4	
 	addiu $sp, $sp, -4
-	sw $t5, 0($sp)
+	sw $t9, 0($sp)
 
 	jr $ra
 	
