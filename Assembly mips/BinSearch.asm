@@ -3,11 +3,12 @@
 
 
 .data
+	res: .word 0
 	vet : .word -5 -1 5 9 12 15 21 29 31 58 250 325 
 	prim : .word 0
 	ult : .word 11
-	valor : .word -5 # * retorno deve ser 2
-	tam: .word 11
+	valor : .word 58 # * retorno deve ser 2
+	tam: .word 12
 .text 
 .globl main
 
@@ -39,6 +40,15 @@ main:
 	sw $a3, 0($sp) # empilha o valor
 	
 	jal BinSearch
+
+	lw $s3, 0($sp) # lê o index retornado da pilha
+
+	addiu $sp, $sp, 4 # tira esp da pilha
+	lw $ra, 0($sp)
+	addiu $sp, $sp, 4
+
+	addiu $sp, $sp, -4 # empilha o index
+	sw $s3, 0($sp)
 	
 	# PRECISO tratar o valor do retorno da funcao
 	
@@ -80,38 +90,38 @@ BinSearch:
 	blt $t3, $t7, recursao # Se valor < A[meio] então recursao, senão  
 	
 	# else retorna BinSearch(A, prim, meio+1, valor);
+	addiu $t5, $t5, 1 # meio + 1
+
 	addiu $sp, $sp, -4 # empilha o $ra
 	sw $ra, 0($sp)
+
 	addiu $sp, $sp, -4 # empilha o restante dos parametros
 	sw $t0, 0($sp) # empilha A
+
 	addiu $sp, $sp, -4 # empilha o restante dos parametros
-	sw $t5, 0($sp) # empilha o Pri
+	sw $t5, 0($sp) # empilha o MEIO+1
+
 	addiu $sp, $sp, -4 # empilha o restante dos parametros
 	sw $t2, 0($sp) # empilha o Ult
+
 	addiu $sp, $sp, -4 # empilha o restante dos parametros
 	sw $t3, 0($sp) # empilha o valor
 
 	jal BinSearch
-
-	# retorno nas recursoes:
 	
-	#lê retorno
-	lw $s0, 0($sp)
-	addiu $sp, $sp, 4
-
-	#desempilha $ra
+	lw $s3, 0($sp) # lê o index retornado da pilha
+	addiu $sp, $sp, 4 # tira esp da pilha
 	lw $ra, 0($sp)
 	addiu $sp, $sp, 4
-
-	#empilha valor de retorno
-	addiu $sp, $sp, -4
-	sw $s0, 0($sp)
+	
+	addiu $sp, $sp, -4 # empilha o index
+	sw $s3, 0($sp)
 
 	jr $ra
 
 achou:
 	# deve retornar a ref da posicao que achou o elemento
-	add $v0, $t9, $zero	
+	add $v0, $t5, $zero	
 	addiu $sp, $sp, -4
 	sw $v0, 0($sp)
 
@@ -129,12 +139,22 @@ recursao:
 	addiu $sp, $sp, -4 # empilha o restante dos parametros
 	sw $t1, 0($sp) # empilha o Pri
 	addiu $sp, $sp, -4 # empilha o restante dos parametros
-	sw $t5, 0($sp) # empilha o Ult
+	sw $t5, 0($sp) # empilha o MEIO-1
 	addiu $sp, $sp, -4 # empilha o restante dos parametros
 	sw $t3, 0($sp) # empilha o valor
 	
 	jal BinSearch	
+
+	lw $s3, 0($sp) # lê o index retornado da pilha
+	addiu $sp, $sp, 4 # tira esp da pilha
+	lw $ra, 0($sp)
+	addiu $sp, $sp, 4
 	
+	addiu $sp, $sp, -4 # empilha o index
+	sw $s3, 0($sp)
+
+	jr $ra
+
 retorna:
 	# deve retornar -1
 	li $v0, -1
