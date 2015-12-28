@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Estilos para impressão
+   ========================================================================== */
+@media print {
+    
+	.no-print, nav, footer, video, audio, object, embed, md-tabs-wrapper {
+       display: none;
+    }
+    
+	.print { /* opções que preparam a folha para estilo de impressao */
+		display: block;
+		width: 100%;
+        background-color: white; 
+	}
+}
