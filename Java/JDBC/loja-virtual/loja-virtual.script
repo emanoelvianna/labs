@@ -49,5 +49,3 @@ SET SCHEMA PUBLIC
 INSERT INTO PRODUTO VALUES(1,'Geladeira','Geladeira duas portas')
 INSERT INTO PRODUTO VALUES(2,'Ferro de passar','Ferro de passar roupa com vaporizador\u000d\u000a')
 INSERT INTO PRODUTO VALUES(3,'Notebook','Notebook i5')
-INSERT INTO PRODUTO VALUES(8,'Notebook','Notebook i5')
-INSERT INTO PRODUTO VALUES(9,'Notebook','Notebook i5')
