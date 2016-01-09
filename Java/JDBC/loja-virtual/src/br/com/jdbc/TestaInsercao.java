@@ -10,7 +10,7 @@ public class TestaInsercao {
 
 	public static void main(String[] args) throws SQLException {
 		// try irá fechar automaticamente a connection
-		try (Connection connection = Database.getConnection()) {
+		try (Connection connection = new ConnectionPool().getConnection()) {
 			connection.setAutoCommit(false);
 			String sql = "insert into Produto (nome, descricao) values(?, ?)";
 			// o mesmo valie para PreparedStatement, irá ser rodado e fechado sozinho

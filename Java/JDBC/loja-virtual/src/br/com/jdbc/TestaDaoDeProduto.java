@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import br.com.jdbc.dao.ProdutosDao;
 import br.com.jdbc.modelo.Produto;
 
 public class TestaDaoDeProduto {
