@@ -1,3 +1,4 @@
+package br.com.padraoStrategy;
 
 public class ICMS implements Imposto {
 
