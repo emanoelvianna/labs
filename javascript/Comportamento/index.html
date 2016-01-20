@@ -1,4 +1,3 @@
-<-- index.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,21 +30,26 @@
             <input type="text" class="form-control" name="name" ng-model="formData.name">
         </div>
 
-        <!-- =============================================== -->
-        <!-- ALL OUR CHECKBOXES AND RADIO BOXES WILL GO HERE -->
-        <!-- =============================================== -->
+        <!-- RADIO BUTTONS -->
+        <label>Chicken or the Egg?</label>
+        <div class="form-group">
+            <div class="radio">
+                <label>
+                    <input type="radio" name="chickenEgg" value="chicken" ng-model="formData.chickenEgg">
+                    Chicken
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="chickenEgg" value="egg" ng-model="formData.chickenEgg">
+                    Egg
+                </label>
+            </div>
+        </div>
 
-        <!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
         <button type="submit" class="btn btn-danger btn-lg">Send Away!</button>
 
     </form>
-
-    <!-- SHOW OFF OUR FORMDATA OBJECT -->
-    <h2>Sample Form Object</h2>
-    <pre>
-        {{ formData }}
-    </pre>
-
 </div>
 </body>
 </html>
