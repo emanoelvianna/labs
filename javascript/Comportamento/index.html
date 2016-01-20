@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="utf-8"/>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+      <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+      <title>Formulário</title>
+
+      <style>
+        label
+        {
+          width: 60px;
+          display: inline-block;
+          vertical-align: middle;
+        }
+
+        input
+        {
+          vertical-align: middle;
+        }
+      </style>
+      <script>
+
+      $scope.addItem = function() {
+          var r = Math.ceil(Math.random() * 1000);
+          $scope.radioData.push({ label: r, value: r });
+      };
+
+      </script>
+
+    </head>
+
+    <body ng-app>
+      <div>
+        <label for="redRadio">Red:</label>
+        <input id="redRadio" type="radio" ng-model="colorValue" value="red" /><br />
+
+        <label for="greenRadio">Green:</label>
+        <input id="greenRadio" type="radio" ng-model="colorValue" value="green" /><br />
+
+        <label for="blueRadio">Blue:</label>
+        <input id="blueRadio" type="radio" ng-model="colorValue" value="blue" /><br />
+
+        <p>
+          <md-button class="md-raised" ng-click="addItem()" type="button">Add</md-button>
+          <md-button class="md-raised" ng-click="removeItem()" type="button">Remove</md-button>
+        </p>
+
+      </div>
+    </body>
+</html>
