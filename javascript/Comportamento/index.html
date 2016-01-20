@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-    <!-- CSS -->
-    <!-- load up bootstrap and add some spacing -->
+    <meta charset="utf-8"/>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <style>
         body         { padding-top:50px; }
@@ -20,34 +18,27 @@
 <body ng-app="formApp" ng-controller="formController">
 <div class="col-xs-12 col-sm-10 col-sm-offset-1">
 
-    <h2>Angular Checkboxes and Radio Buttons</h2>
+    <h2>Formúlario</h2>
 
     <form>
-
-        <!-- NAME INPUT -->
-        <div class="form-group">
-            <label>Name</label>
-            <input type="text" class="form-control" name="name" ng-model="formData.name">
-        </div>
-
         <!-- RADIO BUTTONS -->
-        <label>Chicken or the Egg?</label>
+        <label>Qual sua fruta favorita?</label>
         <div class="form-group">
             <div class="radio">
                 <label>
                     <input type="radio" name="chickenEgg" value="chicken" ng-model="formData.chickenEgg">
-                    Chicken
+                    Maça
                 </label>
             </div>
             <div class="radio">
                 <label>
                     <input type="radio" name="chickenEgg" value="egg" ng-model="formData.chickenEgg">
-                    Egg
+                    Banana
                 </label>
             </div>
         </div>
 
-        <button type="submit" class="btn btn-danger btn-lg">Send Away!</button>
+        <button type="submit" class="btn btn-danger btn-lg">Adicionar</button>
 
     </form>
 </div>
