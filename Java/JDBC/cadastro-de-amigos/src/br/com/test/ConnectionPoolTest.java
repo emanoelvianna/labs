@@ -1,6 +1,6 @@
 package br.com.test;
 
-import br.com.connection.ConnectionPool;
+import br.com.model.ConnectionPool;
 
 public class ConnectionPoolTest {
 

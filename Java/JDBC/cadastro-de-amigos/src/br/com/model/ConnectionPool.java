@@ -1,4 +1,4 @@
-package br.com.connection;
+package br.com.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

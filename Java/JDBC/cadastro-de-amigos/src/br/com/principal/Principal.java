@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import br.com.connection.ConnectionPool;
+import br.com.model.ConnectionPool;
 
 public class Principal {
 	public static void main(String[] args) throws Exception {
