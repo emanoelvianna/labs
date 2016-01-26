@@ -1,4 +1,4 @@
-package br.com.padroChainOfResponsibility2;
+package br.com.padraoChainOfResponsibility2;
 
 public class Principal {
 	public static void main(String[] args) {
