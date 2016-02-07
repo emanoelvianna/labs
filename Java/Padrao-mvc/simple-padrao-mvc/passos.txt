@@ -1,0 +1,24 @@
+
+Descricao: Inicio da verificacao numero 0
+------------
+5335 >> 3535
+Descricao: Trocou-se o digito 5 pelo 3
+
+3535 >> 3355
+Descricao: Trocou-se o digito 5 pelo 3
+
+3355 >> 3355
+Descricao: Nao houve troca pois o numero 5 ja eh menor/igual que 5
+
+
+Descricao: Inicio da verificacao numero 1
+------------
+3355 >> 3355
+Descricao: Nao houve troca pois o numero 3 ja eh menor/igual que 3
+
+3355 >> 3355
+Descricao: Nao houve troca pois o numero 3 ja eh menor/igual que 5
+
+3355 >> 3355
+Descricao: Nao houve troca pois o numero 5 ja eh menor/igual que 5
+
