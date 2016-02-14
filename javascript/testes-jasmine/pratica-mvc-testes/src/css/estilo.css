@@ -1,0 +1,12 @@
+.formulario {
+  text-align: -webkit-center;
+}
+.nome {
+  width: 200px !important;
+}
+.peso {
+  width: 200px !important;
+}
+.altura {
+  width: 200px !important;
+}
