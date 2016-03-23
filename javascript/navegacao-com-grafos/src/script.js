@@ -13,40 +13,78 @@ Graph.Renderer.Raphael = function(element, graph, width, height) {
 // Put it back ;)
 Graph.Renderer.Raphael.prototype = p;
 
-var render = function(r, n) {
-  /* the Raphael set is obligatory, containing all you want to display */
-  var set = r.set().push(
-      /* custom objects go here */
-      r.rect(n.point[0] - 30, n.point[1] - 13, 50, 50)
-      .attr({
-        "fill": "#fa8",
-        "stroke-width": 2,
-        r: 9
-      }))
-    .push(r.text(n.point[0], n.point[1] + 15, n.id)
-      .attr({
-        "font-size": "20px"
-      }));
-  return set;
-};
-
 $(document).ready(function() {
 
-  Graph.Renderer.defaultRenderFunc = render;
+  Graph.Layout.Fixed = function(graph) {
+    this.graph = graph;
+    this.layout();
+  };
+  Graph.Layout.Fixed.prototype = {
+    layout: function() {
+      this.layoutPrepare();
+      this.layoutCalcBounds();
+    },
+
+    layoutPrepare: function() {
+      for (i in this.graph.nodes) {
+        var node = this.graph.nodes[i];
+        if (node.x) {
+          node.layoutPosX = node.x;
+        } else {
+          node.layoutPosX = 0;
+        }
+        if (node.y) {
+          node.layoutPosY = node.y;
+        } else {
+          node.layoutPosY = 0;
+        }
+      }
+    },
+
+    layoutCalcBounds: function() {
+      var minx = Infinity,
+        maxx = -Infinity,
+        miny = Infinity,
+        maxy = -Infinity;
+
+      for (i in this.graph.nodes) {
+        var x = this.graph.nodes[i].layoutPosX;
+        var y = this.graph.nodes[i].layoutPosY;
+
+        if (x > maxx) maxx = x;
+        if (y > maxy) maxy = y;
+        if (y < miny) miny = y;
+        if (x < minx) minx = x;
+      }
+
+      this.graph.layoutMinX = minx;
+      this.graph.layoutMaxX = maxx;
+
+      this.graph.layoutMinY = miny;
+      this.graph.layoutMaxY = maxy;
+    }
+  };
 
   var width = $(document).width();
   var height = $(document).height();
-  g = new Graph();
-  g.addEdge("A", "B", {
-    directed: true
+  graph = new Graph();
+
+  graph.addNode('A');
+  graph.addNode('B');
+  graph.addNode('C');
+  graph.addNode('D');
+
+  graph.addEdge("A", "B", {
+    directed: true,
   });
-  g.addEdge("B", "C", {
-    directed: true
+  graph.addEdge("B", "C", {
+    directed: true,
   });
 
+  //var layouter = new Graph.Layout.TournamentTree(g, g.nodes);
+  //var layouter = new Graph.Layout.TournamentTree(graph, topologicalSort(graph));
+  var layouter = new Graph.Layout.TournamentTree(graph, topologicalSort(graph));
 
-  var layouter = new Graph.Layout.Ordered(g, topologicalSort(g));
-  var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
-  layouter.layout();
-  renderer.draw();
+  var renderer = new Graph.Renderer.Raphael('canvas', graph, width, height);
+
 });
