@@ -34,8 +34,9 @@ public class ParameterizedContaMagica {
 	@Parameters
 	public static Collection data() {
 		return Arrays.asList(new Object[][] { 
-			{ new BigDecimal("1.000"), new BigDecimal("1.000") },
-			{ new BigDecimal("200.000"), new BigDecimal("205.000") }
+			{ new BigDecimal("50000"), new BigDecimal("50500.00") },
+			{ new BigDecimal("100000"), new BigDecimal("101000.00") }
+			
 		});
 	}
 

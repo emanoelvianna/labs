@@ -10,8 +10,9 @@ public class Principal {
 
 		Cliente cliente = new Cliente("Pedro");
 		ContaMagica conta = new ContaMagica(cliente);
-		conta.deposito(new BigDecimal("200.000"));
-		conta.deposito(new BigDecimal("200.000"));
+		
+		conta.deposito(new BigDecimal("200000"));
+		System.out.println(conta.getStatus());
 		System.out.println(conta.getSaldo());
 
 	}

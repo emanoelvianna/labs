@@ -48,7 +48,7 @@ public class ContaMagicaTest {
 	public void test_cliente_com_status_de_Silver_deve_fazer_upgrade_para_Gold() {
 		ContaMagica contaMagica = new ContaMagica(cliente);
 
-		BigDecimal valor = new BigDecimal("50.000");
+		BigDecimal valor = new BigDecimal("50000");
 		contaMagica.deposito(valor);
 		assertEquals(Categorias.Gold, contaMagica.getStatus());
 	}
@@ -57,7 +57,7 @@ public class ContaMagicaTest {
 	public void test_cliente_com_status_de_Gold_deve_fazer_upgrade_para_Platinum() {
 		ContaMagica contaMagica = new ContaMagica(cliente);
 
-		BigDecimal valor = new BigDecimal("200.000");
+		BigDecimal valor = new BigDecimal("200000");
 		contaMagica.deposito(valor);
 		assertEquals(Categorias.Platinum, contaMagica.getStatus());
 	}
@@ -66,13 +66,34 @@ public class ContaMagicaTest {
 	public void test_cliente_com_status_de_Platinum_nao_deve_fazer_mais_upgrade() {
 		ContaMagica contaMagica = new ContaMagica(cliente);
 
-		BigDecimal deposito1 = new BigDecimal("200.000");
+		BigDecimal deposito1 = new BigDecimal("200000");
 		contaMagica.deposito(deposito1);
 		assertEquals(Categorias.Platinum, contaMagica.getStatus());
 
-		BigDecimal deposito2 = new BigDecimal("10.000");
+		BigDecimal deposito2 = new BigDecimal("10000");
 		contaMagica.deposito(deposito2);
 		assertEquals(Categorias.Platinum, contaMagica.getStatus());
+	}
+
+	@Test
+	public void test_deve_retroceder_upgrade_para_Silver() {
+		ContaMagica contaMagica = new ContaMagica(cliente);
+		
+		BigDecimal deposito1 = new BigDecimal("250000");
+		contaMagica.deposito(deposito1);
+		
+		assertEquals(Categorias.Platinum, contaMagica.getStatus());
+		
+		BigDecimal retirada = new BigDecimal("250000");
+		contaMagica.retirada(retirada);
+		
+		assertEquals(Categorias.Gold, contaMagica.getStatus());
+		
+		BigDecimal retirada2 = new BigDecimal("6250.000");
+		contaMagica.retirada(retirada2);
+		System.out.println(contaMagica.getStatus());
+		
+		assertEquals(Categorias.Silver, contaMagica.getStatus());
 	}
 
 }
