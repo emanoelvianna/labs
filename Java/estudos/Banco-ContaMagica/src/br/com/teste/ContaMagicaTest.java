@@ -91,7 +91,6 @@ public class ContaMagicaTest {
 		
 		BigDecimal retirada2 = new BigDecimal("6250.000");
 		contaMagica.retirada(retirada2);
-		System.out.println(contaMagica.getStatus());
 		
 		assertEquals(Categorias.Silver, contaMagica.getStatus());
 	}

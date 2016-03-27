@@ -16,12 +16,12 @@ import br.com.implementacao.Cliente;
 import br.com.implementacao.ContaMagica;
 
 @RunWith(Parameterized.class)
-public class ParameterizedContaMagica {
+public class ParameterizedContaMagicaTest {
 	private BigDecimal param;
 	private BigDecimal result;
 	private Cliente cliente;
 
-	public ParameterizedContaMagica(BigDecimal param, BigDecimal result) {
+	public ParameterizedContaMagicaTest(BigDecimal param, BigDecimal result) {
 		this.param = param;
 		this.result = result;
 	}

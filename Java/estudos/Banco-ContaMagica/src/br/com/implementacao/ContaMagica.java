@@ -25,13 +25,14 @@ public class ContaMagica implements Conta {
 
 	@Override
 	public BigDecimal getSaldo() {
-
-		return this.saldo;
+		BigDecimal clone = this.saldo;
+		return clone;
 	}
 
 	@Override
 	public Categorias getStatus() {
-		return this.categoria;
+		Categorias clone = this.categoria;
+		return clone;
 	}
 
 	@Override
@@ -58,17 +59,17 @@ public class ContaMagica implements Conta {
 
 		if (this.categoria.equals(Categorias.Silver)) {
 			if ((this.saldo.compareTo(platinum) == 1 || this.saldo.compareTo(platinum) == 0)
-					|| (valor.compareTo(platinum) == 1 || valor.compareTo(platinum) == 0)) { // >=
+					|| (valor.compareTo(platinum) == 1 || valor.compareTo(platinum) == 0)) {
 				this.categoria = Categorias.Platinum;
 
 			} else if ((this.saldo.compareTo(gold) == 1 || this.saldo.compareTo(gold) == 0)
-					|| (valor.compareTo(gold) == 1 || valor.compareTo(gold) == 0)) { // >=
+					|| (valor.compareTo(gold) == 1 || valor.compareTo(gold) == 0)) {
 				this.categoria = Categorias.Gold;
 			}
 
 		} else if (this.categoria.equals(Categorias.Gold)) {
 			if ((this.saldo.compareTo(platinum) == 1 || this.saldo.compareTo(platinum) == 0)
-					|| (valor.compareTo(platinum) == 1 || valor.compareTo(platinum) == 0)) { // >=
+					|| (valor.compareTo(platinum) == 1 || valor.compareTo(platinum) == 0)) {
 				this.categoria = Categorias.Platinum;
 			}
 		}
