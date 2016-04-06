@@ -7,7 +7,7 @@ Olá, esse repositório é meu laboratório de códigos, aqui você ira encontra
 ## Indice
 
 - [HTML](html/)
-- [ASSEMBLY](assembly/) - Códigos de experimentos em assembly do mips.
+- [ASSEMBLY](assembly-mips/) - Códigos de experimentos em assembly do mips.
 
 ## Sobre mim
 
