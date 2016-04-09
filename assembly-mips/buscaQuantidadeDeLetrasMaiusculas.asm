@@ -31,15 +31,12 @@ main:
 			
 			sw $t4, destino($t1)
 			
-			addiu $s1, $s1, 1 # incrementa i
 			addiu $t0, $t0, 4 # incrementa origem
 			addiu $t1, $t1, 4 # incrementa destino
 			j loop
 			
 		naoSalva:
-			addiu $s1, $s1, 1 # incrementa i
 			addiu $t0, $t0, 4 # incrementa origem
-			addiu $t1, $t1, 4 # incrementa destino
 			j loop
 	j loop
 	
