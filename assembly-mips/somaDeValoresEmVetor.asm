@@ -18,7 +18,7 @@ main:
 
 	loop:
 		lw $t4, 0($t0) 		# $t4 <- V1[i]
-		lw $t5, 0($t1) 		# $t5 <- V1[i]
+		lw $t5, 0($t1) 		# $t5 <- V2[i]
 		
 		addu $t6, $t4, $t5
 		sw $t6, v3($t2)
