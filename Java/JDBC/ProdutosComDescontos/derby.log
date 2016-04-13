@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Wed Apr 13 00:56:13 BRT 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0154-0dc3-2680-00000719df70 
+Wed Apr 13 01:36:23 BRT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0154-0de7-e9f6-00000719e580 
 on database directory C:\Users\Emanoel\Documents\Desenvolvimento\labs\java\jdbc\ProdutosComDescontos\cadastro with class loader sun.misc.Launcher$AppClassLoader@c387f44 
 Loaded from file:/C:/Users/Emanoel/Documents/Desenvolvimento/labs/java/jdbc/ProdutosComDescontos/derby.jar
 java.vendor=Oracle Corporation

@@ -30,12 +30,12 @@ public class InicializadorBancoDadosDataSource {
         try (Connection con = criarDataSource().getConnection();
                 Statement sta = con.createStatement()) {
             String sqlProduto_code = "CREATE TABLE PRODUTO_CODE("
-                    + "CODIGO CHAR(2) PRIMARY KEY NOT NULL,"
+                    + "PROD_CODE CHAR(2) PRIMARY KEY NOT NULL,"
                     + "DISCOUNT_CODE CHAR(1) NOT NULL,"
                     + "DESCRITION VARCHAR(10))";
             sta.executeUpdate(sqlProduto_code);
             String sqlEditora = "CREATE TABLE DISCOUNT_CODE("
-                    + "DISCOUNT_CODE CHAR(1) PRIMARY KEY NOT NULL,"
+                    + "DISCOUNT_CODE CHAR(2) PRIMARY KEY NOT NULL,"
                     + "RATE DECIMAL(4,2))";
             sta.executeUpdate(sqlEditora);
         }

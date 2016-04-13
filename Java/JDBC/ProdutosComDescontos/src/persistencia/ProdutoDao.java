@@ -2,12 +2,13 @@ package persistencia;
 
 import java.util.List;
 
+import negocio.DAOException;
 import negocio.Produto;
 
 public interface ProdutoDao {
-	char buscaObjetoPorChavePrimaria(char codigo);
+	Produto buscaObjetoPorChavePrimaria(char codigo) throws DAOException;
 
-	List<Produto> consultarTodaAColecaoDeObjetos();
+	List<Produto> consultarTodaAColecaoDeObjetos() throws DAOException;
 
-	void InserirUmNovoObjeto(Produto novo);
+	void InserirUmNovoObjeto(Produto novo) throws DAOException;
 }

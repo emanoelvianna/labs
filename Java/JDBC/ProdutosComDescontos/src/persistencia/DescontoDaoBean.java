@@ -3,9 +3,10 @@ package persistencia;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
-import negocio.DAOAutorException;
 import negocio.DAOException;
 import negocio.Desconto;
 
@@ -20,8 +21,7 @@ public class DescontoDaoBean implements DescontoDao {
 				comando.setInt(1, codigo);
 				try (ResultSet resultado = comando.executeQuery()) {
 					if (resultado.next()) {
-						desconto = new Desconto(
-								resultado.getString("discount_code").charAt(1),
+						desconto = new Desconto(resultado.getString("discount_code").charAt(1),
 								resultado.getDouble("rate"));
 					}
 					return desconto;
@@ -33,13 +33,28 @@ public class DescontoDaoBean implements DescontoDao {
 	}
 
 	@Override
-	public List<Desconto> consultarTodaAColecaoDeObjetos() {
-		return null;
+	public List<Desconto> consultarTodaAColecaoDeObjetos() throws DAOException {
+		List<Desconto> autores = new ArrayList<>();
+		String sql = "SELECT * FROM DISCOUNT_CODE";
+		try (Connection conexao = InicializadorBancoDadosDataSource.conectarBd()) {
+			try (Statement comando = conexao.createStatement()) {
+				try (ResultSet resultado = comando.executeQuery(sql)) {
+					while (resultado.next()) {
+						Desconto autor = new Desconto(resultado.getString("discount_code").charAt(1),
+								resultado.getDouble("rate"));
+						autores.add(autor);
+					}
+					return autores;
+				}
+			}
+		} catch (Exception e) {
+			throw new DAOException("Falha na busca", e);
+		}
 	}
 
 	@Override
-	public void InserirUmNovoObjeto(Desconto novo) {
-		String sql = "INSERT INTO DISCOUNT_CODE(codigo,primeironome) values(?,?)";
+	public void InserirUmNovoObjeto(Desconto novo) throws DAOException {
+		String sql = "INSERT INTO DISCOUNT_CODE(discount_code,rate) values(?,?)";
 		int resultado = 0;
 		try (Connection conexao = InicializadorBancoDadosDataSource.conectarBd()) {
 			try (PreparedStatement comando = conexao.prepareStatement(sql)) {
@@ -48,10 +63,10 @@ public class DescontoDaoBean implements DescontoDao {
 				resultado = comando.executeUpdate();
 			}
 		} catch (Exception e) {
-			throw new DAOException("Falha na inserção", e);
+			throw new DAOException("Falha na insers�o", e);
 		}
 		if (resultado == 0) {
-			throw new DAOException("Falha na inserção");
+			throw new DAOException("Falha na insers�o");
 		}
 	}
 
