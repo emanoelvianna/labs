@@ -6,9 +6,9 @@ import negocio.DAOException;
 import negocio.Desconto;
 
 public interface DescontoDao {
-	Desconto buscaObjetoPorChavePrimaria(char codigo) throws DAOException;
+	Desconto buscarPorCodigo(char codigo) throws DAOException;
 
-	List<Desconto> consultarTodaAColecaoDeObjetos() throws DAOException;
+	List<Desconto> buscarTodos() throws DAOException;
 
-	void InserirUmNovoObjeto(Desconto novo) throws DAOException;
+	void inserir(Desconto novo) throws DAOException;
 }
