@@ -31,13 +31,21 @@ public class InicializadorBancoDadosDataSource {
                 Statement sta = con.createStatement()) {
             String sqlProduto_code = "CREATE TABLE PRODUTO_CODE("
                     + "PROD_CODE CHAR(2) PRIMARY KEY NOT NULL,"
-                    + "DISCOUNT_CODE CHAR(1) NOT NULL,"
-                    + "DESCRITION VARCHAR(10))";
+                    + "DISCOUNT_CODE CHAR(2) NOT NULL,"
+                    + "DESCRITION VARCHAR(10))"
+                    + "CONSTRAINT FK_DISCOUNT_CODE FOREIGN KEY (DISCOUNT_CODE) REFERENCES DISCOUNT_CODE(DISCOUNT_CODE))";
             sta.executeUpdate(sqlProduto_code);
-            String sqlEditora = "CREATE TABLE DISCOUNT_CODE("
+            String sqlDesconto = "CREATE TABLE DISCOUNT_CODE("
                     + "DISCOUNT_CODE CHAR(2) PRIMARY KEY NOT NULL,"
                     + "RATE DECIMAL(4,2))";
-            sta.executeUpdate(sqlEditora);
+            sta.executeUpdate(sqlDesconto);     
+            String sqlDescontoProduto = "CREATE TABLE PRODUTODESCONTO("
+            		+ "PROD_CODE CHAR(2) NOT NULL,"
+                    + "DISCOUNT_CODE CHAR(2) NOT NULL,"
+                    + "CONSTRAINT PK_PRODUTODESCONTO PRIMARY KEY (PROD_CODE,DISCOUNT_CODE),"
+                    + "CONSTRAINT FK_DESCONTOS FOREIGN KEY (DISCOUNT_CODE) REFERENCES DISCOUNT_CODE(DISCOUNT_CODE),"
+                    + "CONSTRAINT FK_PRODUTOS FOREIGN KEY (PROD_CODE) REFERENCES PRODUTO_CODE(PROD_CODE))";
+            sta.executeUpdate(sqlDescontoProduto);
         }
     }
 

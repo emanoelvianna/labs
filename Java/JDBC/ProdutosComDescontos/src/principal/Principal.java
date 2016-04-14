@@ -13,8 +13,16 @@ public class Principal {
 		System.out.println("BD criada com sucesso!");
 
 		DescontoDao desconto = new DescontoDaoBean();
+
 		System.out.println("Inserir desconto...");
 		desconto.InserirUmNovoObjeto(new Desconto('1', 1.0));
 		System.out.println("Sucesso!");
+
+		
+		System.out.println("Buscando produto: ");
+		Desconto descontoBuscado = desconto.buscaObjetoPorChavePrimaria('1');
+		System.out.println(descontoBuscado.getDiscount_code());
+		
+		
 	};
 }
