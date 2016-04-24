@@ -20,43 +20,21 @@ using namespace std;
 };
 
 void leArquivoDeDados() {
- int length;
- char * buffer;
 
- struct Nodo nodo[35];
 
- ifstream is;
- is.open ("dados.csv", ios::in);
+    struct Nodo nodo[35];
 
- is.seekg (0, ios::end);
- length = is.tellg();
- is.seekg (0, ios::beg);
+    FILE *f = fopen("dados.csv","r");
 
- if (is.is_open())
- {
-    int n = 0;
-    buffer = new char[length];
-    is.read(buffer,length);
-
-   if (length > 0)
-   {
-      while(n < length) //isso substitue o ";" para um espaço
-      {
-         n++;
-         if (buffer[n] == ';') buffer[n] = '\t';
-      }
-
-      printf("%s", buffer);
-      getch();
-      delete []buffer;
-   }
- }
- else {
-   printf("Arquivo não foi aberto");
-   getch();
-}
-
-  is.close();
+    int x;
+    for(x=0;x<35/*tamanho do vetor*/;x++){
+    /* %d - lê um inteiro
+       %30[^;] - lê os bytes até o caractere ';'
+       %f - lê um float
+    */
+        fscanf(f,"%d;%30[^;];%f\n", &nodo[x].classificacao, nodo[x].pais, &nodo[x].consumo); // lê os dados e armazena em nodo
+        printf("%d - %s - %f\n", nodo[x].classificacao, nodo[x].pais, nodo[x].consumo);
+    }
 }
 
 // Função callback de redesenho da janela de visualização

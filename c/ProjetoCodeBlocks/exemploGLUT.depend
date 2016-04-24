@@ -356,3 +356,26 @@
 
 1307913234 c:\users\emanoel\desktop\trabalhocg\projetocodeblocks\include\gl\freeglut_ext.h
 
+1461530299 source:c:\users\emanoel\documents\desenvolvimento\labs\c\projetocodeblocks\primeiroexemplo.cpp
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<iostream>
+	<fstream>
+
+1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\projetocodeblocks\include\gl\glut.h
+	"freeglut.h"
+
+1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\projetocodeblocks\include\gl\freeglut.h
+	"freeglut_std.h"
+	"freeglut_ext.h"
+
+1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\projetocodeblocks\include\gl\freeglut_std.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\projetocodeblocks\include\gl\freeglut_ext.h
+
