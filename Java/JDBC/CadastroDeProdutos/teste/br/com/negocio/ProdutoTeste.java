@@ -18,10 +18,9 @@ public class ProdutoTeste {
 	}
 
 	@Test
-	public void deve_setar_corretamente_atributos_no_contrutor() {
+	public void deve_setar_corretamente_atributos_no_construtor() {
 		assertEquals(codigo, produto.getCodigo());
 		assertEquals(nome, produto.getNome());
 		assertEquals(valor, produto.getValor(), 0.001);
 	}
-
 }
