@@ -1,25 +1,46 @@
 package br.com.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.sql.DataSource;
+
+import org.apache.derby.jdbc.EmbeddedDataSource;
 
 public class Conexao {
 
-	private static final String STR_DRIVER = "org.postgresql.Driver";
-	private static final String STR_CONNECTION = "jdbc:postgresql://localhost:5432/amigos";
-	private static final String STR_DATABASE_USER = "postgres";
-	private static final String STR_DATABASE_PWD = "admin";
+	public static String DB_NAME = "cadastro de produtos";
+	public static String USER_NAME = "usuario";
+	public static String PASSWORD = "senha";
+	private static DataSource dataSource;
 
-	public static Connection getConnection() {
-		Connection connection = null;
-		try {
-			connection = DriverManager.getConnection(STR_CONNECTION, STR_DATABASE_USER, STR_DATABASE_PWD);
-			System.out.println("conexão com sucesso!");
-		} catch (SQLException e) {
-			e.printStackTrace();
+	private static DataSource criarDataSource() throws Exception {
+		if (dataSource == null) {
+			EmbeddedDataSource ds = new EmbeddedDataSource();
+			ds.setDatabaseName(DB_NAME);
+			ds.setCreateDatabase("create");
+			ds.setUser(USER_NAME);
+			ds.setPassword(PASSWORD);
+			dataSource = ds;
 		}
-		return connection;
+		return dataSource;
+	}
+
+	public static void criarBaseDeDados() {
+		try (Connection con = criarDataSource().getConnection();
+                Statement sta = con.createStatement()) {
+            String sqlProduto = "CREATE TABLE PRODUTO("
+                    + "CODIGO int PRIMARY KEY NOT NULL,"
+                    + "DESCRICAO varchar(100) NOT NULL,"
+                    + "QUANTIDADE INT NOT NULL)";
+            sta.executeUpdate(sqlProduto);
+		} catch (Exception e) {
+	
+		}
+	}
+
+	public static Connection getConnection() throws Exception {
+		return criarDataSource().getConnection();
 	}
 
 }

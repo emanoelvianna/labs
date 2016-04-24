@@ -39,7 +39,7 @@ public class ProdutoDaoDtoBean implements ProdutoDao {
 	@Override
 	public ProdutoDto buscarProdutosPorCodigo(int codigo) {
 		ProdutoDto produto = null;
-		String sql = "select * from Produto where codigo = ?";
+		String sql = "select * from produto where codigo = ?";
 		try (Connection conexao = Conexao.getConnection()) {
 			try (PreparedStatement statement = conexao.prepareStatement(sql)) {
 				statement.setInt(1, codigo);
@@ -50,12 +50,13 @@ public class ProdutoDaoDtoBean implements ProdutoDao {
 						produto.setDescricao(resultado.getString("descricao"));
 						produto.setQuantidade(resultado.getInt("quantidade"));
 					}
+					return produto;
 				}
-			} catch (Exception e) {
 			}
 		} catch (Exception e) {
+			
 		}
-		return produto;
+		return null;
 	}
 
 	@Override
