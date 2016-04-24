@@ -5,7 +5,9 @@ import java.util.List;
 import br.com.negocio.Produto;
 
 public interface ProdutoDao {
-	List<ProdutoDto> buscarProdutosPorCodigo(int codigo);
+	List<ProdutoDto> buscarTodosProdutos(int codigo);
+	
+	ProdutoDto buscarProdutosPorCodigo(int codigo);
 
 	List<ProdutoDto> buscarProdutosPorNome(String nome);
 

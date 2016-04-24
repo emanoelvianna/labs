@@ -1,6 +1,7 @@
 package br.com.persistencia;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import br.com.model.Conexao;
 public class ProdutoDaoDtoBean implements ProdutoDao {
 
 	@Override
-	public List<ProdutoDto> buscarProdutosPorCodigo(int codigo) {
+	public List<ProdutoDto> buscarTodosProdutos(int codigo) {
 		List<ProdutoDto> produtos = new ArrayList<>();
 		String sql = "Select * from Produto";
 		try (Connection conexo = Conexao.getConnection()) {
@@ -36,8 +37,29 @@ public class ProdutoDaoDtoBean implements ProdutoDao {
 	}
 
 	@Override
+	public ProdutoDto buscarProdutosPorCodigo(int codigo) {
+		ProdutoDto produto = null;
+		String sql = "select * from Produto where codigo = ?";
+		try (Connection conexao = Conexao.getConnection()) {
+			try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+				statement.setInt(1, codigo);
+				try (ResultSet resultado = statement.executeQuery()) {
+					if (resultado.next()) {
+						produto = new ProdutoDto();
+						produto.setCodigo(resultado.getInt("codigo"));
+						produto.setDescricao(resultado.getString("descricao"));
+						produto.setQuantidade(resultado.getInt("quantidade"));
+					}
+				}
+			} catch (Exception e) {
+			}
+		} catch (Exception e) {
+		}
+		return produto;
+	}
+
+	@Override
 	public List<ProdutoDto> buscarProdutosPorNome(String nome) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

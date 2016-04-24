@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Wed Apr 13 00:55:31 BRT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0154-0dc2-809c-0000071ba8a0 
+on database directory C:\Users\Emanoel\Downloads\CadastroEditoraDTO\cadastro with class loader sun.misc.Launcher$AppClassLoader@c387f44 
+Loaded from file:/C:/Users/Emanoel/Downloads/CadastroEditoraDTO/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_45-b15
+user.dir=C:\Users\Emanoel\Downloads\CadastroEditoraDTO
+os.name=Windows 8.1
+os.arch=amd64
+os.version=6.3
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
