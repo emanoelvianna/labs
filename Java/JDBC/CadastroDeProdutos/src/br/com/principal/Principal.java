@@ -6,7 +6,24 @@ import br.com.persistencia.ProdutoDaoDtoBean;
 import br.com.persistencia.ProdutoDto;
 
 public class Principal {
+	
+	public enum minhaEnum {
+		
+	}
+	
+	public static class myclass {
+		public void x(minhaEnum e){
+			
+		}
+	}
+	
+	
+	
 	public static void main(String[] args) {
+		
+		myclass my = new myclass();
+		my.x(null);
+		
 		System.out.println("-- Criando a base de dados --");
 		Conexao.criarBaseDeDados();
 
