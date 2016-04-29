@@ -61,7 +61,7 @@ void drawStrokeText(char *string,int x,int y,int z)
 	  char *c;
 	  glPushMatrix();
 	  glTranslatef(x, y+8,z);
-      glScalef(0.900f,0.900f,z);
+      glScalef(0.09f,-0.08f,z);
 
 	  for (c=string; *c != '\0'; c++)
 	  {
@@ -90,6 +90,12 @@ void reshape(int w,int h)
 
 void render(void)
 {
+
+        glClear(GL_COLOR_BUFFER_BIT);
+	glLoadIdentity();
+
+	glColor3f(1,1,0);
+
     string STRING;
         ifstream infile;
         infile.open ("dados.csv");
@@ -102,51 +108,23 @@ void render(void)
             std::istringstream(aux[0]) >> nodos[cont].classificacao; //nodos[cont].classificacao = aux[0];
             nodos[cont].pais = aux[1];
             text = aux[1];
+            /** chama a função para escrever na tela **/
+            drawStrokeText(const_cast<char*>(nodos[cont].pais.c_str()),200,200,0);
 
             cont++;
         }
         infile.close();
 
-	glClear(GL_COLOR_BUFFER_BIT);
-	glLoadIdentity();
 
-	glColor3f(0,1,0);
-	drawStrokeText(const_cast<char*>(nodos[1].pais.c_str()),200,200,0);
+
+
 
 	glutSwapBuffers();
+
 }
 
 int main(int argc, char* argv[])
 {
-
-        string STRING;
-        ifstream infile;
-        infile.open ("dados.csv");
-        int cont = 0;
-        while(!infile.eof() && cont < 35) // To get you all the lines.
-        {
-            string text;
-            getline(infile,STRING); // Saves the line in STRING.
-            vector<string> aux = split(STRING, ';');
-            std::istringstream(aux[0]) >> nodos[cont].classificacao; //nodos[cont].classificacao = aux[0];
-            nodos[cont].pais = aux[1];
-            text = aux[1];
-            std::istringstream(aux[2]) >> nodos[cont].consumo;       //nodos[cont].consumo = aux[2];
-            cout<<STRING; // Prints our STRING.
-            cout << nodos[cont].classificacao << " -- ";
-            cout << nodos[cont].pais << " -- ";
-            cout << nodos[cont].consumo << "\n";
-
-            //string text;
-            //text = nodos[cont].pais;
-            //drawStrokeText(text,200,200,0);
-
-
-            cont++;
-        }
-        infile.close();
-
-
 		// initialize glut
         glutInit(&argc, argv);
 
