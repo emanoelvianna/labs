@@ -1,12 +1,11 @@
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
+// Fonts.cpp : Defines the entry point for the console application.
+//
+
+
+#include<GL/glut.h>
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <locale.h>    /* Biblioteca necessária para uso de configurações regionais. */
 
 #include <conio.h>
 #include <iostream>
@@ -15,6 +14,11 @@
 #include <string>
 #include <sstream>
 #include <vector>
+
+
+#pragma comment (lib,"opengl32.lib")
+#pragma comment (lib,"glu32.lib")
+#pragma comment (lib,"glut32.lib")
 
 using namespace std;
 
@@ -34,49 +38,64 @@ std::vector<std::string> split(const std::string &s, char delim) {
     return elems;
 }
 
+struct Nodo{
+       int classificacao;
+       string pais;
+       float consumo;
+ };
 
- struct Nodo{
-      int classificacao;
-      string pais;
-      float consumo;
-};
+void drawBitmapText(char *string,float x,float y,float z)
+{
+	char *c;
+	glRasterPos3f(x, y,z);
 
-//void leArquivoDeDados() {
-//
-//
-//    struct Nodo nodo[35];
-//
-//    FILE *f = fopen("dados.csv","r");
-//
-//    int x;
-//    for(x=0;x<35/*tamanho do vetor*/;x++){
-//    /* %d - lê um inteiro
-//       %30[^;] - lê os bytes até o caractere ';'
-//       %f - lê um float
-//    */
-//        fscanf(f,"%d ; %30 [ ^ ; ] ; %f\n", &nodo[x].classificacao, nodo[x].pais, &nodo[x].consumo); // lê os dados e armazena em nodo
-//        printf("%d - %s - %f\n", nodo[x].classificacao, nodo[x].pais, nodo[x].consumo);
-//    }
-//}
+	for (c=string; *c != '\0'; c++)
+	{
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *c);
+	}
+}
 
-void drawText(const char *text, int length, int x, int y) {
-	glMatrixMode(GL_PROJECTION);
-    double *matrix = new double[16];
-    glGetDoublev(GL_PROJECTION_MATRIX, matrix);
-    glLoadIdentity();
-    glOrtho(0, 800, 0, 600, -5, 5);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glPushMatrix();
-    glLoadIdentity();
-    glRasterPos2i(x, y);
-    for(int i= 0; i < length; i++) {
-        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, (int)text[i]);
-    }
-    glPopMatrix();
+void drawStrokeText(char*string,int x,int y,int z)
+{
+	  char *c;
+	  glPushMatrix();
+	  glTranslatef(x, y+8,z);
+      glScalef(0.900f,0.900f,z);
+
+	  for (c=string; *c != '\0'; c++)
+	  {
+    		glutStrokeCharacter(GLUT_STROKE_ROMAN , *c);
+	  }
+	  glPopMatrix();
+}
+
+void init()
+{
+	glClearColor(0.0,0.0,0.0,0.0);
+}
+
+void reshape(int w,int h)
+{
+
+    glViewport(0,0,w,h);
     glMatrixMode(GL_PROJECTION);
-    glLoadMatrixd(matrix);
+    glLoadIdentity();
+    gluOrtho2D(0,w,h,0);
     glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+}
+
+
+void render(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glLoadIdentity();
+
+	glColor3f(0,1,0);
+	drawStrokeText("Osama Hosam's OpenGL Tutorials",200,200,0);
+
+	glutSwapBuffers();
 }
 
 // Função callback de redesenho da janela de visualização
@@ -92,77 +111,65 @@ void Desenha(void) {
 		glVertex2f( 0.5,-0.5);
 	glEnd();
 
-    std::string text;
-	text = "ola mundo!";
-	drawText(text.data(), text.size(), 0, 0);
+//   std::string text;
+//	text = "ola mundo!";
+//	drawText(text.data(), text.size(), 0, 0);
 
 
 	// Execução dos comandos de desenho
 	glutSwapBuffers();
 }
 
-// Função callback chamada para gerenciar eventos de teclas
-void Teclado (unsigned char key, int x, int y){
-	if (key == 27)
-		exit(0);
-}
-
-// Função responsável por inicializar parâmetros e variáveis
-void Inicializa(void) {
-	// Define a janela de visualização 2D
-	glMatrixMode(GL_PROJECTION);
-	gluOrtho2D(-1.0,1.0,-1.0,1.0);
-	glMatrixMode(GL_MODELVIEW);
-}
-
-
-
-// Programa Principal
-int main(void)
+int main(int argc, char* argv[])
 {
-    setlocale(LC_ALL, "Portuguese");
-    struct Nodo nodos[35];
-    string STRING;
-	ifstream infile;
-	infile.open ("dados.csv");
-	int cont = 0;
-    while(!infile.eof() && cont < 35) // To get you all the lines.
-    {
-        getline(infile,STRING); // Saves the line in STRING.
-        vector<string> aux = split(STRING, ';');
-        std::istringstream(aux[0]) >> nodos[cont].classificacao; //nodos[cont].classificacao = aux[0];
-        nodos[cont].pais = aux[1];
-        std::istringstream(aux[2]) >> nodos[cont].consumo;       //nodos[cont].consumo = aux[2];
-        //cout<<STRING; // Prints our STRING.
-        //cout << nodos[cont].classificacao << " -- ";
-        //cout << nodos[cont].pais << " -- ";
-        //cout << nodos[cont].consumo << "\n";
-        cont++;
-    }
-	infile.close();
+        struct Nodo nodos[35];
+        string STRING;
+        ifstream infile;
+        infile.open ("dados.csv");
+        int cont = 0;
+        while(!infile.eof() && cont < 35) // To get you all the lines.
+        {
+            string text;
+            getline(infile,STRING); // Saves the line in STRING.
+            vector<string> aux = split(STRING, ';');
+            std::istringstream(aux[0]) >> nodos[cont].classificacao; //nodos[cont].classificacao = aux[0];
+            nodos[cont].pais = aux[1];
+            text = aux[1];
+            std::istringstream(aux[2]) >> nodos[cont].consumo;       //nodos[cont].consumo = aux[2];
+            //cout<<STRING; // Prints our STRING.
+            //cout << nodos[cont].classificacao << " -- ";
+            //cout << nodos[cont].pais << " -- ";
+            //cout << nodos[cont].consumo << "\n";
 
-    // leArquivoDeDados();
-	int argc = 0;
-	char *argv[] = { (char *)"gl", 0 };
+            //string text;
+            //text = nodos[cont].pais;
+            //drawStrokeText(text,200,200,0);
+            drawStrokeText(text.c_str(),200,200,0);
 
-	glutInit(&argc,argv);
-
-	// Define do modo de operação da GLUT
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-	// Especifica o tamanho inicial em pixels da janela GLUT
-	glutInitWindowSize(400,400);
-	// Cria a janela passando como argumento o título da mesma
-	glutCreateWindow("Primeiro Programa");
-	// Registra callback de redesenho da janela de visualização
-	glutDisplayFunc(Desenha);
-	// Registra a função callback para tratamento das teclas ASCII
-	glutKeyboardFunc (Teclado);
-	// Chama a função responsável por fazer as inicializações
-	Inicializa();
-	// Inicia o processamento e aguarda interações do usuário
-	glutMainLoop();
+            cont++;
+        }
+        infile.close();
 
 
+		// initialize glut
+        glutInit(&argc, argv);
+
+        // specify the display mode to be RGB and single buffering
+        // we use single buffering since this will be non animated
+        glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+
+        // define the size
+        glutInitWindowSize(500,500);
+
+        // the position where the window will appear
+        glutInitWindowPosition(100,100);
+        glutCreateWindow("Trabalho computação grafica I");
+
+        glutDisplayFunc(render);
+		 glutIdleFunc(render);
+        glutReshapeFunc(reshape);
+
+        // enter the main loop
+        glutMainLoop();
 	return 0;
 }
-
