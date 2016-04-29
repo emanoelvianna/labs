@@ -1,7 +1,3 @@
-// Fonts.cpp : Defines the entry point for the console application.
-//
-
-
 #include<GL/glut.h>
 
 #include <stdio.h>
@@ -31,18 +27,23 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
     return elems;
 }
 
-
 std::vector<std::string> split(const std::string &s, char delim) {
     std::vector<std::string> elems;
     split(s, delim, elems);
     return elems;
 }
 
+/** struct de nodos **/
 struct Nodo{
        int classificacao;
        string pais;
        float consumo;
  };
+
+ /** declarando o vetor de struct como const **/
+struct Nodo nodos[35];
+
+const char text = 'teste';
 
 void drawBitmapText(char *string,float x,float y,float z)
 {
@@ -55,7 +56,7 @@ void drawBitmapText(char *string,float x,float y,float z)
 	}
 }
 
-void drawStrokeText(char*string,int x,int y,int z)
+void drawStrokeText(char *string,int x,int y,int z)
 {
 	  char *c;
 	  glPushMatrix();
@@ -89,40 +90,35 @@ void reshape(int w,int h)
 
 void render(void)
 {
+    string STRING;
+        ifstream infile;
+        infile.open ("dados.csv");
+        int cont = 0;
+        while(!infile.eof() && cont < 35) // To get you all the lines.
+        {
+            string text;
+            getline(infile,STRING); // Saves the line in STRING.
+            vector<string> aux = split(STRING, ';');
+            std::istringstream(aux[0]) >> nodos[cont].classificacao; //nodos[cont].classificacao = aux[0];
+            nodos[cont].pais = aux[1];
+            text = aux[1];
+
+            cont++;
+        }
+        infile.close();
+
 	glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
 
 	glColor3f(0,1,0);
-	drawStrokeText("Osama Hosam's OpenGL Tutorials",200,200,0);
+	drawStrokeText(const_cast<char*>(nodos[1].pais.c_str()),200,200,0);
 
-	glutSwapBuffers();
-}
-
-// Função callback de redesenho da janela de visualização
-void Desenha(void) {
-	// Limpa a janela de visualização com a cor branca
-	glClearColor(1,1,1,0);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glLoadIdentity();
-	glColor3f(0.0f,0.0f,1.0f); // Define a cor de desenho: azul
-	glBegin(GL_TRIANGLES); // Desenha triângulo no centro da janela
-		glVertex2f(-0.5,-0.5);
-		glVertex2f( 0.0, 0.5);
-		glVertex2f( 0.5,-0.5);
-	glEnd();
-
-//   std::string text;
-//	text = "ola mundo!";
-//	drawText(text.data(), text.size(), 0, 0);
-
-
-	// Execução dos comandos de desenho
 	glutSwapBuffers();
 }
 
 int main(int argc, char* argv[])
 {
-        struct Nodo nodos[35];
+
         string STRING;
         ifstream infile;
         infile.open ("dados.csv");
@@ -136,15 +132,15 @@ int main(int argc, char* argv[])
             nodos[cont].pais = aux[1];
             text = aux[1];
             std::istringstream(aux[2]) >> nodos[cont].consumo;       //nodos[cont].consumo = aux[2];
-            //cout<<STRING; // Prints our STRING.
-            //cout << nodos[cont].classificacao << " -- ";
-            //cout << nodos[cont].pais << " -- ";
-            //cout << nodos[cont].consumo << "\n";
+            cout<<STRING; // Prints our STRING.
+            cout << nodos[cont].classificacao << " -- ";
+            cout << nodos[cont].pais << " -- ";
+            cout << nodos[cont].consumo << "\n";
 
             //string text;
             //text = nodos[cont].pais;
             //drawStrokeText(text,200,200,0);
-            drawStrokeText(text.c_str(),200,200,0);
+
 
             cont++;
         }
@@ -166,7 +162,7 @@ int main(int argc, char* argv[])
         glutCreateWindow("Trabalho computação grafica I");
 
         glutDisplayFunc(render);
-		 glutIdleFunc(render);
+        glutIdleFunc(render);
         glutReshapeFunc(reshape);
 
         // enter the main loop
