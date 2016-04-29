@@ -36,7 +36,7 @@ public class ProdutoDaoBean implements ProdutoDao {
 		try (Connection conexao = Conexao.getConnection()) {
 			try (PreparedStatement preparedStatement = conexao.prepareStatement(sql)) {
 				preparedStatement.setInt(1, produto.getCodigo());
-				preparedStatement.executeQuery();
+				preparedStatement.execute();
 			}
 		} catch (Exception e) {
 			System.out.println("Erro ao tentar deletar produto");

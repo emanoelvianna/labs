@@ -31,6 +31,19 @@ public class Principal {
 		for (Produto i : produtos) {
 			System.out.println(i.getDescricao());
 		}
+		
+		System.out.println("------------------------------");
+		System.out.println("-- Deletando produto --");
+		produtoDaoBean.deletarProduto(produto);
+		System.out.println("-- produto deletado --");
+		
+		System.out.println("------------------------------");
+		System.out.println("-- Buscar todos os produtos --");
+		List<Produto> produtos2 = produtoDaoBean.buscarTodosProduto();
+		for (Produto i : produtos2) {
+			System.out.println(i.getDescricao());
+		}
+		
 	}
 
 }
