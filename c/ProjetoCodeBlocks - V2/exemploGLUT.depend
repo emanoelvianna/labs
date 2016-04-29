@@ -379,3 +379,56 @@
 
 1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\projetocodeblocks\include\gl\freeglut_ext.h
 
+1461645560 source:c:\users\matheus\desktop\trabalho cg1\projetocodeblocks - v2\primeiroexemplo.cpp
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<iostream>
+	<fstream>
+	<string>
+	<sstream>
+	<vector>
+
+1307913234 c:\users\matheus\desktop\trabalho cg1\projetocodeblocks - v2\include\gl\glut.h
+	"freeglut.h"
+
+1307913234 c:\users\matheus\desktop\trabalho cg1\projetocodeblocks - v2\include\gl\freeglut.h
+	"freeglut_std.h"
+	"freeglut_ext.h"
+
+1307913234 c:\users\matheus\desktop\trabalho cg1\projetocodeblocks - v2\include\gl\freeglut_std.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1307913234 c:\users\matheus\desktop\trabalho cg1\projetocodeblocks - v2\include\gl\freeglut_ext.h
+
+1461903271 source:c:\users\emanoel\documents\desenvolvimento\labs\c\projetocodeblocks - v2\primeiroexemplo.cpp
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+	<conio.h>
+	<iostream>
+	<fstream>
+	<string>
+	<sstream>
+	<vector>
+
+1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\projetocodeblocks - v2\include\gl\glut.h
+	"freeglut.h"
+
+1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\projetocodeblocks - v2\include\gl\freeglut.h
+	"freeglut_std.h"
+	"freeglut_ext.h"
+
+1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\projetocodeblocks - v2\include\gl\freeglut_std.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\projetocodeblocks - v2\include\gl\freeglut_ext.h
+
