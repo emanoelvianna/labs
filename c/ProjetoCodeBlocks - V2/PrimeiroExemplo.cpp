@@ -18,6 +18,11 @@
 
 using namespace std;
 
+GLfloat tx, ty;
+GLfloat left, right, bottom, top;
+GLfloat panX, panY;
+GLint largura, altura;
+
 /** utilizado para a leitura do arquivo **/
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
     std::stringstream ss(s);
@@ -105,17 +110,18 @@ void handleResize(int w, int h) {
     gluOrtho2D(0,w,h,0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    glViewport(0, 0, w, h);
 }
 
 void keyPress(int key,int x,int y)
 {
 
     if(key==27)
-          exit(0);
+        exit(0);
     if (key == GLUT_KEY_UP)
-            rotate_x += .05;
-        if (key == GLUT_KEY_DOWN)
-            rotate_x -= .05;
+        rotate_x += .05;
+    if (key == GLUT_KEY_DOWN)
+        rotate_x -= .05;
 
     glutPostRedisplay();
 
@@ -169,6 +175,18 @@ void render(void)
     //drawStrokeText(const_cast<char*>(nodos[1].pais.c_str()),200,300,0);
     glutSwapBuffers();
 
+}
+
+void AlteraTamanhoJanela(GLsizei w, GLsizei h)
+{
+	// Para previnir uma divisão por zero
+	if ( h == 0 ) h = 1;
+
+    largura = w;
+    altura = h;
+
+	// Especifica o tamanho da viewport
+    glViewport(0, 0, w, h);
 }
 
 int main(int argc, char* argv[])
