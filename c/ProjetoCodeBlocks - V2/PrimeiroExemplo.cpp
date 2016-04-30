@@ -67,18 +67,6 @@ struct Informacoes{
 struct Informacoes info[35];
 
 /** utilizado para escrever **/
-void drawBitmapText(char *string,float x,float y,float z)
-{
-	char *c;
-	glRasterPos3f(x, y,z);
-
-	for (c=string; *c != '\0'; c++)
-	{
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *c);
-	}
-}
-
-/** utilizado para escrever **/
 void drawStrokeText(char *string,int x,int y,int z, float tamanho)
 {
       char *c;
