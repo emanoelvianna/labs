@@ -56,6 +56,18 @@ struct Nodo{
  /** declarando o vetor de struct como const **/
 struct Nodo nodos[35];
 
+/** struct de informações para cada nodo **/
+struct Informacoes{
+    float corX;
+    float corY;
+    float corZ;
+    float tamanhoX;
+    float tamanhoY;
+};
+
+/** declara o vetor de struct como const **/
+struct Informacoes info[35];
+
 /** utilizado para escrever **/
 void drawBitmapText(char *string,float x,float y,float z)
 {
@@ -74,7 +86,7 @@ void drawStrokeText(char *string,int x,int y,int z, float tamanho)
       char *c;
       glPushMatrix();
       glTranslatef(x, y+8,z);   /** define a posição **/
-      glScalef(tamanho,-tamanho, z);    /** define o tamanho **/
+      glScalef(0.95,-0.95, z);    /** define o tamanho **/
       //glScalef(0.19f,-0.18f, z);    /** define o tamanho **/
 
       for (c=string; *c != '\0'; c++)
@@ -136,6 +148,30 @@ int randomInteger (int low, int high)
     return low + k;
 }
 
+void lerArquivo() {
+    string STRING;
+    ifstream infile;
+    infile.open ("dados.csv");
+    int cont = 1;
+    while(!infile.eof() && cont < 15) // To get you all the lines.
+    {
+        getline(infile,STRING); // Saves the line in STRING.
+        vector<string> aux = split(STRING, ';');
+        std::istringstream(aux[0]) >> nodos[cont].classificacao; //nodos[cont].classificacao = aux[0];
+        nodos[cont].pais = aux[1];
+        std::istringstream(aux[2]) >> nodos[cont].consumo;
+        std::istringstream(aux[3]) >> nodos[cont].posicaoX;
+        std::istringstream(aux[4]) >> nodos[cont].posicaoY;
+        std::istringstream(aux[5]) >> nodos[cont].tamanho;
+
+        /** chama a função para escrever na tela **/
+        drawStrokeText(const_cast<char*>(nodos[cont].pais.c_str()),nodos[cont].posicaoX,nodos[cont].posicaoY,0, nodos[cont].tamanho);
+        glColor3f(info[cont].corX, info[cont].corY, info[cont].corZ);
+        cont++;
+    }
+    infile.close();
+};
+
 void render(void)
 {
 
@@ -149,45 +185,31 @@ void render(void)
     //glScalef(1.0f,1.0f,rotate_x);
     glRotatef(  rotate_by_key,-1.0f, 1.5f, -5.0f );
 
-	glColor3f(1,1,0);
-
-    string STRING;
-    ifstream infile;
-    infile.open ("dados.csv");
     int cont = 1;
-    while(!infile.eof() && cont < 16) // To get you all the lines.
+    while(cont < 15) // To get you all the lines.
     {
-        getline(infile,STRING); // Saves the line in STRING.
-        vector<string> aux = split(STRING, ';');
-        std::istringstream(aux[0]) >> nodos[cont].classificacao; //nodos[cont].classificacao = aux[0];
-        nodos[cont].pais = aux[1];
-        std::istringstream(aux[2]) >> nodos[cont].consumo;
-        std::istringstream(aux[3]) >> nodos[cont].posicaoX;
-        std::istringstream(aux[4]) >> nodos[cont].posicaoY;
-        std::istringstream(aux[5]) >> nodos[cont].tamanho;
-
-        /** chama a função para escrever na tela **/
+       /** chama a função para escrever na tela **/
         drawStrokeText(const_cast<char*>(nodos[cont].pais.c_str()),nodos[cont].posicaoX,nodos[cont].posicaoY,0, nodos[cont].tamanho);
-
+        glColor3f(info[cont].corX, info[cont].corY, info[cont].corZ);
         cont++;
     }
-    infile.close();
-
     //drawStrokeText(const_cast<char*>(nodos[1].pais.c_str()),200,300,0);
     glutSwapBuffers();
 
 }
 
-void AlteraTamanhoJanela(GLsizei w, GLsizei h)
-{
-	// Para previnir uma divisão por zero
-	if ( h == 0 ) h = 1;
-
-    largura = w;
-    altura = h;
-
-	// Especifica o tamanho da viewport
-    glViewport(0, 0, w, h);
+void inicializaInformacoes() {
+    int cont = 1;
+    while(cont < 15) {
+        /** define as cores **/
+        info[cont].corX = 0.0f;
+        info[cont].corY = 0.0f;
+        info[cont].corZ = 1.0f;
+        /** define o tamanho **/
+        info[cont].tamanhoX = 0.95;
+        info[cont].tamanhoY = 0.95;
+        cont++;
+    }
 }
 
 int main(int argc, char* argv[])
@@ -195,6 +217,8 @@ int main(int argc, char* argv[])
 		// initialize glut
         glutInit(&argc, argv);
 
+        inicializaInformacoes();
+        lerArquivo();
         // specify the display mode to be RGB and single buffering
         // we use single buffering since this will be non animated
         glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
@@ -203,7 +227,7 @@ int main(int argc, char* argv[])
         glutInitWindowSize(500,300);
 
         // the position where the window will appear
-        glutInitWindowPosition(100,100);
+        glutInitWindowPosition(250,250);
         glutCreateWindow("Trabalho computação grafica I");
 
         glutDisplayFunc(render);
