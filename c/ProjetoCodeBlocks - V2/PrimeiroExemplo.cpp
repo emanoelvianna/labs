@@ -38,12 +38,12 @@ struct Nodo{
        int classificacao;
        string pais;
        float consumo;
+       int x;
+       int y;
  };
 
  /** declarando o vetor de struct como const **/
 struct Nodo nodos[35];
-
-const char text = 'teste';
 
 void drawBitmapText(char *string,float x,float y,float z)
 {
@@ -60,8 +60,9 @@ void drawStrokeText(char *string,int x,int y,int z)
 {
 	  char *c;
 	  glPushMatrix();
-	  glTranslatef(x, y+8,z);
-      glScalef(0.09f,-0.08f,z);
+	  glTranslatef(x, y+8,z);   /** define a posição **/
+	  glScalef(0.50f,-.50f, z);    /** define o tamanho **/
+      //glScalef(0.19f,-0.18f, z);    /** define o tamanho **/
 
 	  for (c=string; *c != '\0'; c++)
 	  {
@@ -87,11 +88,23 @@ void reshape(int w,int h)
 
 }
 
+void definePosicao() {
+
+}
+
+int randomInteger (int low, int high)
+{
+    int k;
+    double d;
+    d = (double) rand () / ((double) RAND_MAX + 1);
+    k = d * (high - low + 1);
+    return low + k;
+}
 
 void render(void)
 {
 
-        glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
 
 	glColor3f(1,1,0);
@@ -99,26 +112,24 @@ void render(void)
     string STRING;
         ifstream infile;
         infile.open ("dados.csv");
-        int cont = 0;
-        while(!infile.eof() && cont < 35) // To get you all the lines.
+        int cont = 1;
+        while(!infile.eof() && cont < 16) // To get you all the lines.
         {
-            string text;
             getline(infile,STRING); // Saves the line in STRING.
             vector<string> aux = split(STRING, ';');
             std::istringstream(aux[0]) >> nodos[cont].classificacao; //nodos[cont].classificacao = aux[0];
             nodos[cont].pais = aux[1];
-            text = aux[1];
+            std::istringstream(aux[2]) >> nodos[cont].consumo;
+            std::istringstream(aux[3]) >> nodos[cont].x;
+            std::istringstream(aux[4]) >> nodos[cont].y;
             /** chama a função para escrever na tela **/
-            drawStrokeText(const_cast<char*>(nodos[cont].pais.c_str()),200,200,0);
+            drawStrokeText(const_cast<char*>(nodos[cont].pais.c_str()),nodos[cont].x,nodos[cont].y,0);
 
             cont++;
         }
         infile.close();
 
-
-
-
-
+        //drawStrokeText(const_cast<char*>(nodos[1].pais.c_str()),200,300,0);
 	glutSwapBuffers();
 
 }
@@ -133,7 +144,7 @@ int main(int argc, char* argv[])
         glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 
         // define the size
-        glutInitWindowSize(500,500);
+        glutInitWindowSize(800,500);
 
         // the position where the window will appear
         glutInitWindowPosition(100,100);
