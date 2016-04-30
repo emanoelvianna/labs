@@ -86,6 +86,10 @@ void init()
 
 /** controla a window **/
 void handleResize(int w, int h) {
+
+    // Para previnir uma divisão por zero
+	if ( h == 0 ) h = 1;
+
     //Tell OpenGL how to convert from coordinates to pixel values
     glViewport(0, 0, w, h);
 
