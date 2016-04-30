@@ -1,16 +1,16 @@
 classificacao;pais;consumo;x;y;tamanho
-1;Republica Checa;156.9;100;200;1.2
-2;Irlanda;131.1;300;120;1.0
-3;Alemanha;115.8;10;30;0.8
-4;Australia;109.9;330;70;0.7
-5;Austria;108.3;50;90;0.7
-6;Reino Unido;99.0;10;300;0.6
-7;Belgica;93.0;20;450;0.5
-8;Dinamarca;89.9;240;490;0.4
-9;Finlandia;85.0;5;140;0.3
-10;Luxemburgo;84.4;90;370;0.3
+1;Republica Checa;156.9;10;200;1.2
+2;Irlanda;131.1;720;520;1.0
+3;Alemanha;115.8;10;80;0.8
+4;Australia;109.9;730;300;0.7
+5;Austria;108.3;690;390;0.7
+6;Reino Unido;99.0;10;350;0.6
+7;Belgica;93.0;400;450;0.5
+8;Dinamarca;89.9;240;580;0.4
+9;Finlandia;85.0;5;450;0.3
+10;Luxemburgo;84.4;90;500;0.3
 11;Eslovaquia;84.1;470;340;0.2
-12;Espanha;83.8;510;130;0.2
+12;Espanha;83.8;700;30;0.2
 13;Estados Unidos;81.6;250;250;0.1
 14;Croacia;81.2;580;480;0.1
 15;Paises Baixos;79.0;240;420;0.1
