@@ -10,7 +10,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
-
+#include <iomanip>
 
 #pragma comment (lib,"opengl32.lib")
 #pragma comment (lib,"glu32.lib")
@@ -50,7 +50,7 @@ struct Nodo{
        float consumo;
        int posicaoX;
        int posicaoY;
-       int tamanho;
+       float tamanho;
  };
 
  /** declarando o vetor de struct como const **/
@@ -69,12 +69,12 @@ void drawBitmapText(char *string,float x,float y,float z)
 }
 
 /** utilizado para escrever **/
-void drawStrokeText(char *string,int x,int y,int z)
+void drawStrokeText(char *string,int x,int y,int z, float tamanho)
 {
       char *c;
       glPushMatrix();
       glTranslatef(x, y+8,z);   /** define a posição **/
-      glScalef(0.50f,-0.50f, z);    /** define o tamanho **/
+      glScalef(tamanho,-tamanho, z);    /** define o tamanho **/
       //glScalef(0.19f,-0.18f, z);    /** define o tamanho **/
 
       for (c=string; *c != '\0'; c++)
@@ -164,9 +164,10 @@ void render(void)
         std::istringstream(aux[2]) >> nodos[cont].consumo;
         std::istringstream(aux[3]) >> nodos[cont].posicaoX;
         std::istringstream(aux[4]) >> nodos[cont].posicaoY;
+        std::istringstream(aux[5]) >> nodos[cont].tamanho;
 
         /** chama a função para escrever na tela **/
-        drawStrokeText(const_cast<char*>(nodos[cont].pais.c_str()),nodos[cont].posicaoX,nodos[cont].posicaoY,0);
+        drawStrokeText(const_cast<char*>(nodos[cont].pais.c_str()),nodos[cont].posicaoX,nodos[cont].posicaoY,0, nodos[cont].tamanho);
 
         cont++;
     }
@@ -212,6 +213,7 @@ int main(int argc, char* argv[])
         glutSpecialFunc(keyPress);
 
         glutReshapeFunc(handleResize);
+
         // enter the main loop
         glutMainLoop();
 
