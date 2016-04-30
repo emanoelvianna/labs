@@ -61,8 +61,6 @@ struct Informacoes{
     float corX;
     float corY;
     float corZ;
-    float tamanhoX;
-    float tamanhoY;
 };
 
 /** declara o vetor de struct como const **/
@@ -86,7 +84,7 @@ void drawStrokeText(char *string,int x,int y,int z, float tamanho)
       char *c;
       glPushMatrix();
       glTranslatef(x, y+8,z);   /** define a posição **/
-      glScalef(0.95,-0.95, z);    /** define o tamanho **/
+      glScalef(tamanho,-tamanho, z);    /** define o tamanho **/
       //glScalef(0.19f,-0.18f, z);    /** define o tamanho **/
 
       for (c=string; *c != '\0'; c++)
@@ -127,7 +125,6 @@ void handleResize(int w, int h) {
 
 void keyPress(int key,int x,int y)
 {
-
     if(key==27)
         exit(0);
     if (key == GLUT_KEY_UP)
@@ -136,10 +133,9 @@ void keyPress(int key,int x,int y)
         rotate_x -= .05;
 
     glutPostRedisplay();
-
 }
 
-int randomInteger (int low, int high)
+int randomInteger (float low, float high)
 {
     int k;
     double d;
@@ -152,8 +148,8 @@ void lerArquivo() {
     string STRING;
     ifstream infile;
     infile.open ("dados.csv");
-    int cont = 1;
-    while(!infile.eof() && cont < 15) // To get you all the lines.
+    int cont = 0;
+    while(!infile.eof() && cont < 17) // To get you all the lines.
     {
         getline(infile,STRING); // Saves the line in STRING.
         vector<string> aux = split(STRING, ';');
@@ -202,12 +198,9 @@ void inicializaInformacoes() {
     int cont = 1;
     while(cont < 15) {
         /** define as cores **/
-        info[cont].corX = 0.0f;
-        info[cont].corY = 0.0f;
-        info[cont].corZ = 1.0f;
-        /** define o tamanho **/
-        info[cont].tamanhoX = 0.95;
-        info[cont].tamanhoY = 0.95;
+        info[cont].corX = randomInteger(-4.0f, 10.0f);
+        info[cont].corY = randomInteger(-4.0f, 10.0f);
+        info[cont].corZ = randomInteger(-4.0f, 10.0f);
         cont++;
     }
 }
@@ -217,6 +210,7 @@ int main(int argc, char* argv[])
 		// initialize glut
         glutInit(&argc, argv);
 
+        /** importante, leitura de arquivo e incialização de tmanhos e cores **/
         inicializaInformacoes();
         lerArquivo();
         // specify the display mode to be RGB and single buffering
