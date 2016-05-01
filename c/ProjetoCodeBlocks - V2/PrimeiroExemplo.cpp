@@ -19,7 +19,7 @@
 using namespace std;
 
 GLfloat tx, ty;
-GLfloat left, right, bottom, top;
+GLfloat lef, righ, bottom, top;
 GLfloat panX, panY;
 GLint largura, altura;
 
@@ -87,6 +87,7 @@ void init()
 	glClearColor(0.0,0.0,0.0,0.0);
 }
 
+
 /** controla a window **/
 void handleResize(int w, int h) {
 
@@ -105,6 +106,7 @@ void handleResize(int w, int h) {
                    1.0,                   //The near z clipping coordinate
                    200.0);                //The far z clipping coordinate
     glLoadIdentity();
+    //gluOrtho2D(left+panX, right+panX, bottom+panY, top+panY);
     gluOrtho2D(0,w,h,0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -119,7 +121,10 @@ void keyPress(int key,int x,int y)
         rotate_x += .05;
     if (key == GLUT_KEY_DOWN)
         rotate_x -= .05;
-
+    if (key == GLUT_KEY_LEFT)
+        lef -= .05;
+    if (key == GLUT_KEY_RIGHT)
+        righ -= .05;
     glutPostRedisplay();
 }
 
@@ -169,6 +174,8 @@ void render(void)
     //glScalef(1.0f,1.0f,rotate_x);
     glRotatef(  rotate_by_key,-1.0f, 1.5f, -5.0f );
 
+    gluOrtho2D(lef+panX, righ+panX, bottom+panY, top+panY);
+
     int cont = 1;
     while(cont < 15) // To get you all the lines.
     {
@@ -178,6 +185,7 @@ void render(void)
         cont++;
     }
     //drawStrokeText(const_cast<char*>(nodos[1].pais.c_str()),200,300,0);
+
     glutSwapBuffers();
 
 }
@@ -191,6 +199,12 @@ void inicializaInformacoes() {
         info[cont].corZ = randomInteger(-4.0f, 10.0f);
         cont++;
     }
+    lef = -1.0;
+    righ = 1.0;
+    bottom = -1.0;
+    top = 1.0;
+    panX = 1.0;
+    panY = 1.0;
 }
 
 int main(int argc, char* argv[])
@@ -200,6 +214,7 @@ int main(int argc, char* argv[])
 
         /** importante, leitura de arquivo e incialização de tmanhos e cores **/
         inicializaInformacoes();
+        //Inicializa();
         lerArquivo();
         // specify the display mode to be RGB and single buffering
         // we use single buffering since this will be non animated
