@@ -139,14 +139,28 @@ void keyPress(int key,int x,int y)
 {
     if(key==27)
         exit(0);
-    if (key == GLUT_KEY_UP)
+    /** zoom **/
+    if (key == GLUT_KEY_F10)
         rotate_x += .05;
-    if (key == GLUT_KEY_DOWN)
+    if (key == GLUT_KEY_F11)
         rotate_x -= .05;
-    if (key == GLUT_KEY_LEFT)
-        lef -= .05;
-    if (key == GLUT_KEY_RIGHT)
-        righ -= .05;
+    /** pan **/
+    if (key == GLUT_KEY_LEFT){
+        lef += 5.0;
+        righ += 5.0;
+    }
+    if (key == GLUT_KEY_RIGHT){
+        lef -= 5.0;
+        righ -= 5.0;
+    }
+    if (key == GLUT_KEY_UP){
+        top += 5.0;
+        bottom += 5.0;
+    }
+    if (key == GLUT_KEY_DOWN){
+        top -= 5.0;
+        bottom -= 5.0;
+    }
     if(key == GLUT_KEY_HOME)
         inicializaCor();
     glutPostRedisplay();
@@ -169,6 +183,10 @@ void lerArquivo() {
         std::istringstream(aux[3]) >> nodos[cont].posicaoX;
         std::istringstream(aux[4]) >> nodos[cont].posicaoY;
         std::istringstream(aux[5]) >> nodos[cont].tamanho;
+
+        /** chama a função para escrever na tela **/
+        drawStrokeText(const_cast<char*>(nodos[cont].pais.c_str()),nodos[cont].posicaoX,nodos[cont].posicaoY,0, nodos[cont].tamanho);
+        glColor3f(info[cont].corX, info[cont].corY, info[cont].corZ);
         cont++;
     }
     infile.close();
@@ -216,13 +234,18 @@ void inicializaInformacoes() {
 
 int main(int argc, char* argv[])
 {
+		cout << "----LISTA DE COMANDOS:----\n";
+		cout << "-- ZOMM + : F9 \n-- ZOOM - : F10\n";
+		cout << "-- PAM DIREITA: SETA DIREITA\n-- PAM ESQUERDA: SETA ESQUERDA\n";
+		cout << "-- MUDAR A COR: HOME\n";
+		cout << "-- ELEVAR O TEXTO: SETA PARA CIMA\n";
+		cout << "-- ABAIXAR O TEXTO: SETA PARA BAIXO\n";
 		// initialize glut
         glutInit(&argc, argv);
-
-        /** importante, leitura de arquivo e incialização de tmanhos e cores **/
         inicializaCor();
         inicializaInformacoes();
-        //Inicializa();
+
+       /** importante, leitura de arquivo e incialização de tmanhos e cores **/
         lerArquivo();
         glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 
