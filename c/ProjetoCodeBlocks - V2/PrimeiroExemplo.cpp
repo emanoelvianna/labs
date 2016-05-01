@@ -169,10 +169,6 @@ void lerArquivo() {
         std::istringstream(aux[3]) >> nodos[cont].posicaoX;
         std::istringstream(aux[4]) >> nodos[cont].posicaoY;
         std::istringstream(aux[5]) >> nodos[cont].tamanho;
-
-        /** chama a função para escrever na tela **/
-        drawStrokeText(const_cast<char*>(nodos[cont].pais.c_str()),nodos[cont].posicaoX,nodos[cont].posicaoY,0, nodos[cont].tamanho);
-        glColor3f(info[cont].corX, info[cont].corY, info[cont].corZ);
         cont++;
     }
     infile.close();
