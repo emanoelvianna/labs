@@ -113,6 +113,28 @@ void handleResize(int w, int h) {
     glViewport(0, 0, w, h);
 }
 
+int randomInteger (float low, float high)
+{
+    int k;
+    double d;
+    d = (double) rand () / ((double) RAND_MAX + 1);
+    k = d * (high - low + 1);
+    return low + k;
+}
+
+/** incializa as cores **/
+void inicializaCor() {
+    int cont = 1;
+    while(cont < 15) {
+        /** define as cores **/
+        info[cont].corX = randomInteger(-4.0f, 10.0f);
+        info[cont].corY = randomInteger(-4.0f, 10.0f);
+        info[cont].corZ = randomInteger(-4.0f, 10.0f);
+        cont++;
+    }
+}
+
+
 void keyPress(int key,int x,int y)
 {
     if(key==27)
@@ -125,17 +147,12 @@ void keyPress(int key,int x,int y)
         lef -= .05;
     if (key == GLUT_KEY_RIGHT)
         righ -= .05;
+    if(key == GLUT_KEY_HOME)
+        inicializaCor();
     glutPostRedisplay();
 }
 
-int randomInteger (float low, float high)
-{
-    int k;
-    double d;
-    d = (double) rand () / ((double) RAND_MAX + 1);
-    k = d * (high - low + 1);
-    return low + k;
-}
+
 
 void lerArquivo() {
     string STRING;
@@ -190,15 +207,9 @@ void render(void)
 
 }
 
+
 void inicializaInformacoes() {
-    int cont = 1;
-    while(cont < 15) {
-        /** define as cores **/
-        info[cont].corX = randomInteger(-4.0f, 10.0f);
-        info[cont].corY = randomInteger(-4.0f, 10.0f);
-        info[cont].corZ = randomInteger(-4.0f, 10.0f);
-        cont++;
-    }
+
     lef = -1.0;
     righ = 1.0;
     bottom = -1.0;
@@ -213,17 +224,14 @@ int main(int argc, char* argv[])
         glutInit(&argc, argv);
 
         /** importante, leitura de arquivo e incialização de tmanhos e cores **/
+        inicializaCor();
         inicializaInformacoes();
         //Inicializa();
         lerArquivo();
-        // specify the display mode to be RGB and single buffering
-        // we use single buffering since this will be non animated
         glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 
-        // define the size
         glutInitWindowSize(650,300);
 
-        // the position where the window will appear
         glutInitWindowPosition(250,250);
         glutCreateWindow("Trabalho computação grafica I");
 
@@ -235,7 +243,6 @@ int main(int argc, char* argv[])
 
         glutReshapeFunc(handleResize);
 
-        // enter the main loop
         glutMainLoop();
 
         return 0;
