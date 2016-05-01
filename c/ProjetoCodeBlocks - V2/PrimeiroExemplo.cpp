@@ -235,7 +235,7 @@ void inicializaInformacoes() {
 int main(int argc, char* argv[])
 {
 		cout << "----LISTA DE COMANDOS:----\n";
-		cout << "-- ZOMM + : F9 \n-- ZOOM - : F10\n";
+		cout << "-- ZOMM + : F10 \n-- ZOOM - : F11\n";
 		cout << "-- PAM DIREITA: SETA DIREITA\n-- PAM ESQUERDA: SETA ESQUERDA\n";
 		cout << "-- MUDAR A COR: HOME\n";
 		cout << "-- ELEVAR O TEXTO: SETA PARA CIMA\n";
