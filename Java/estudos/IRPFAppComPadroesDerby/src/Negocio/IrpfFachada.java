@@ -82,7 +82,7 @@ public class IrpfFachada {
 		}
 		// Utilizando o Singleton
 		CalculoIrpfSingleton calcula = CalculoIrpfSingleton.getCalculoIrpfSingleton();
-		CalculoIrpf ir = calcula.createInstance(t);
+		CalculoIrpf ir = calcula.createInstance(t, contribuinte);
 
 		contribuinte.defineCalculo(ir);
 		return contribuinte.getImpostoDevido();

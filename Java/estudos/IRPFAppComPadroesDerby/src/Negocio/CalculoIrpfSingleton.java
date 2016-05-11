@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Negocio;
 
 public class CalculoIrpfSingleton {
@@ -18,14 +14,14 @@ public class CalculoIrpfSingleton {
 			return instancia;
 	}
 
-	public CalculoIrpf createInstance(TipoCalculo t) {
+	public CalculoIrpf createInstance(TipoCalculo t, Contribuinte contribuinte) {
 		switch (t) {
 		case SIMPLIFICADO:
 			return new CalculoIrpfSimplificado();
 		case COMPLETO:
 			return new CalculoIrpfCompleto();
 		case ESTRANGEIRO:
-			return new CalculoIrpfNaturalizadoAdapter(null);
+			return new CalculoIrpfNaturalizadoAdapter(contribuinte);
 		}
 		return null;
 	}
