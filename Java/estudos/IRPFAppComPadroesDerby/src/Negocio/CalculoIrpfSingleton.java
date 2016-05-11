@@ -9,7 +9,6 @@ public class CalculoIrpfSingleton {
 	private static CalculoIrpfSingleton instancia;
 
 	private CalculoIrpfSingleton() {
-
 	}
 
 	public static CalculoIrpfSingleton getCalculoIrpfSingleton() {
@@ -26,7 +25,7 @@ public class CalculoIrpfSingleton {
 		case COMPLETO:
 			return new CalculoIrpfCompleto();
 		case ESTRANGEIRO:
-			return new CalculoIrpfCompleto();
+			return new CalculoIrpfNaturalizadoAdapter(null);
 		}
 		return null;
 	}
