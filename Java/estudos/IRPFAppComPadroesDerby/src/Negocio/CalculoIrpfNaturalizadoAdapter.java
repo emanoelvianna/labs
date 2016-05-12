@@ -1,14 +1,15 @@
 package Negocio;
 
-public class CalculoIrpfNaturalizadoAdapter extends CalculoIrpfNaturalizado implements CalculoIrpf {
+public class CalculoIrpfNaturalizadoAdapter implements CalculoIrpf {
 
-	public CalculoIrpfNaturalizadoAdapter(Contribuinte umContribuinte) {
-		super(umContribuinte);
-	}
+	private CalculoIrpfNaturalizado calculoIrpfNaturalizado;
 
 	@Override
 	public double calculaImposto(Contribuinte c) {
-		return imposto_A_Pagar(baseDeCalculo(), fatorEspecifico());
+		calculoIrpfNaturalizado = new CalculoIrpfNaturalizado(c);
+		
+		return calculoIrpfNaturalizado.imposto_A_Pagar(calculoIrpfNaturalizado.baseDeCalculo(),
+				calculoIrpfNaturalizado.fatorEspecifico());
 	}
 
 }

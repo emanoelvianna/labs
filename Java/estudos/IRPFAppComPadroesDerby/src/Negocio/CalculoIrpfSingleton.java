@@ -14,14 +14,14 @@ public class CalculoIrpfSingleton {
 			return instancia;
 	}
 
-	public CalculoIrpf createInstance(TipoCalculo t, Contribuinte contribuinte) {
+	public CalculoIrpf createInstance(TipoCalculo t) {
 		switch (t) {
 		case SIMPLIFICADO:
 			return new CalculoIrpfSimplificado();
 		case COMPLETO:
 			return new CalculoIrpfCompleto();
 		case ESTRANGEIRO:
-			return new CalculoIrpfNaturalizadoAdapter(contribuinte);
+			return new CalculoIrpfNaturalizadoAdapter();
 		}
 		return null;
 	}
