@@ -1,7 +1,7 @@
 # --------------------------
 # --      Trabalho 2      --
 # --------------------------
-# Aluno 1:
+# Aluno 1: EMANOEL A VIANNA FABIANO
 # Aluno 2:
 # --------------------------
 .data
@@ -20,8 +20,8 @@
               6 4 1 0 1 3 1 5 3 4 5 
               3 8 0 7 5 3 2 5 6 8 7
               4 1 2 2 2 4 9 3 6 8 3
-  NUM:        .word 15
-  SIZE:       .word 11
+	NUM:        .word 15
+  	SIZE:       .word 11
 	ponto:      .asciiz "."
 	traco:      .asciiz "-"
 	nova_linha: .asciiz "\n"
@@ -36,12 +36,31 @@ main:
 	la $t0, NUM
 	lw $t0, 0($t0)	# faz a leitura do NUM
 	
-	li $t2, 0	# i = 0
+	li $t1, 0	# i = 0
 	loop:
-		beq $t2, $t0, fim	# i == NUM então fim
-		move $a0, $t2	  	
-		jal dig_1		# dig_1(i);
+		beq $t1, $t0, fim	# i == NUM então fim
+		move $a0, $t1	  	# $a0 = pos
 		
+		#jal dig_1		# dig_1(i);
+		#move $t2, $v0		# digito1 = dig_1(i);
+		#jal dig_2		# dig_2(i);
+		#move $s0, $v0
+		
+			# if((digito1==CPF[i][9]) && (digito2==CPF[i][10]))
+			mul $s1, $t1, 44	# aux = i * 44
+			addiu $s1, $s1, 32	# aux = aux + 32
+			lw $s2, CPF($s1)	# $t2 = CPF[i][9]
+			
+			mul $s3, $t1, 44	# aux = i * 44
+			addiu $s3, $s3, 36	# aux = aux + 36
+			lw $s4, CPF($s3)	# $t2 = CPF[i][10]
+			
+			beq $t2, $s2, invalido
+			beq $s0, $s4, invalido
+			jal imprime_cpf
+			
+		invalido:	
+		addiu $t1, $t1, 1	# i++
 	j loop
 	
 	fim:
@@ -57,13 +76,40 @@ dig_1:
 	
 	li $t3, 0		# somador=0;
 	li $t4, 0		# i = 0
+	li $t6, 0		# auxiliar para ajudar a percorrer o vetor
+ 
+	mul $a0, $a0, 44	# usado para percorrer a linha  
+	addu $t6, $t6, $a0	# proxima linha
+	
 	loop2:
-		beq $t4, 9, sai
+		beq $t4, 9, continua
 		li $t5, 10
-		sub $t5, $t5, $t2	# 10-i
-		
-		
+		sub $t5, $t5, $t4	# 10-i
+		lw $t7, CPF($t6)	# CPF[pos][i] , lê a posição do vetor
+		mul $t7, $t7, $t5 	# CPF[pos][i]*(10-i)
+		addu $t3, $t3, $t7	# somador+=CPF[pos][i]*(10-i)
+
+		addiu $t4, $t4, 1	# i++
+		addiu $t6, $t6, 4	# posição do vetor ++
+
 	j loop2
+	
+	continua:
+		div $t4, $t3, 11	# somador / 11
+		mfhi $t4		# $t4 recebe o resto da divisão, $t4 é o resultado
+		
+		
+		beq $t4, $zero, retornaZero	# if(resultado==0) 
+		beq $t4, 1, retornaZero		# if(resultado==1)
+		
+		else:
+			li $t3, 11
+			sub $v0, $t3, $t4
+			j sai
+		
+		retornaZero:
+			move $v0, $zero		# return 0
+ 			j sai
 	
 	sai:
 		lw    $ra, 0($sp)
@@ -71,17 +117,56 @@ dig_1:
   		jr $ra
 
 dig_2:
-  addiu $sp, $sp, -4 # Atualizar o tamanho da pilha de acordo com os seus registradores!
-	sw    $ra, 0($sp)
-	# Colocar aqui o seu codigo!
-	lw    $ra, 0($sp)
-	addiu $sp, $sp, 4 # Atualizar o tamanho da pilha de acordo com os seus registradores!
-  jr    $ra
+  	addiu $sp, $sp, -4	# abre espaço na pilha
+	sw    $ra, 0($sp)	# guarda o $ra	
+	
+	li $t3, 0		# somador=0;
+	li $t4, 0		# i = 0
+	li $t6, 0		# auxiliar para ajudar a percorrer o vetor
+ 
+	mul $a0, $a0, 44	# usado para percorrer a linha  
+	addu $t6, $t6, $a0	# proxima linha
+	
+	loop3:
+		beq $t4, 10, continua2
+		li $t5, 11
+		sub $t5, $t5, $t4	# 11-i
+		lw $t7, CPF($t6)	# CPF[pos][i] , lê a posição do vetor
+		mul $t7, $t7, $t5 	# CPF[pos][i]*(11-i)
+		addu $t3, $t3, $t7	# somador+=CPF[pos][i]*(10-i)
+
+		addiu $t4, $t4, 1	# i++
+		addiu $t6, $t6, 4	# posição do vetor ++
+
+	j loop3
+	
+	continua2:
+		div $t4, $t3, 11	# somador / 11
+		mul $t4, $t4, 11	# $t4 recebe o resto da divisão, $t4 é o valor
+		
+		sub $t5, $t3, $t4	# resultado=somador-valor;
+	
+		beq $t5, $zero, retornaZero1	# if(resultado==0) 
+		beq $t5, 1, retornaZero1		# if(resultado==1)
+		
+		else1:
+			li $t3, 11
+			sub $v0, $t3, $t5
+			j sai1
+		
+		retornaZero1:
+			move $v0, $zero		# return 0
+ 			j sai1
+	
+	sai1:
+		lw    $ra, 0($sp)
+		addiu $sp, $sp, 4 
+  		jr $ra
 
 imprime_cpf:
-  addiu $sp, $sp, -4 # Atualizar o tamanho da pilha de acordo com os seus registradores!
+  	addiu $sp, $sp, -4 # Atualizar o tamanho da pilha de acordo com os seus registradores!
 	sw    $ra, 0($sp)
 	# Colocar aqui o seu codigo!
 	lw    $ra, 0($sp)
 	addiu $sp, $sp, 4 # Atualizar o tamanho da pilha de acordo com os seus registradores!
-  jr    $ra
+  	jr    $ra
