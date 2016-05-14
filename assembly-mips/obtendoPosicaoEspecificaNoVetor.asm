@@ -22,11 +22,11 @@ main:
 			addiu $t1, $t1, 36	# aux = aux + 32
 			lw $t2, VET($t1)	# $t2 = VET[i][9]
 			
-			li $v0, 1
+			li $v0, 1		# imprime o valor
 			move $a0, $t2
 			syscall
 			
-			li $v0, 4
+			li $v0, 4		# nova linha
 			la $a0, nova_linha
 			syscall
 		

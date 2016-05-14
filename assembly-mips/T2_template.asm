@@ -57,6 +57,8 @@ main:
 			
 			beq $t2, $s2, invalido
 			beq $s0, $s4, invalido
+			
+			move $a0, $t1
 			jal imprime_cpf
 			
 		invalido:	
@@ -163,10 +165,40 @@ dig_2:
 		addiu $sp, $sp, 4 
   		jr $ra
 
+#void imprime_cpf(int pos) {
+#	int i;
+#	for(i=0;i<SIZE;i++){
+#		printf("%d", CPF[pos][i]);
+#		if(i==2 || i==5)
+#			printf(".");
+#		if(i==8)
+#			printf("-");
+#  }
+#	printf("\n");
+#}
+
+
 imprime_cpf:
   	addiu $sp, $sp, -4 # Atualizar o tamanho da pilha de acordo com os seus registradores!
 	sw    $ra, 0($sp)
-	# Colocar aqui o seu codigo!
-	lw    $ra, 0($sp)
-	addiu $sp, $sp, 4 # Atualizar o tamanho da pilha de acordo com os seus registradores!
-  	jr    $ra
+	
+	la $t3, SIZE
+	lw $t3, 0($t3)
+	
+	li $t4, 0 	# i
+	mul $a0, $a0, 44	# usado para percorrer a linha  
+	addu $t6, $t6, $a0	# proxima linha
+	loop4:
+		beq $t4, $t3, fim2
+		lw $t7, CPF($t6)	# CPF[pos][i] , lê a posição do vetor
+		
+		li $v0, 1		# imprime o valor
+		move $a0, $t7
+		syscall
+		
+		addiu $t4, $t4, 1
+	j loop4
+	fim2:
+		lw    $ra, 0($sp)
+		addiu $sp, $sp, 4 # Atualizar o tamanho da pilha de acordo com os seus registradores!
+  		jr    $ra
