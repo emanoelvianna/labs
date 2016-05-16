@@ -2,7 +2,7 @@
 # --      Trabalho 2      --
 # --------------------------
 # Aluno 1: EMANOEL A VIANNA FABIANO
-# Aluno 2:
+# Aluno 2: MATHEUS BRITZKE
 # --------------------------
 .data
   CPF:  .word 6 4 6 3 1 1 5 8 0 0 0 
@@ -28,7 +28,6 @@
 	
 .text                   
 .globl  main
-
 main:
 	addiu $sp, $sp, -4	# abre espaço na pilha
 	sw    $ra, 0($sp)	# guarda o $ra
@@ -102,7 +101,6 @@ dig_1:
 		div $t4, $t3, 11	# somador / 11
 		mfhi $t4		# $t4 recebe o resto da divisão, $t4 é o resultado
 		
-		
 		beq $t4, $zero, retornaZero	# if(resultado==0) 
 		beq $t4, 1, retornaZero		# if(resultado==1)
 		
@@ -146,9 +144,9 @@ dig_2:
 	
 	continua2:
 		div $t4, $t3, 11	# somador / 11
-		mul $t4, $t4, 11	# $t4 recebe o resto da divisão, $t4 é o valor
+		mul $t6, $t4, 11	# $t4 recebe o resto da divisão, $t4 é o valor
 		
-		sub $t5, $t3, $t4	# resultado=somador-valor;
+		sub $t5, $t3, $t6	# resultado=somador-valor;
 	
 		beq $t5, $zero, retornaZero1	# if(resultado==0) 
 		beq $t5, 1, retornaZero1		# if(resultado==1)
