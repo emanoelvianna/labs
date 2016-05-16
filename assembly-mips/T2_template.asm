@@ -41,10 +41,10 @@ main:
 		beq $t1, $t0, fim	# i == NUM então fim
 		move $a0, $t1	  	# $a0 = pos
 		
-		#jal dig_1		# dig_1(i);
-		#move $t2, $v0		# digito1 = dig_1(i);
-		#jal dig_2		# dig_2(i);
-		#move $s0, $v0
+		jal dig_1		# dig_1(i);
+		move $t2, $v0		# digito1 = dig_1(i);
+		jal dig_2		# dig_2(i);
+		move $s0, $v0
 		
 			# if((digito1==CPF[i][9]) && (digito2==CPF[i][10]))
 			mul $s1, $t1, 44	# aux = i * 44
@@ -55,14 +55,16 @@ main:
 			addiu $s3, $s3, 36	# aux = aux + 36
 			lw $s4, CPF($s3)	# $t2 = CPF[i][10]
 			
-			beq $t2, $s2, invalido
-			beq $s0, $s4, invalido
+			beq $t2, $s2, continua3
+			continua3:
+			beq $s0, $s4, imprime
 			
-			move $a0, $t1
-			jal imprime_cpf
-			
-		invalido:	
-		addiu $t1, $t1, 1	# i++
+			imprime:
+				move $a0, $t1
+				jal imprime_cpf
+				
+			invalido:	
+			addiu $t1, $t1, 1	# i++
 	j loop
 	
 	fim:
@@ -164,20 +166,7 @@ dig_2:
 		lw    $ra, 0($sp)
 		addiu $sp, $sp, 4 
   		jr $ra
-
-#void imprime_cpf(int pos) {
-#	int i;
-#	for(i=0;i<SIZE;i++){
-#		printf("%d", CPF[pos][i]);
-#		if(i==2 || i==5)
-#			printf(".");
-#		if(i==8)
-#			printf("-");
-#  }
-#	printf("\n");
-#}
-
-
+  		
 imprime_cpf:
   	addiu $sp, $sp, -4 # Atualizar o tamanho da pilha de acordo com os seus registradores!
 	sw    $ra, 0($sp)
@@ -185,7 +174,8 @@ imprime_cpf:
 	la $t3, SIZE
 	lw $t3, 0($t3)
 	
-	li $t4, 0 	# i
+	li $t4, 0		# i = 0
+	li $t6, 0		# auxiliar para ajudar a percorrer o vetor
 	mul $a0, $a0, 44	# usado para percorrer a linha  
 	addu $t6, $t6, $a0	# proxima linha
 	loop4:
@@ -196,9 +186,32 @@ imprime_cpf:
 		move $a0, $t7
 		syscall
 		
-		addiu $t4, $t4, 1
+		beq $t4, 2, p 		# if(i==2 || i==5) printf(".");
+		beq $t4, 5, p
+		j elseTraco		# caso contrario pula
+		p:
+			li $v0, 4
+			la $a0, ponto
+			syscall
+		
+		elseTraco:
+		beq $t4, 8, t 		# if(i==8) printf("-");
+		j elseIncrementa	# caso contrario pula
+		t:
+			li $v0, 4
+			la $a0, traco
+			syscall
+		elseIncrementa:
+		addiu $t4, $t4, 1	# i++
+		addiu $t6, $t6, 4	# posição do vetor ++
 	j loop4
+	
 	fim2:
-		lw    $ra, 0($sp)
-		addiu $sp, $sp, 4 # Atualizar o tamanho da pilha de acordo com os seus registradores!
-  		jr    $ra
+	# nova linha
+	li $v0, 4
+	la $a0, nova_linha
+	syscall
+	
+	lw    $ra, 0($sp)
+	addiu $sp, $sp, 4 # Atualizar o tamanho da pilha de acordo com os seus registradores!
+  	jr    $ra
