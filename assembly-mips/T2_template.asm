@@ -39,24 +39,30 @@ main:
 	loop:
 		beq $t1, $t0, fim	# i == NUM então fim
 		move $a0, $t1	  	# $a0 = pos
-		
 		jal dig_1		# dig_1(i);
+		
+		move $a0, $t1	  	# $a0 = pos
 		move $t2, $v0		# digito1 = dig_1(i);
 		jal dig_2		# dig_2(i);
 		move $s0, $v0
 		
 			# if((digito1==CPF[i][9]) && (digito2==CPF[i][10]))
 			mul $s1, $t1, 44	# aux = i * 44
-			addiu $s1, $s1, 32	# aux = aux + 32
+			addiu $s1, $s1, 36	# aux = aux + 32
 			lw $s2, CPF($s1)	# $t2 = CPF[i][9]
 			
 			mul $s3, $t1, 44	# aux = i * 44
-			addiu $s3, $s3, 36	# aux = aux + 36
+			addiu $s3, $s3, 40	# aux = aux + 36
 			lw $s4, CPF($s3)	# $t2 = CPF[i][10]
 			
 			beq $t2, $s2, continua3
+			
+			j invalido
+			
 			continua3:
 			beq $s0, $s4, imprime
+			
+			j invalido
 			
 			imprime:
 				move $a0, $t1
@@ -120,11 +126,12 @@ dig_1:
 
 dig_2:
   	addiu $sp, $sp, -4	# abre espaço na pilha
-	sw    $ra, 0($sp)	# guarda o $ra	
+	sw $ra, 0($sp)	# guarda o $ra	
 	
 	li $t3, 0		# somador=0;
 	li $t4, 0		# i = 0
 	li $t6, 0		# auxiliar para ajudar a percorrer o vetor
+ 	li $t5, 0		# limpa registrador
  
 	mul $a0, $a0, 44	# usado para percorrer a linha  
 	addu $t6, $t6, $a0	# proxima linha
@@ -133,9 +140,11 @@ dig_2:
 		beq $t4, 10, continua2
 		li $t5, 11
 		sub $t5, $t5, $t4	# 11-i
+		
 		lw $t7, CPF($t6)	# CPF[pos][i] , lê a posição do vetor
-		mul $t7, $t7, $t5 	# CPF[pos][i]*(11-i)
-		addu $t3, $t3, $t7	# somador+=CPF[pos][i]*(10-i)
+		mul $t8, $t7, $t5 	# CPF[pos][i]*(11-i)
+		
+		addu $t3, $t3, $t8	# somador+=CPF[pos][i]*(10-i)
 
 		addiu $t4, $t4, 1	# i++
 		addiu $t6, $t6, 4	# posição do vetor ++
@@ -144,11 +153,11 @@ dig_2:
 	
 	continua2:
 		div $t4, $t3, 11	# somador / 11
-		mul $t6, $t4, 11	# $t4 recebe o resto da divisão, $t4 é o valor
+		mul $t6, $t4, 11	# valor=(somador/11)*11; 
 		
 		sub $t5, $t3, $t6	# resultado=somador-valor;
 	
-		beq $t5, $zero, retornaZero1	# if(resultado==0) 
+		beq $t5, $zero, retornaZero1		# if(resultado==0) 
 		beq $t5, 1, retornaZero1		# if(resultado==1)
 		
 		else1:
