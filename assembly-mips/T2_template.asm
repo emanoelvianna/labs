@@ -40,11 +40,11 @@ main:
 		beq $t1, $t0, fim	# i == NUM então fim
 		move $a0, $t1	  	# $a0 = pos
 		jal dig_1		# dig_1(i);
+		move $t2, $v0		# digito1 = dig_1(i);
 		
 		move $a0, $t1	  	# $a0 = pos
-		move $t2, $v0		# digito1 = dig_1(i);
 		jal dig_2		# dig_2(i);
-		move $s0, $v0
+		move $s0, $v0		# digito2 = dig_2(i);
 		
 			# if((digito1==CPF[i][9]) && (digito2==CPF[i][10]))
 			mul $s1, $t1, 44	# aux = i * 44
@@ -57,12 +57,12 @@ main:
 			
 			beq $t2, $s2, continua3
 			
-			j invalido
+			j invalido		# caso não igual então CPF invalido
 			
 			continua3:
 			beq $s0, $s4, imprime
 			
-			j invalido
+			j invalido		# caso não igual então CPF invalido
 			
 			imprime:
 				move $a0, $t1
@@ -73,7 +73,7 @@ main:
 	j loop
 	
 	fim:
-		lw    $ra, 0($sp)
+		lw    $ra, 0($sp)		# finaliza programa
 		addiu $sp, $sp, 4
 		li	  $v0, 10
 		syscall
@@ -126,12 +126,11 @@ dig_1:
 
 dig_2:
   	addiu $sp, $sp, -4	# abre espaço na pilha
-	sw $ra, 0($sp)	# guarda o $ra	
+	sw $ra, 0($sp)		# guarda o $ra	
 	
 	li $t3, 0		# somador=0;
 	li $t4, 0		# i = 0
 	li $t6, 0		# auxiliar para ajudar a percorrer o vetor
- 	li $t5, 0		# limpa registrador
  
 	mul $a0, $a0, 44	# usado para percorrer a linha  
 	addu $t6, $t6, $a0	# proxima linha
@@ -144,7 +143,7 @@ dig_2:
 		lw $t7, CPF($t6)	# CPF[pos][i] , lê a posição do vetor
 		mul $t8, $t7, $t5 	# CPF[pos][i]*(11-i)
 		
-		addu $t3, $t3, $t8	# somador+=CPF[pos][i]*(10-i)
+		addu $t3, $t3, $t8	# somador+=CPF[pos][i]*(11-i)
 
 		addiu $t4, $t4, 1	# i++
 		addiu $t6, $t6, 4	# posição do vetor ++
