@@ -1,0 +1,212 @@
+(*Nomes: Marcelo Campos Silva, Gabriel Silva, Matheus Britzke*)
+val listaCond = 
+	[[(20.2, 110.0), (30.3, 110.0), (22.0, 220.0)], 
+	[(44.0, 220.0), (11.0, 110.0)],
+    	[(10.1, 110.0), (33.0, 110.0), (22.0, 220.0)]];
+
+(*===========================
+Funções para a questão 1*)
+
+(* calcula a área de um Prédio *)
+fun area (largura:real, comprimento) = largura*comprimento;
+
+(* soma as áreas de uma lista de prédios (um condomínio) *)
+fun somaArea ([]) = 0.0
+| somaArea ((largura, comprimento)::resto) = 
+area (largura, comprimento) + somaArea(resto);
+
+(* calcula a média das áreas dos prédios de um condomínio *)
+fun mediaArea ([]) = 0.0
+| mediaArea (condominio) = 
+somaArea(condominio) / real(length(condominio));
+
+(* soma as áreas do todos os prédios da lista de condomínios *)
+fun somaAreaTotal ([]) = 0.0
+| somaAreaTotal (condominio::resto) =
+	somaArea (condominio) + somaAreaTotal(resto);
+
+(* calcula o número de prédios de todos os condomínios *)
+fun totalPrediosTotal ([]) = 0
+| totalPrediosTotal (condominio::resto) = length(condominio) + totalPrediosTotal (resto);
+
+(* calcula a media dos predios de todos os prédios de todos os condomínios *)
+fun mediaAreaTotal (condominios) = 
+	somaAreaTotal (condominios) / real(totalPrediosTotal (condominios));
+
+(* calcula a menor comprimento dos prédios de um condomínio *)
+fun menorComprimento ([]) = 0.0
+| menorComprimento ((largura:real,comprimento)::resto) =
+	if resto = [] then comprimento
+	else 
+if comprimento < menorComprimento(resto) then comprimento
+		else menorComprimento(resto);
+
+(* testa se um Prédio tem área maior que um dado valor *)
+fun areaMaiorQue (predio, valor) =
+	if area(predio) > valor then true else false;
+
+(* filtra os prédios de um condomínio que tem área maior que a média das áreas dos prédios daquele condomínio *)
+fun prediosAreaMaiorQueMedia (condominio) =
+let
+	fun temCMQM (predio) = 
+		areaMaiorQue(predio,mediaArea(condominio));
+in
+	List.filter temCMQM condominio
+end;
+
+(* filtra os prédios de todos os condomínio que tem área maior que a media das áreas dos prédios de todos os condomínios *)
+fun prediosAreaMaiorQueMediatotal (condominios) =
+let
+	(* filtra os prédios de um condomínio que tem área maior que 
+		a media das áreas dos prédios de todos os condomínios *)
+	fun prediosAreaMaiorQueMediaTotal (condominio) =
+	let
+		fun cMQM (predio) = 
+		areaMaiorQue(predio,mediaAreaTotal(condominios))
+	in
+		List.filter cMQM condominio
+	end
+in
+	map prediosAreaMaiorQueMediaTotal condominios
+end;
+
+(* calcula menor comprimento dentre todos os prédios de um condomínio *)
+fun menorComprimentoTotal ([]) = 0.0
+| menorComprimentoTotal (condominio::resto) =
+let 
+	val x = menorComprimento (condominio)
+	val y = menorComprimentoTotal (resto)
+in
+	if resto = [] then x 
+	else if x < y then x else y
+end;
+
+
+(*=============================
+Funções para a questão 2*)
+
+(* calcula a área total de um condomínio *)
+fun areaTotal ([]) = 0.0
+| areaTotal ((largura:real,comprimento)::resto) = largura * comprimento + areaTotal (resto);
+
+ 
+(* calcula a menor área total dentre os condomínios *)
+fun menorAreaTotal ([]) = 0.0
+| menorAreaTotal (condominio::resto) =
+let 
+	val x = areaTotal (condominio)
+	val y = menorAreaTotal (resto)
+in
+	if resto = [] then x else if x < y then x else y
+end;
+
+(* retorna o último Prédio de um condomínio *)
+fun ultPredio (condominio) = List.last(condominio);
+
+(* filtra os condomínios com menor área total que a média total *)
+fun condominiosComMenorAreaTotal (condominios) =
+let
+	(* testa se um condomínio tem menor área total que a média das 
+		áreas totais de todos os condomínios *)
+	fun deMenorAreaTotal (condominio) = 
+		areaTotal (condominio) = menorAreaTotal (condominios)
+
+in
+	List.filter deMenorAreaTotal condominios
+end;
+
+(* retorna a largura de um Prédio *)
+fun larguraPredio (predio:(real*real)) = #1(predio);
+
+(* retorna a largura do ultimo Prédio de um condomínio *)
+fun larguraUltPredio (condominio) = larguraPredio(ultPredio (condominio));
+
+(*============================
+2.3. Funções para a questão 3*)
+ 
+(* calcula a média do número de prédios de todos os condomínios *)
+fun mediaNumeroPredios (condominios) =
+	real(totalPrediosTotal (condominios)) / real(length(condominios));
+
+(* filtra os condomínios que tem numero de prédios menor que a media *)
+fun condComNumPrediosMenorQueMedia (condominios) =
+let
+	(* testa se um condomínio tem número de prédios menor que a media *)
+	fun numPrediosMenorQueMedia (condominio) = 
+		real(length(condominio)) < mediaNumeroPredios (condominios)
+
+in
+	List.filter numPrediosMenorQueMedia condominios
+end;
+
+ 
+(*===========================
+Funções para a questão 4*)
+
+(* calcula a menor área dentre os prédios de um condomínio *)
+fun menorArea ([]) = 0.0 | menorArea ((largura:real,comprimento)::resto) =
+let
+	val area = largura * comprimento
+in
+	if resto = [] then area
+	else if area < menorArea (resto) then area
+	else menorArea (resto)
+end;
+
+(* testa se o primeiro Prédio de um condomínio tem menor área dentre os prédios daquele condomínio *)
+fun priPredioMenorArea ([]) = false
+| priPredioMenorArea (predio::[]) = true
+| priPredioMenorArea (predio::resto) = 	area(predio) < menorArea(resto);
+
+(* filtra os condomínios que tem primeiro Prédio com menor área dentre os prédios deles *)
+fun temPriPredioMenorArea (condominios) =
+	List.filter priPredioMenorArea condominios;
+
+(* calcula a maior área total dentre os condomínios *)
+fun maiorAreaTotal ([]) = 0.0
+| maiorAreaTotal (condominio::resto) =
+let
+	val p = areaTotal(condominio)
+	val mat = maiorAreaTotal(resto)
+in
+	if resto = [] then p
+	else if p > mat then p else mat
+end;
+
+
+
+(* funções a especificar *)
+
+(*Questao 1*)
+(* calcula o menor comprimento dos predios com área acima da média total *)
+fun menorComprimentoDosDeAreaMaiorQueMedia (condominios) =
+menorComprimentoTotal(prediosAreaMaiorQueMediatotal(condominios));
+
+(*Questao 2*)
+(* retorna a carga do ultimo predio do primeiro condominio encontrado que tem area total igual a menor area total *)
+fun larguraUltPredioPriCondMenorAreaTotal (condominios) = 
+larguraUltPredio(List.last(condominiosComMenorAreaTotal(condominios)));
+
+(*Questao 3*)
+(* calcula a media das areas dos predios do condominio com numero de predios menor que a media *)
+fun mediaAreasDoCondComNumPrediosMenorQueMedia (condominios:(real*real) list list) =
+mediaAreaTotal(condComNumPrediosMenorQueMedia(condominios));
+
+(*Questao 4*) 
+(* calcula a maior area total dentre os condominios que tem o primeiro predio com menor área *)
+fun maiorAreaTotalDosCondPriPredioComMenorArea (condominios) =
+maiorAreaTotal(temPriPredioMenorArea(condominios));
+
+(******************
+Respostas
+*)
+
+val q1 = menorComprimentoDosDeAreaMaiorQueMedia(listaCond);
+
+val q2 = larguraUltPredioPriCondMenorAreaTotal(listaCond);
+
+val q3 = mediaAreasDoCondComNumPrediosMenorQueMedia(listaCond);
+
+val q4 = maiorAreaTotalDosCondPriPredioComMenorArea(listaCond);
+
+	
