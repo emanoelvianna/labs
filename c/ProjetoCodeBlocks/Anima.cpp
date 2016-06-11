@@ -198,6 +198,26 @@ void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, in
     glPopMatrix();
 }
 
+/** inicializa posições dos objetos **/
+void InicializaPosicoes() {
+
+        objetos[0] = new ObjetoGrafico(CUBO1);
+        Point3D* p1 = new Point3D(0, 0, 10);
+        objetos[0]->SetTranslacao(*p1);
+        objetos[0]->SetPosAltura(-9);
+        objetos[0]->SetPosInicial(10);
+        objetos[0]->SetPosInicial(-10);
+
+        objetos[1] = new ObjetoGrafico(CUBO2);
+        Point3D* p2 = new Point3D(0, 0, 10);
+        objetos[1]->SetTranslacao(*p2);
+        objetos[1]->SetPosAltura(0);
+        objetos[1]->SetPosInicial(10);
+        objetos[1]->SetPosInicial(-10);
+
+}
+
+
 
 // Função callback chamada para fazer o desenho
 void Desenha(void)
@@ -208,31 +228,27 @@ void Desenha(void)
 
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
-
+/**
     for(int i = 0;i < 9; i++){
 
     objetos[i] = new ObjetoGrafico(CUBO1);
     Point3D* p = new Point3D(0, 0, 10);
     objetos[i]->SetTranslacao(*p);
 
-    /** setando posicao **/
+    //setando posicao
 
-    objetos[i]->SetPosAltura(10);
-    objetos[i]->SetPosInicial(-10);
+    objetos[i]->SetPosAltura(rand()*5);
     objetos[i]->SetPosInicial(10);
-
-    objetos[0]->SetPosAltura(0);
-    objetos[0]->SetPosInicial(-10);
-    objetos[0]->SetPosInicial(10);
-
-    cout << "altura: " << objetos[i]->getPosAltura();
-
-	//DesenhaObjetoNoQuadro(objetos[0]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte, objetos[0]->getPosInicial(), objetos[0]->getPosFinal(), objetos[0]->getPosAltura());
-	DesenhaObjetoNoQuadro(objetos[i]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte, objetos[i]->getPosInicial(), objetos[i]->getPosFinal(), objetos[i]->getPosAltura());
-    DesenhaObjetoNoQuadro(objetos[0]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte, objetos[0]->getPosInicial(), objetos[0]->getPosFinal(), objetos[0]->getPosAltura());
-
+    objetos[i]->SetPosInicial(-10);
 
     }
+**/
+	//DesenhaObjetoNoQuadro(objetos[0]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte, objetos[0]->getPosInicial(), objetos[0]->getPosFinal(), objetos[0]->getPosAltura());
+	InicializaPosicoes();
+    for(int i = 0; i < 2; i++ ){
+        DesenhaObjetoNoQuadro(objetos[i]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte, objetos[i]->getPosInicial(), objetos[i]->getPosFinal(), objetos[i]->getPosAltura());
+    }
+
     /** se não exibiu todos os quadros intermediários, passa para o próximo **/
 	if (quadro < NRO_QDO_INTERMEDIARIOS)
 	   quadro++;
@@ -246,7 +262,6 @@ void Desenha(void)
 /** Inicializa parâmetros de rendering **/
 void Inicializa (void)
 {
-
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Fundo de tela preto
 
 	/** Inicializa as variáveis usadas para alterar a posição do observador virtual **/
@@ -283,14 +298,38 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 	EspecificaParametrosVisualizacao();
 }
 
+/** seleciona do quadro-chave  **/
+void selecaoDeQuadros(unsigned char tecla)
+{
+    if(tecla=='0')
+        DesenhaObjetoNoQuadro(objetos[0]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte, objetos[0]->getPosInicial(), objetos[0]->getPosFinal(), objetos[0]->getPosAltura());
+    if(tecla=='1')
+        cout << "ola";
+    if(tecla=='2')
+        cout << "ola";
+    if(tecla=='3')
+        cout << "ola";
+    if(tecla=='4')
+        cout << "ola";
+    if(tecla=='5')
+        cout << "ola";
+    if(tecla=='6')
+        cout << "ola";
+    if(tecla=='7')
+        cout << "ola";
+    if(tecla=='8')
+        cout << "ola";
+    if(tecla=='9')
+        cout << "ola";
+}
 
 /** Função callback chamada para gerenciar eventos de teclas **/
 void Teclado (unsigned char tecla, int x, int y)
 {
+    selecaoDeQuadros(tecla);
 	if(tecla==27) // ESC ?
 		exit(0);
 }
-
 
 /** Função callback chamada para gerenciar eventos de teclas especiais (F1,PgDn,...) **/
 void TeclasEspeciais (int tecla, int x, int y)
@@ -312,7 +351,6 @@ void TeclasEspeciais (int tecla, int x, int y)
 	}
 	PosicionaObservador();
 }
-
 
 /** Função callback chamada pela GLUT a cada intervalo de tempo **/
 void Anima(int value)
