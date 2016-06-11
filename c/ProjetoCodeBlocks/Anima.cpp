@@ -1,7 +1,3 @@
-
-// Anima.cpp
-// Programa de testes com Animação 3D.
-
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
@@ -16,13 +12,13 @@
 
 using namespace std;
 
-// Constantes
+/** Constantes **/
 const int CUBO = 0;
 const int CUBO1 = 1;
 const int CUBO2 = 2;
 const int CUBO3 = 3;
 const int ESFERA = 4;
-const int NRO_QDO_INTERMEDIARIOS = 100;
+const int NRO_QDO_INTERMEDIARIOS = 100; /** aqui será 10?! **/
 
 // Variáveis
 GLfloat angle, fAspect, rotX, rotY, obsZ;
@@ -30,10 +26,11 @@ GLfloat ratio;
 GLint quadro;
 GLint QuadroAnterior;
 GLint QuadroSeguinte;
-GLdouble radius=0.5;
+GLdouble radius=2.5;
 
 /** vetor de objetos **/
 ObjetoGrafico* objetos[10];
+Point3D* point3D[10];
 
 
 /** Função responsável pela especificação dos parâmetros de iluminação **/
@@ -47,16 +44,16 @@ void DefineIluminacao (void)
     GLfloat PosicaoLuz1[]  = {-3.0f, -3.0f, 0.0f, 1.0f };
     GLfloat Especularidade[] = {1.0f, 1.0f, 1.0f, 1.0f };
 
-    // Ativa o "Color Tracking"
+    /** Ativa o "Color Tracking" **/
 	glEnable (GL_COLOR_MATERIAL);
 
-    // Habilita o uso de iluminação
+    /**  Habilita o uso de iluminação **/
     glEnable(GL_LIGHTING);
 
-    // Ativa o uso da luz ambiente
+    /** Ativa o uso da luz ambiente **/
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LuzAmbiente);
 
-    // Define os parametros da Luz número Zero
+    /**  Define os parametros da Luz número Zero **/
     glLightfv(GL_LIGHT0, GL_AMBIENT, LuzAmbiente);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, LuzDifusa  );
     glLightfv(GL_LIGHT0, GL_SPECULAR, LuzEspecular  );
@@ -66,27 +63,26 @@ void DefineIluminacao (void)
     // Define a reflectancia do material
     glMaterialfv(GL_FRONT,GL_SPECULAR, Especularidade);
 
-    // Define a concentração do brilho.
+    /**  Define a concentração do brilho.
     // Quanto maior o valor do Segundo parametro, mais
-    // concentrado será o brilho. (Valores válidos: de 0 a 128)
+    // concentrado será o brilho. (Valores válidos: de 0 a 128) **/
     glMateriali(GL_FRONT,GL_SHININESS,51);
 
-    // Define os parametros da Luz número Um
+    /**  Define os parametros da Luz número Um **/
     glLightfv(GL_LIGHT1, GL_AMBIENT, LuzAmbiente);
     glLightfv(GL_LIGHT1, GL_DIFFUSE, LuzDifusa  );
     glLightfv(GL_LIGHT1, GL_SPECULAR, LuzEspecular  );
     glLightfv(GL_LIGHT1, GL_POSITION, PosicaoLuz1 );
     glEnable(GL_LIGHT1);
 
-    // Define a reflectancia do material
+    /**  Define a reflectancia do material **/
     glMaterialfv(GL_FRONT,GL_SPECULAR, Especularidade);
 
-    // Define a concentração do brilho.
+    /** Define a concentração do brilho.
     // Quanto maior o valor do Segundo parametro, mais
-    // concentrado será o brilho. (Valores válidos: de 0 a 128)
+    // concentrado será o brilho. (Valores válidos: de 0 a 128) **/
     glMateriali(GL_FRONT,GL_SHININESS,20);
 }
-
 
 // Função usada para especificar a posição do observador virtual
 void PosicionaObservador(void)
@@ -102,7 +98,6 @@ void PosicionaObservador(void)
 	glRotatef(rotY,0,1,0);
 }
 
-
 // Função usada para especificar o volume de visualização
 void EspecificaParametrosVisualizacao(void)
 {
@@ -116,7 +111,6 @@ void EspecificaParametrosVisualizacao(void)
 
 	PosicionaObservador();
 }
-
 
 // Função que desenha uma casa
 void desenhaCubo()
@@ -150,7 +144,7 @@ void desenhaCubo3()
 void desenhaEsfera()
 {
     glPushMatrix();
-        glutSolidSphere(radius,25,25);
+        glutSolidSphere(radius,90,90);
     glPopMatrix();
 }
 
@@ -174,28 +168,30 @@ void DesenhaObjeto(int obj)
 }
 
 // Função que desenha um objeto no quadro especificado por parâmetro
-void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, int QChave_seguinte,float TX1,float TX2,float RY1,float RY2)
+void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, int QChave_seguinte, float posInicial, float posFinal, float posAltura)
 {
-    //float TX1, TX2, RY1, RY2;
+    float TX1, TX2, RY1, RY2;
     float TX, TY, TZ, RX, RY, RZ;
 
     /** Neste exemplo, como a estrutura de dados não existe, **/
     /** os valores são especificados à mão... **/
-    TX1 = -10;
-    TX2 =  10;
+    TX1 = -10;  /** pos inicial **/
+    TX2 =  10;  /** pos final **/
     RY1 = 0;
-    RY2 = 360;
+    RY2 = 360; /** faz o giro do objeto **/
 
     /** Calcula o valor da translação e rotação no quadro corrente **/
-    TX = (TX2-TX1) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + TX1;
+    TX = (posFinal-posInicial) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + posInicial;
     RY = (RY2-RY1) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + RY1;
     // fazer o mesmo para TY, TZ, RX e RZ
     TY=TZ=RX=RZ=0;
-    cout << TX << " ";
+    TY = 0;    /** altura **/
     /** desenha o objeto **/
+    //cout << TX;
+    //cout << "altura: " << TY;
     glPushMatrix();
-        glTranslatef(TX, TY, TZ);
-        glRotatef(RX, 1,0,0);
+        glTranslatef(TX, posAltura, TZ);
+        glRotatef(RX, 0,0,0);
         glRotatef(RY, 0,1,0);
         glRotatef(RX, 0,0,1);
         DesenhaObjeto(obj);
@@ -213,14 +209,30 @@ void Desenha(void)
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
 
+    for(int i = 0;i < 9; i++){
 
-	DesenhaObjetoNoQuadro (CUBO, quadro, QuadroAnterior, QuadroSeguinte, rand()*10, rand()*10, rand()*10, rand()*360);
-	DesenhaObjetoNoQuadro (CUBO1, quadro, QuadroAnterior, QuadroSeguinte, rand()*10, rand()*10, rand()*10, rand()*360);
-	DesenhaObjetoNoQuadro (CUBO2, quadro, QuadroAnterior, QuadroSeguinte, rand()*10, rand()*10, rand()*10, rand()*360);
-    DesenhaObjetoNoQuadro (ESFERA, /** objeto a ser desenhado **/
-                           quadro, /** nro do quadro intermediário atual **/
-                           QuadroAnterior, /** nro do quadro chave anterior ao quadro intermediário **/
-                           QuadroSeguinte, rand()*10, rand()*10, rand()*10, rand()*360); /** nro do quadro chave seguinte ao quadro intermediário **/
+    objetos[i] = new ObjetoGrafico(CUBO1);
+    Point3D* p = new Point3D(0, 0, 10);
+    objetos[i]->SetTranslacao(*p);
+
+    /** setando posicao **/
+
+    objetos[i]->SetPosAltura(10);
+    objetos[i]->SetPosInicial(-10);
+    objetos[i]->SetPosInicial(10);
+
+    objetos[0]->SetPosAltura(0);
+    objetos[0]->SetPosInicial(-10);
+    objetos[0]->SetPosInicial(10);
+
+    cout << "altura: " << objetos[i]->getPosAltura();
+
+	//DesenhaObjetoNoQuadro(objetos[0]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte, objetos[0]->getPosInicial(), objetos[0]->getPosFinal(), objetos[0]->getPosAltura());
+	DesenhaObjetoNoQuadro(objetos[i]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte, objetos[i]->getPosInicial(), objetos[i]->getPosFinal(), objetos[i]->getPosAltura());
+    DesenhaObjetoNoQuadro(objetos[0]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte, objetos[0]->getPosInicial(), objetos[0]->getPosFinal(), objetos[0]->getPosAltura());
+
+
+    }
     /** se não exibiu todos os quadros intermediários, passa para o próximo **/
 	if (quadro < NRO_QDO_INTERMEDIARIOS)
 	   quadro++;
@@ -231,19 +243,18 @@ void Desenha(void)
  }
 
 
-// Inicializa parâmetros de rendering
+/** Inicializa parâmetros de rendering **/
 void Inicializa (void)
 {
+
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Fundo de tela preto
 
-	// Inicializa as variáveis usadas para alterar a posição do
-	// observador virtual
+	/** Inicializa as variáveis usadas para alterar a posição do observador virtual **/
 	rotX = 30;
 	rotY = 0;
 	obsZ = 50;
 
-	// Inicializa a variável que especifica o ângulo da projeção
-	// perspectiva
+	/** Inicializa a variável que especifica o ângulo da projeção perspectiva **/
 	angle=30;
 
     quadro = 0;
@@ -257,7 +268,7 @@ void Inicializa (void)
 }
 
 
-// Função callback chamada quando o tamanho da janela é alterado
+/** Função callback chamada quando o tamanho da janela é alterado **/
 void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 {
 	// Para previnir uma divisão por zero
@@ -266,14 +277,14 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 	// Especifica as dimensões da viewport
 	glViewport(0, 0, w, h);
 
-	// Calcula a correção de aspecto
+	/** Calcula a correção de aspecto **/
 	fAspect = (GLfloat)w/(GLfloat)h;
 
 	EspecificaParametrosVisualizacao();
 }
 
 
-// Função callback chamada para gerenciar eventos de teclas
+/** Função callback chamada para gerenciar eventos de teclas **/
 void Teclado (unsigned char tecla, int x, int y)
 {
 	if(tecla==27) // ESC ?
@@ -281,7 +292,7 @@ void Teclado (unsigned char tecla, int x, int y)
 }
 
 
-// Função callback chamada para gerenciar eventos de teclas especiais (F1,PgDn,...)
+/** Função callback chamada para gerenciar eventos de teclas especiais (F1,PgDn,...) **/
 void TeclasEspeciais (int tecla, int x, int y)
 {
 	switch (tecla)
@@ -303,10 +314,10 @@ void TeclasEspeciais (int tecla, int x, int y)
 }
 
 
-// Função callback chamada pela GLUT a cada intervalo de tempo
+/** Função callback chamada pela GLUT a cada intervalo de tempo **/
 void Anima(int value)
 {
-	// Faz o redesenho
+	/** Faz o redesenho **/
 	glutPostRedisplay();
 	glutTimerFunc(60,Anima, 1);
 }
