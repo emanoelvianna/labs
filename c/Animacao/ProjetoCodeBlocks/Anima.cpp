@@ -1,3 +1,12 @@
+/**
+TODO:
+
+[] Modos de exibição: por objeto funcionar para mais um objeto
+[] Modos de exibição: por quadro-chave funcionar para mais um objeto
+[] Usuário selecionar o objeto, mostrando algum diferencial no objeto selecionado
+[] Usuário pode aplicar rotação, translação, escala no objeto selecionado
+
+**/
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
@@ -46,26 +55,30 @@ GLint quadroChave;
 GLint QuadroAnterior;
 GLint QuadroSeguinte;
 
+/** utilizado para auxiliar na selecao do objeto **/
+int posicao = 0;
+
 
 /** guarda os objetos graficos estanciados pelo o usuário **/
-ObjetoGrafico* lista[2];
+ObjetoGrafico* lista[10];
 
 void inicializarLista() {
 
     lista[0] = new ObjetoGrafico(CUBE);
-    Point3D* p1 = new Point3D(0, 0, 10);
-    lista[0]->SetTranslacao(*p1);
+    Point3D* p0 = new Point3D(0, 0, 10);
+    lista[0]->SetTranslacao(*p0);
     lista[0]->SetPosAltura(-9);
     lista[0]->SetPosInicial(10);
     lista[0]->SetPosInicial(-10);
-    lista[0]->SetTX1(-10);
-    lista[0]->SetTX2(10);
+    lista[0]->SetTX1(-15);
+    lista[0]->SetTX2(20);
     lista[0]->SetRY1(0);
     lista[0]->SetRY2(360);
+    lista[0]->SetTY(10);
 
     lista[1] = new ObjetoGrafico(SPHERE);
-    Point3D* p2 = new Point3D(0, 0, 10);
-    lista[1]->SetTranslacao(*p2);
+    Point3D* p1 = new Point3D(0, 0, 10);
+    lista[1]->SetTranslacao(*p1);
     lista[1]->SetPosAltura(9);
     lista[1]->SetPosInicial(10);
     lista[1]->SetPosInicial(-10);
@@ -73,18 +86,85 @@ void inicializarLista() {
     lista[1]->SetTX2(10);
     lista[1]->SetRY1(0);
     lista[1]->SetRY2(360);
+    lista[1]->SetTY(-10);
 
 
-    lista[1] = new ObjetoGrafico(CONE);
+    lista[2] = new ObjetoGrafico(CONE);
+    Point3D* p2 = new Point3D(0, 0, 10);
+    lista[2]->SetTranslacao(*p2);
+    lista[2]->SetPosAltura(14);
+    lista[2]->SetPosInicial(10);
+    lista[2]->SetPosInicial(-10);
+    lista[2]->SetTX1(15);
+    lista[2]->SetTX2(-10);
+    lista[2]->SetRY1(0);
+    lista[2]->SetRY2(360);
+
+    lista[3] = new ObjetoGrafico(DODECAHEDRON);
     Point3D* p3 = new Point3D(0, 0, 10);
-    lista[1]->SetTranslacao(*p3);
-    lista[1]->SetPosAltura(14);
-    lista[1]->SetPosInicial(10);
-    lista[1]->SetPosInicial(-10);
-    lista[1]->SetTX1(15);
-    lista[1]->SetTX2(-10);
-    lista[1]->SetRY1(0);
-    lista[1]->SetRY2(360);
+    lista[3]->SetTranslacao(*p3);
+    lista[3]->SetPosAltura(14);
+    lista[3]->SetPosInicial(10);
+    lista[3]->SetPosInicial(-10);
+    lista[3]->SetTX1(15);
+    lista[3]->SetTX2(-10);
+    lista[3]->SetRY1(0);
+    lista[3]->SetRY2(360);
+
+    lista[4] = new ObjetoGrafico(ICOSAEDRO);
+    Point3D* p4 = new Point3D(0, 0, 10);
+    lista[4]->SetTranslacao(*p4);
+    lista[4]->SetPosAltura(14);
+    lista[4]->SetPosInicial(10);
+    lista[4]->SetPosInicial(-10);
+    lista[4]->SetTX1(15);
+    lista[4]->SetTX2(-10);
+    lista[4]->SetRY1(0);
+    lista[4]->SetRY2(360);
+
+    lista[5] = new ObjetoGrafico(TEAPOT);
+    Point3D* p5 = new Point3D(0, 0, 10);
+    lista[5]->SetTranslacao(*p5);
+    lista[5]->SetPosAltura(14);
+    lista[5]->SetPosInicial(10);
+    lista[5]->SetPosInicial(-10);
+    lista[5]->SetTX1(15);
+    lista[5]->SetTX2(-10);
+    lista[5]->SetRY1(0);
+    lista[5]->SetRY2(360);
+
+    lista[6] = new ObjetoGrafico(TETRAHEDRON);
+    Point3D* p6 = new Point3D(0, 0, 10);
+    lista[6]->SetTranslacao(*p6);
+    lista[6]->SetPosAltura(14);
+    lista[6]->SetPosInicial(10);
+    lista[6]->SetPosInicial(-10);
+    lista[6]->SetTX1(15);
+    lista[6]->SetTX2(-10);
+    lista[6]->SetRY1(0);
+    lista[6]->SetRY2(360);
+
+    lista[7] = new ObjetoGrafico(OCTAHEDRON);
+    Point3D* p7 = new Point3D(0, 0, 10);
+    lista[7]->SetTranslacao(*p7);
+    lista[7]->SetPosAltura(14);
+    lista[7]->SetPosInicial(10);
+    lista[7]->SetPosInicial(-10);
+    lista[7]->SetTX1(15);
+    lista[7]->SetTX2(-10);
+    lista[7]->SetRY1(0);
+    lista[7]->SetRY2(360);
+
+    lista[8] = new ObjetoGrafico(CONE);
+    Point3D* p8 = new Point3D(0, 0, 10);
+    lista[8]->SetTranslacao(*p8);
+    lista[8]->SetPosAltura(14);
+    lista[8]->SetPosInicial(10);
+    lista[8]->SetPosInicial(-10);
+    lista[8]->SetTX1(15);
+    lista[8]->SetTX2(-10);
+    lista[8]->SetRY1(0);
+    lista[8]->SetRY2(360);
 }
 
 /** Função responsável pela especificação dos parâmetros de iluminação **/
@@ -197,25 +277,17 @@ void DesenhaObjeto(int obj)
 /** Função que desenha um objeto no quadro especificado por parâmetro **/
 void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, int QChave_seguinte)
 {
-    for(int i = 0 ; i < 2; i++){
+    for(int i = 0 ; i < 7; i++){
         //float TX1, TX2, RY1, RY2;
         float TX, TY, TZ, RX, RY, RZ;
-
-        /** Neste exemplo, como a estrutura de dados não existe, **/
-        /** os valores são especificados à mão... **/
-        /**
-        TX1 = -10;
-        TX2 =  10;
-        RY1 = 0;
-        RY2 = 360;
-        **/
 
         /** Calcula o valor da translação e rotação no quadro corrente **/
         TX = (lista[i]->getTX2()-lista[i]->getTX1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[i]->getTX1();
         RY = (lista[i]->getRY2()-lista[i]->getRY1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[i]->getRY1();
+        TY = lista[i]->getTY();
 
         /** fazer o mesmo para TY, TZ, RX e RZ **/
-        TY=TZ=RX=RZ=0;
+        TZ=RX=RZ=0;
 
         // desenha o objeto
         glPushMatrix();
@@ -238,7 +310,7 @@ void Desenha(void)
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
 
-	for(int i = 0; i < 2; i++) {
+	for(int i = 0; i < 7; i++) {
 
 	DesenhaObjetoNoQuadro (lista[i]->getTipoDoObjeto(), // objeto a ser desenhado
                            quadro, // nro do quadro intermediário atual
@@ -256,7 +328,8 @@ void Desenha(void)
 	glutSwapBuffers();
  }
 
- void SelecionaQuadroChave()
+/** mostra todos os quadros chaves do objeto **/
+ void TodosNoQuadroChave()
 {
 	static double angY = 0;
 
@@ -270,7 +343,8 @@ void Desenha(void)
 	glutSwapBuffers();
  }
 
-void TodosQuadroChave() {
+/** mostra todos os quadros chaves do objeto **/
+void SelecionaQuadroChave() {
     static double angY = 0;
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -279,13 +353,11 @@ void TodosQuadroChave() {
 	EspecificaParametrosVisualizacao();
 
 	DesenhaObjetoNoQuadro (CUBE, 0, QuadroAnterior, QuadroSeguinte);
-    DesenhaObjetoNoQuadro (CUBE, 50, QuadroAnterior, QuadroSeguinte);
-    DesenhaObjetoNoQuadro (CUBE, 100, QuadroAnterior, QuadroSeguinte);
 
 	glutSwapBuffers();
 }
 
-// Inicializa parâmetros de rendering
+/** Inicializa parâmetros de rendering **/
 void Inicializa (void)
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Fundo de tela preto
@@ -336,7 +408,25 @@ void Teclado (unsigned char tecla, int x, int y)
     if(tecla=='1') /** cria o primeiro quadro chave **/
         quadroChave = 50;
 		SelecionaQuadroChave();
-    if(tecla=='2') /** cria o primeiro quadro chave **/
+    if(tecla=='3') /** cria o primeiro quadro chave **/
+        quadroChave = 100;
+		SelecionaQuadroChave();
+    if(tecla=='4') /** cria o primeiro quadro chave **/
+        quadroChave = 100;
+		SelecionaQuadroChave();
+    if(tecla=='5') /** cria o primeiro quadro chave **/
+        quadroChave = 100;
+		SelecionaQuadroChave();
+    if(tecla=='6') /** cria o primeiro quadro chave **/
+        quadroChave = 100;
+		SelecionaQuadroChave();
+    if(tecla=='7') /** cria o primeiro quadro chave **/
+        quadroChave = 100;
+		SelecionaQuadroChave();
+    if(tecla=='8') /** cria o primeiro quadro chave **/
+        quadroChave = 100;
+		SelecionaQuadroChave();
+    if(tecla=='9') /** cria o primeiro quadro chave **/
         quadroChave = 100;
 		SelecionaQuadroChave();
     /**
@@ -350,6 +440,10 @@ void Anima(int value)
 	// Faz o redesenho
 	glutPostRedisplay();
 	glutTimerFunc(60,Anima, 1);
+}
+
+void selecionaObjeto() {
+
 }
 
 /** Função callback chamada para gerenciar eventos de teclas especiais (F1,PgDn,...) **/
@@ -366,13 +460,23 @@ void TeclasEspeciais (int tecla, int x, int y)
 		case GLUT_KEY_DOWN:	rotX--;
 							break;
         /** Modos de Exibição: Por quadro-chave **/
-		case GLUT_KEY_HOME:	glutDisplayFunc(TodosQuadroChave);;
+		case GLUT_KEY_HOME:	glutDisplayFunc(TodosNoQuadroChave);;
 							break;
         /** Modos de Exibição: Por objeto **/
 		case GLUT_KEY_END:	glutDisplayFunc(SelecionaQuadroChave);
 							break;
         /** Modo de animação **/
 		case GLUT_KEY_F1:   glutDisplayFunc(Desenha);
+                            break;
+        case GLUT_KEY_F11:
+                            if(posicao > 0)
+                                posicao= posicao - 1;
+                            selecionaObjeto();
+                            break;
+        case GLUT_KEY_F12:
+                            if(posicao < 9)
+                                posicao= posicao + 1;
+                            selecionaObjeto();
                             break;
 	}
 	PosicionaObservador();
@@ -404,7 +508,7 @@ int main(void)
 	// Define do modo de operação da GLUT
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	// Especifica o tamanho inicial em pixels da janela GLUT
-	glutInitWindowSize(450,350);
+	glutInitWindowSize(800,500);
 	// Cria a janela passando como argumento o título da mesma
 	glutCreateWindow("Animacao por Quadros Chave");
 	// Registra callback de redesenho da janela de visualização
