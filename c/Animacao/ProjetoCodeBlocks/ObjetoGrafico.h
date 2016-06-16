@@ -8,7 +8,7 @@ class ObjetoGrafico
         Point3D tranlacao, rotacao, escala;
         int tipoDoObjeto;
         float posInicial, posFinal, posAltura;
-        float TX1, TX2, RY1, RY2;
+        float TX1, TX2, RY1, RY2, TY;
     public:
         ObjetoGrafico(int tipo) {tipoDoObjeto = tipo;};
         void Print();
@@ -23,6 +23,7 @@ class ObjetoGrafico
         void SetTX2(float t){TX2 = t;};
         void SetRY1(float t){RY1 = t;};
         void SetRY2(float t){RY2 = t;};
+        void SetTY(float t){TY = t;};
 
         int getTipoDoObjeto(){ return tipoDoObjeto;};
         float getPosInicial(){ return posInicial;};
@@ -32,6 +33,7 @@ class ObjetoGrafico
         float getTX2(){ return TX2;};
         float getRY1(){ return RY1;};
         float getRY2(){ return RY2;};
+        float getTY(){ return TY;};
 };
 
 #endif // OBJETOGRAFICO_H_INCLUDED
