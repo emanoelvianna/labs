@@ -78,7 +78,6 @@ void DefineIluminacao (void)
     glMateriali(GL_FRONT,GL_SHININESS,20);
 }
 
-
 // Função usada para especificar a posição do observador virtual
 void PosicionaObservador(void)
 {
@@ -92,7 +91,6 @@ void PosicionaObservador(void)
 	glRotatef(rotX,1,0,0);
 	glRotatef(rotY,0,1,0);
 }
-
 
 // Função usada para especificar o volume de visualização
 void EspecificaParametrosVisualizacao(void)
@@ -161,6 +159,8 @@ void Desenha(void)
                            quadro, // nro do quadro intermediário atual
                            QuadroAnterior, // nro do quadro chave anterior ao quadro intermediário
                            QuadroSeguinte); // nro do quadro chave seguinte ao quadro intermediário
+
+
     // se não exibiu todos os quadros intermediários, passa para o próximo
 	if (quadro < NRO_QDO_INTERMEDIARIOS)
 	   quadro++;
@@ -184,6 +184,20 @@ void Desenha(void)
 	glutSwapBuffers();
  }
 
+void TodosQuadroChave() {
+    static double angY = 0;
+
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+	DefineIluminacao();
+	EspecificaParametrosVisualizacao();
+
+	DesenhaObjetoNoQuadro (CUBO, 0, QuadroAnterior, QuadroSeguinte);
+    DesenhaObjetoNoQuadro (CUBO, 50, QuadroAnterior, QuadroSeguinte);
+    DesenhaObjetoNoQuadro (CUBO, 100, QuadroAnterior, QuadroSeguinte);
+
+	glutSwapBuffers();
+}
 
 // Inicializa parâmetros de rendering
 void Inicializa (void)
@@ -239,10 +253,20 @@ void Teclado (unsigned char tecla, int x, int y)
     if(tecla=='2') /** cria o primeiro quadro chave **/
         quadroChave = 100;
 		SelecionaQuadroChave();
-
+    /**
+        TODO: ainda é preciso fazer para os outros quadros: 0'...'9'.
+    **/
 }
 
-// Função callback chamada para gerenciar eventos de teclas especiais (F1,PgDn,...)
+/** Função callback chamada pela GLUT a cada intervalo de tempo **/
+void Anima(int value)
+{
+	// Faz o redesenho
+	glutPostRedisplay();
+	glutTimerFunc(60,Anima, 1);
+}
+
+/** Função callback chamada para gerenciar eventos de teclas especiais (F1,PgDn,...) **/
 void TeclasEspeciais (int tecla, int x, int y)
 {
 	switch (tecla)
@@ -255,21 +279,17 @@ void TeclasEspeciais (int tecla, int x, int y)
 							break;
 		case GLUT_KEY_DOWN:	rotX--;
 							break;
-		case GLUT_KEY_HOME:	obsZ++;
+        /** Modos de Exibição: Por quadro-chave **/
+		case GLUT_KEY_HOME:	glutDisplayFunc(TodosQuadroChave);;
 							break;
+        /** Modos de Exibição: Por objeto **/
 		case GLUT_KEY_END:	glutDisplayFunc(SelecionaQuadroChave);
 							break;
+        /** Modo de animação **/
+		case GLUT_KEY_F1:   glutDisplayFunc(Desenha);
+                            break;
 	}
 	PosicionaObservador();
-}
-
-
-/** Função callback chamada pela GLUT a cada intervalo de tempo **/
-void Anima(int value)
-{
-	// Faz o redesenho
-	glutPostRedisplay();
-	glutTimerFunc(60,Anima, 1);
 }
 
 // Função callback chamada para gerenciar eventos do mouse
