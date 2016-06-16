@@ -14,7 +14,7 @@ using namespace std;
 
 /** Constantes **/
 
-/** definiÁ„o das constantes que identificam o objeto **/
+/** defini√ß√£o das constantes que identificam o objeto **/
 const int CUBE = 0;
 const int SPHERE = 1;
 const int CONE = 2;
@@ -25,7 +25,7 @@ const int TETRAHEDRON = 6;
 const int TORUS = 7;
 const int OCTAHEDRON = 8;
 
-/** definiÁ„o dos valores utilizados para as instancias dos objetos **/
+/** defini√ß√£o dos valores utilizados para as instancias dos objetos **/
 GLdouble base = 5;
 GLdouble height = 5;
 GLint slices = 5;
@@ -38,7 +38,7 @@ GLdouble rings = 5;
 
 const int NRO_QDO_INTERMEDIARIOS = 100;
 
-/** Vari·veis **/
+/** Vari√°veis **/
 GLfloat angle, fAspect, rotX, rotY, obsZ;
 GLfloat ratio;
 GLint quadro;
@@ -47,7 +47,7 @@ GLint QuadroAnterior;
 GLint QuadroSeguinte;
 
 
-/** guarda os objetos graficos estanciados pelo o usu·rio **/
+/** guarda os objetos graficos estanciados pelo o usu√°rio **/
 ObjetoGrafico* lista[2];
 
 void inicializarLista() {
@@ -63,19 +63,31 @@ void inicializarLista() {
     lista[0]->SetRY1(0);
     lista[0]->SetRY2(360);
 
-    lista[1] = new ObjetoGrafico(CUBE);
+    lista[1] = new ObjetoGrafico(SPHERE);
     Point3D* p2 = new Point3D(0, 0, 10);
     lista[1]->SetTranslacao(*p2);
-    lista[1]->SetPosAltura(-9);
+    lista[1]->SetPosAltura(9);
     lista[1]->SetPosInicial(10);
     lista[1]->SetPosInicial(-10);
-    lista[1]->SetTX1(-10);
+    lista[1]->SetTX1(5);
     lista[1]->SetTX2(10);
+    lista[1]->SetRY1(0);
+    lista[1]->SetRY2(360);
+
+
+    lista[1] = new ObjetoGrafico(CONE);
+    Point3D* p3 = new Point3D(0, 0, 10);
+    lista[1]->SetTranslacao(*p3);
+    lista[1]->SetPosAltura(14);
+    lista[1]->SetPosInicial(10);
+    lista[1]->SetPosInicial(-10);
+    lista[1]->SetTX1(15);
+    lista[1]->SetTX2(-10);
     lista[1]->SetRY1(0);
     lista[1]->SetRY2(360);
 }
 
-/** FunÁ„o respons·vel pela especificaÁ„o dos par‚metros de iluminaÁ„o **/
+/** Fun√ß√£o respons√°vel pela especifica√ß√£o dos par√¢metros de ilumina√ß√£o **/
 void DefineIluminacao (void)
 {
     /** Define cores para um objeto dourado **/
@@ -89,13 +101,13 @@ void DefineIluminacao (void)
     // Ativa o "Color Tracking"
 	glEnable (GL_COLOR_MATERIAL);
 
-    // Habilita o uso de iluminaÁ„o
+    // Habilita o uso de ilumina√ß√£o
     glEnable(GL_LIGHTING);
 
     // Ativa o uso da luz ambiente
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LuzAmbiente);
 
-    // Define os parametros da Luz n˙mero Zero
+    // Define os parametros da Luz n√∫mero Zero
     glLightfv(GL_LIGHT0, GL_AMBIENT, LuzAmbiente);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, LuzDifusa  );
     glLightfv(GL_LIGHT0, GL_SPECULAR, LuzEspecular  );
@@ -105,12 +117,12 @@ void DefineIluminacao (void)
     // Define a reflectancia do material
     glMaterialfv(GL_FRONT,GL_SPECULAR, Especularidade);
 
-    // Define a concentraÁ„o do brilho.
+    // Define a concentra√ß√£o do brilho.
     // Quanto maior o valor do Segundo parametro, mais
-    // concentrado ser· o brilho. (Valores v·lidos: de 0 a 128)
+    // concentrado ser√° o brilho. (Valores v√°lidos: de 0 a 128)
     glMateriali(GL_FRONT,GL_SHININESS,51);
 
-    // Define os parametros da Luz n˙mero Um
+    // Define os parametros da Luz n√∫mero Um
     glLightfv(GL_LIGHT1, GL_AMBIENT, LuzAmbiente);
     glLightfv(GL_LIGHT1, GL_DIFFUSE, LuzDifusa  );
     glLightfv(GL_LIGHT1, GL_SPECULAR, LuzEspecular  );
@@ -120,13 +132,13 @@ void DefineIluminacao (void)
     // Define a reflectancia do material
     glMaterialfv(GL_FRONT,GL_SPECULAR, Especularidade);
 
-    // Define a concentraÁ„o do brilho.
+    // Define a concentra√ß√£o do brilho.
     // Quanto maior o valor do Segundo parametro, mais
-    // concentrado ser· o brilho. (Valores v·lidos: de 0 a 128)
+    // concentrado ser√° o brilho. (Valores v√°lidos: de 0 a 128)
     glMateriali(GL_FRONT,GL_SHININESS,20);
 }
 
-// FunÁ„o usada para especificar a posiÁ„o do observador virtual
+// Fun√ß√£o usada para especificar a posi√ß√£o do observador virtual
 void PosicionaObservador(void)
 {
 	// Especifica sistema de coordenadas do modelo
@@ -134,27 +146,27 @@ void PosicionaObservador(void)
 	// Inicializa sistema de coordenadas do modelo
 	glLoadIdentity();
 
-	// Especifica posiÁ„o do observador e do alvo
+	// Especifica posi√ß√£o do observador e do alvo
 	glTranslatef(0,0,-obsZ);
 	glRotatef(rotX,1,0,0);
 	glRotatef(rotY,0,1,0);
 }
 
-// FunÁ„o usada para especificar o volume de visualizaÁ„o
+// Fun√ß√£o usada para especificar o volume de visualiza√ß√£o
 void EspecificaParametrosVisualizacao(void)
 {
-	// Especifica sistema de coordenadas de projeÁ„o
+	// Especifica sistema de coordenadas de proje√ß√£o
 	glMatrixMode(GL_PROJECTION);
-	// Inicializa sistema de coordenadas de projeÁ„o
+	// Inicializa sistema de coordenadas de proje√ß√£o
 	glLoadIdentity();
 
-	// Especifica a projeÁ„o perspectiva(angulo,aspecto,zMin,zMax)
+	// Especifica a proje√ß√£o perspectiva(angulo,aspecto,zMin,zMax)
 	gluPerspective(angle,fAspect,0.5,500);
 
 	PosicionaObservador();
 }
 
-/** FunÁ„o que desenha um objeto **/
+/** Fun√ß√£o que desenha um objeto **/
 void DesenhaObjeto(int obj)
 {
     switch (obj)
@@ -182,23 +194,26 @@ void DesenhaObjeto(int obj)
     }
 }
 
-/** FunÁ„o que desenha um objeto no quadro especificado por par‚metro **/
+/** Fun√ß√£o que desenha um objeto no quadro especificado por par√¢metro **/
 void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, int QChave_seguinte)
 {
+    for(int i = 0 ; i < 2; i++){
         //float TX1, TX2, RY1, RY2;
         float TX, TY, TZ, RX, RY, RZ;
 
-        /** Neste exemplo, como a estrutura de dados n„o existe, **/
-        /** os valores s„o especificados ‡ m„o... **/
+        /** Neste exemplo, como a estrutura de dados n√£o existe, **/
+        /** os valores s√£o especificados √† m√£o... **/
         /**
         TX1 = -10;
         TX2 =  10;
         RY1 = 0;
         RY2 = 360;
         **/
-        /** Calcula o valor da translaÁ„o e rotaÁ„o no quadro corrente **/
-        TX = (lista[0]->getTX2()-lista[0]->getTX1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[0]->getTX1();
-        RY = (lista[0]->getRY2()-lista[0]->getRY1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[0]->getRY1();
+
+        /** Calcula o valor da transla√ß√£o e rota√ß√£o no quadro corrente **/
+        TX = (lista[i]->getTX2()-lista[i]->getTX1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[i]->getTX1();
+        RY = (lista[i]->getRY2()-lista[i]->getRY1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[i]->getRY1();
+
         /** fazer o mesmo para TY, TZ, RX e RZ **/
         TY=TZ=RX=RZ=0;
 
@@ -210,9 +225,10 @@ void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, in
             glRotatef(RX, 0,0,1);
             DesenhaObjeto(obj);
         glPopMatrix();
+    }
 }
 
-// FunÁ„o callback chamada para fazer o desenho
+// Fun√ß√£o callback chamada para fazer o desenho
 void Desenha(void)
 {
 	static double angY = 0;
@@ -222,21 +238,19 @@ void Desenha(void)
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
 
-	DesenhaObjetoNoQuadro (ICOSAEDRO, // objeto a ser desenhado
-                           quadro, // nro do quadro intermedi·rio atual
-                           QuadroAnterior, // nro do quadro chave anterior ao quadro intermedi·rio
-                           QuadroSeguinte); // nro do quadro chave seguinte ao quadro intermedi·rio
+	for(int i = 0; i < 2; i++) {
 
-    DesenhaObjetoNoQuadro (ICOSAEDRO, // objeto a ser desenhado
-                       quadro, // nro do quadro intermedi·rio atual
-                       QuadroAnterior, // nro do quadro chave anterior ao quadro intermedi·rio
-                       QuadroSeguinte); // nro do quadro chave seguinte ao quadro intermedi·rio
+	DesenhaObjetoNoQuadro (lista[i]->getTipoDoObjeto(), // objeto a ser desenhado
+                           quadro, // nro do quadro intermedi√°rio atual
+                           QuadroAnterior, // nro do quadro chave anterior ao quadro intermedi√°rio
+                           QuadroSeguinte); // nro do quadro chave seguinte ao quadro intermedi√°rio
 
+	}
 
-    // se n„o exibiu todos os quadros intermedi·rios, passa para o prÛximo
+    // se n√£o exibiu todos os quadros intermedi√°rios, passa para o pr√≥ximo
 	if (quadro < NRO_QDO_INTERMEDIARIOS)
 	   quadro++;
- 	else quadro=0; /** aqui o correto ser· avanÁar os nros dos Quadro-Chave **/
+ 	else quadro=0; /** aqui o correto ser√° avan√ßar os nros dos Quadro-Chave **/
 
 	/** Executa os comandos OpenGL **/
 	glutSwapBuffers();
@@ -271,18 +285,18 @@ void TodosQuadroChave() {
 	glutSwapBuffers();
 }
 
-// Inicializa par‚metros de rendering
+// Inicializa par√¢metros de rendering
 void Inicializa (void)
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Fundo de tela preto
 
-	/** Inicializa as vari·veis usadas para alterar a posiÁ„o do **/
+	/** Inicializa as vari√°veis usadas para alterar a posi√ß√£o do **/
 	/** observador virtual **/
 	rotX = 30;
 	rotY = 0;
 	obsZ = 50;
 
-	/** Inicializa a vari·vel que especifica o ‚ngulo da projeÁ„o **/
+	/** Inicializa a vari√°vel que especifica o √¢ngulo da proje√ß√£o **/
 	/** perspectiva **/
 	angle=30;
 
@@ -296,22 +310,22 @@ void Inicializa (void)
 	glEnable (GL_CULL_FACE);
 }
 
-// FunÁ„o callback chamada quando o tamanho da janela È alterado
+// Fun√ß√£o callback chamada quando o tamanho da janela √© alterado
 void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 {
-	// Para previnir uma divis„o por zero
+	// Para previnir uma divis√£o por zero
 	if ( h == 0 ) h = 1;
 
-	// Especifica as dimensıes da viewport
+	// Especifica as dimens√µes da viewport
 	glViewport(0, 0, w, h);
 
-	// Calcula a correÁ„o de aspecto
+	// Calcula a corre√ß√£o de aspecto
 	fAspect = (GLfloat)w/(GLfloat)h;
 
 	EspecificaParametrosVisualizacao();
 }
 
-/** FunÁ„o callback chamada para gerenciar eventos de teclas **/
+/** Fun√ß√£o callback chamada para gerenciar eventos de teclas **/
 void Teclado (unsigned char tecla, int x, int y)
 {
 	if(tecla==27) /** ESC ? **/
@@ -326,11 +340,11 @@ void Teclado (unsigned char tecla, int x, int y)
         quadroChave = 100;
 		SelecionaQuadroChave();
     /**
-        TODO: ainda È preciso fazer para os outros quadros: 0'...'9'.
+        TODO: ainda √© preciso fazer para os outros quadros: 0'...'9'.
     **/
 }
 
-/** FunÁ„o callback chamada pela GLUT a cada intervalo de tempo **/
+/** Fun√ß√£o callback chamada pela GLUT a cada intervalo de tempo **/
 void Anima(int value)
 {
 	// Faz o redesenho
@@ -338,7 +352,7 @@ void Anima(int value)
 	glutTimerFunc(60,Anima, 1);
 }
 
-/** FunÁ„o callback chamada para gerenciar eventos de teclas especiais (F1,PgDn,...) **/
+/** Fun√ß√£o callback chamada para gerenciar eventos de teclas especiais (F1,PgDn,...) **/
 void TeclasEspeciais (int tecla, int x, int y)
 {
 	switch (tecla)
@@ -351,20 +365,20 @@ void TeclasEspeciais (int tecla, int x, int y)
 							break;
 		case GLUT_KEY_DOWN:	rotX--;
 							break;
-        /** Modos de ExibiÁ„o: Por quadro-chave **/
+        /** Modos de Exibi√ß√£o: Por quadro-chave **/
 		case GLUT_KEY_HOME:	glutDisplayFunc(TodosQuadroChave);;
 							break;
-        /** Modos de ExibiÁ„o: Por objeto **/
+        /** Modos de Exibi√ß√£o: Por objeto **/
 		case GLUT_KEY_END:	glutDisplayFunc(SelecionaQuadroChave);
 							break;
-        /** Modo de animaÁ„o **/
+        /** Modo de anima√ß√£o **/
 		case GLUT_KEY_F1:   glutDisplayFunc(Desenha);
                             break;
 	}
 	PosicionaObservador();
 }
 
-// FunÁ„o callback chamada para gerenciar eventos do mouse
+// Fun√ß√£o callback chamada para gerenciar eventos do mouse
 void GerenciaMouse(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON)
@@ -381,32 +395,33 @@ void GerenciaMouse(int button, int state, int x, int y)
 // Programa Principal
 int main(void)
 {
+    inicializarLista();
     int argc = 0;
 	char *argv[] = { (char *)"gl", 0 };
 
 	glutInit(&argc,argv);
 
-	// Define do modo de operaÁ„o da GLUT
+	// Define do modo de opera√ß√£o da GLUT
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	// Especifica o tamanho inicial em pixels da janela GLUT
 	glutInitWindowSize(450,350);
-	// Cria a janela passando como argumento o tÌtulo da mesma
+	// Cria a janela passando como argumento o t√≠tulo da mesma
 	glutCreateWindow("Animacao por Quadros Chave");
-	// Registra callback de redesenho da janela de visualizaÁ„o
+	// Registra callback de redesenho da janela de visualiza√ß√£o
 	glutDisplayFunc(Desenha);
-	/** Registra a funÁ„o callback para tratamento das teclas ASCII **/
+	/** Registra a fun√ß√£o callback para tratamento das teclas ASCII **/
 	glutKeyboardFunc (Teclado);
-    /** Registra a funÁ„o callback para tratamento das teclas especiais **/
+    /** Registra a fun√ß√£o callback para tratamento das teclas especiais **/
 	glutSpecialFunc (TeclasEspeciais);
-	// Registra a funÁ„o callback que gerencia os eventos do mouse
+	// Registra a fun√ß√£o callback que gerencia os eventos do mouse
 	glutMouseFunc(GerenciaMouse);
-	// Registra a funÁ„o callback que ser· chamada a cada intervalo de tempo
+	// Registra a fun√ß√£o callback que ser√° chamada a cada intervalo de tempo
 	glutTimerFunc(60, Anima, 1);
-	// Registra a funÁ„o callback de redimensionamento da janela de visualizaÁ„o
+	// Registra a fun√ß√£o callback de redimensionamento da janela de visualiza√ß√£o
     glutReshapeFunc(AlteraTamanhoJanela);
-	// Chama a funÁ„o respons·vel por fazer as inicializaÁıes
+	// Chama a fun√ß√£o respons√°vel por fazer as inicializa√ß√µes
 	Inicializa();
-	// Inicia o processamento e aguarda interaÁıes do usu·rio
+	// Inicia o processamento e aguarda intera√ß√µes do usu√°rio
 	glutMainLoop();
 
 	return 0;
