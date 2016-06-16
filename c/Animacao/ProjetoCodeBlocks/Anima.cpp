@@ -15,16 +15,15 @@ using namespace std;
 /** Constantes **/
 
 /** definição das constantes que identificam o objeto **/
-const int CUBO = 0;
+const int CUBE = 0;
 const int SPHERE = 1;
 const int CONE = 2;
-const int CUBE = 3;
-const int DODECAHEDRON = 4;
-const int ICOSAEDRO = 5;
-const int TEAPOT = 6;
-const int TETRAHEDRON = 7;
-const int TORUS = 8;
-const int OCTAHEDRON = 9;
+const int DODECAHEDRON = 3;
+const int ICOSAEDRO = 4;
+const int TEAPOT = 5;
+const int TETRAHEDRON = 6;
+const int TORUS = 7;
+const int OCTAHEDRON = 8;
 
 /** definição dos valores utilizados para as instancias dos objetos **/
 GLdouble base = 5;
@@ -49,7 +48,32 @@ GLint QuadroSeguinte;
 
 
 /** guarda os objetos graficos estanciados pelo o usuário **/
-ObjetoGrafico* lista[10];
+ObjetoGrafico* lista[2];
+
+void inicializarLista() {
+
+    lista[0] = new ObjetoGrafico(CUBE);
+    Point3D* p1 = new Point3D(0, 0, 10);
+    lista[0]->SetTranslacao(*p1);
+    lista[0]->SetPosAltura(-9);
+    lista[0]->SetPosInicial(10);
+    lista[0]->SetPosInicial(-10);
+    lista[0]->SetTX1(-10);
+    lista[0]->SetTX2(10);
+    lista[0]->SetRY1(0);
+    lista[0]->SetRY2(360);
+
+    lista[1] = new ObjetoGrafico(CUBE);
+    Point3D* p2 = new Point3D(0, 0, 10);
+    lista[1]->SetTranslacao(*p2);
+    lista[1]->SetPosAltura(-9);
+    lista[1]->SetPosInicial(10);
+    lista[1]->SetPosInicial(-10);
+    lista[1]->SetTX1(-10);
+    lista[1]->SetTX2(10);
+    lista[1]->SetRY1(0);
+    lista[1]->SetRY2(360);
+}
 
 /** Função responsável pela especificação dos parâmetros de iluminação **/
 void DefineIluminacao (void)
@@ -135,15 +159,13 @@ void DesenhaObjeto(int obj)
 {
     switch (obj)
     {
-        case CUBO: glutSolidCube(2);
+        case CUBE: glutSolidCube(2);
                 break;
         /** glutSolidSphere(radius, slices, stacks) **/
         case SPHERE: glutSolidSphere(5, 5, 5);
                 break;
         /** glutSolidCone(base ,height ,slices, stacks) **/
         case CONE: glutSolidCone(base ,height ,slices, stacks);
-                break;
-        case CUBE: glutSolidCube(size);
                 break;
         case DODECAHEDRON: glutSolidDodecahedron();
                 break;
@@ -163,30 +185,31 @@ void DesenhaObjeto(int obj)
 /** Função que desenha um objeto no quadro especificado por parâmetro **/
 void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, int QChave_seguinte)
 {
-    float TX1, TX2, RY1, RY2;
-    float TX, TY, TZ, RX, RY, RZ;
+        //float TX1, TX2, RY1, RY2;
+        float TX, TY, TZ, RX, RY, RZ;
 
-    /** Neste exemplo, como a estrutura de dados não existe, **/
-    /** os valores são especificados à mão... **/
-    TX1 = -10;
-    TX2 =  10;
-    RY1 = 0;
-    RY2 = 360;
+        /** Neste exemplo, como a estrutura de dados não existe, **/
+        /** os valores são especificados à mão... **/
+        /**
+        TX1 = -10;
+        TX2 =  10;
+        RY1 = 0;
+        RY2 = 360;
+        **/
+        /** Calcula o valor da translação e rotação no quadro corrente **/
+        TX = (lista[0]->getTX2()-lista[0]->getTX1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[0]->getTX1();
+        RY = (lista[0]->getRY2()-lista[0]->getRY1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[0]->getRY1();
+        /** fazer o mesmo para TY, TZ, RX e RZ **/
+        TY=TZ=RX=RZ=0;
 
-    /** Calcula o valor da translação e rotação no quadro corrente **/
-    TX = (TX2-TX1) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + TX1;
-    RY = (RY2-RY1) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + RY1;
-    /** fazer o mesmo para TY, TZ, RX e RZ **/
-    TY=TZ=RX=RZ=0;
-
-    // desenha o objeto
-    glPushMatrix();
-        glTranslatef(TX, TY, TZ);
-        glRotatef(RX, 1,0,0);
-        glRotatef(RY, 0,1,0);
-        glRotatef(RX, 0,0,1);
-        DesenhaObjeto(obj);
-    glPopMatrix();
+        // desenha o objeto
+        glPushMatrix();
+            glTranslatef(TX, TY, TZ);
+            glRotatef(RX, 1,0,0);
+            glRotatef(RY, 0,1,0);
+            glRotatef(RX, 0,0,1);
+            DesenhaObjeto(obj);
+        glPopMatrix();
 }
 
 // Função callback chamada para fazer o desenho
@@ -199,12 +222,12 @@ void Desenha(void)
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
 
-	DesenhaObjetoNoQuadro (TEAPOT, // objeto a ser desenhado
+	DesenhaObjetoNoQuadro (ICOSAEDRO, // objeto a ser desenhado
                            quadro, // nro do quadro intermediário atual
                            QuadroAnterior, // nro do quadro chave anterior ao quadro intermediário
                            QuadroSeguinte); // nro do quadro chave seguinte ao quadro intermediário
 
-    DesenhaObjetoNoQuadro (CUBO, // objeto a ser desenhado
+    DesenhaObjetoNoQuadro (ICOSAEDRO, // objeto a ser desenhado
                        quadro, // nro do quadro intermediário atual
                        QuadroAnterior, // nro do quadro chave anterior ao quadro intermediário
                        QuadroSeguinte); // nro do quadro chave seguinte ao quadro intermediário
@@ -228,7 +251,7 @@ void Desenha(void)
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
 
-	DesenhaObjetoNoQuadro (CUBO, quadroChave, QuadroAnterior, QuadroSeguinte);
+	DesenhaObjetoNoQuadro (CUBE, quadroChave, QuadroAnterior, QuadroSeguinte);
 
 	glutSwapBuffers();
  }
@@ -241,9 +264,9 @@ void TodosQuadroChave() {
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
 
-	DesenhaObjetoNoQuadro (CUBO, 0, QuadroAnterior, QuadroSeguinte);
-    DesenhaObjetoNoQuadro (CUBO, 50, QuadroAnterior, QuadroSeguinte);
-    DesenhaObjetoNoQuadro (CUBO, 100, QuadroAnterior, QuadroSeguinte);
+	DesenhaObjetoNoQuadro (CUBE, 0, QuadroAnterior, QuadroSeguinte);
+    DesenhaObjetoNoQuadro (CUBE, 50, QuadroAnterior, QuadroSeguinte);
+    DesenhaObjetoNoQuadro (CUBE, 100, QuadroAnterior, QuadroSeguinte);
 
 	glutSwapBuffers();
 }
