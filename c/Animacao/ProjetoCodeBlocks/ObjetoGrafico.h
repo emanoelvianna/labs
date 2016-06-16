@@ -5,7 +5,6 @@
 class ObjetoGrafico
 {
     private:
-
         Point3D tranlacao, rotacao, escala;
         int tipoDoObjeto;
         float posInicial, posFinal, posAltura;

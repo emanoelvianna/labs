@@ -60,7 +60,7 @@ void DefineIluminacao (void)
     glLightfv(GL_LIGHT0, GL_POSITION, PosicaoLuz0 );
     glEnable(GL_LIGHT0);
 
-    // Define a reflectancia do material
+    /** Define a reflectancia do material **/
     glMaterialfv(GL_FRONT,GL_SPECULAR, Especularidade);
 
     /**  Define a concentração do brilho.
@@ -84,57 +84,36 @@ void DefineIluminacao (void)
     glMateriali(GL_FRONT,GL_SHININESS,20);
 }
 
-// Função usada para especificar a posição do observador virtual
+/** Função usada para especificar a posição do observador virtual **/
 void PosicionaObservador(void)
 {
-	// Especifica sistema de coordenadas do modelo
+	/** Especifica sistema de coordenadas do modelo **/
 	glMatrixMode(GL_MODELVIEW);
-	// Inicializa sistema de coordenadas do modelo
+	/** Inicializa sistema de coordenadas do modelo **/
 	glLoadIdentity();
 
-	// Especifica posição do observador e do alvo
+	/** Especifica posição do observador e do alvo **/
 	glTranslatef(0,0,-obsZ);
 	glRotatef(rotX,1,0,0);
 	glRotatef(rotY,0,1,0);
 }
 
-// Função usada para especificar o volume de visualização
+/** Função usada para especificar o volume de visualização **/
 void EspecificaParametrosVisualizacao(void)
 {
-	// Especifica sistema de coordenadas de projeção
+	/** Especifica sistema de coordenadas de projeção **/
 	glMatrixMode(GL_PROJECTION);
-	// Inicializa sistema de coordenadas de projeção
+	/** Inicializa sistema de coordenadas de projeção **/
 	glLoadIdentity();
 
-	// Especifica a projeção perspectiva(angulo,aspecto,zMin,zMax)
+	/** Especifica a projeção perspectiva(angulo,aspecto,zMin,zMax) **/
 	gluPerspective(angle,fAspect,0.5,500);
 
 	PosicionaObservador();
 }
 
-// Função que desenha uma casa
+/** Função que desenha uma casa **/
 void desenhaCubo()
-{
-    glPushMatrix();
-        glutSolidCube(4);
-    glPopMatrix();
-}
-
-void desenhaCubo1()
-{
-    glPushMatrix();
-        glutSolidCube(4);
-    glPopMatrix();
-}
-
-void desenhaCubo2()
-{
-    glPushMatrix();
-        glutSolidCube(4);
-    glPopMatrix();
-}
-
-void desenhaCubo3()
 {
     glPushMatrix();
         glutSolidCube(4);
@@ -149,25 +128,19 @@ void desenhaEsfera()
 }
 
 
-// Função que desenha um objeto
+/** Função que desenha um objeto **/
 void DesenhaObjeto(int obj)
 {
     switch (obj)
     {
         case CUBO: desenhaCubo();
                    break;
-        case CUBO1: desenhaCubo1();
-                   break;
-        case CUBO2: desenhaCubo2();
-                   break;
-        case CUBO3: desenhaCubo3();
-                   break;
         case ESFERA: desenhaEsfera();
                    break;
     }
 }
 
-// Função que desenha um objeto no quadro especificado por parâmetro
+/** Função que desenha um objeto no quadro especificado por parâmetro **/
 void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, int QChave_seguinte, float posInicial, float posFinal, float posAltura)
 {
     float TX1, TX2, RY1, RY2;
@@ -183,6 +156,7 @@ void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, in
     /** Calcula o valor da translação e rotação no quadro corrente **/
     TX = (posFinal-posInicial) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + posInicial;
     RY = (RY2-RY1) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + RY1;
+
     // fazer o mesmo para TY, TZ, RX e RZ
     TY=TZ=RX=RZ=0;
     TY = 0;    /** altura **/
@@ -201,26 +175,31 @@ void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, in
 /** inicializa posições dos objetos **/
 void InicializaPosicoes() {
 
-        objetos[0] = new ObjetoGrafico(CUBO1);
+        objetos[0] = new ObjetoGrafico(CUBO);
         Point3D* p1 = new Point3D(0, 0, 10);
         objetos[0]->SetTranslacao(*p1);
-        objetos[0]->SetPosAltura(-9);
+        objetos[0]->SetPosAltura(-5);
         objetos[0]->SetPosInicial(10);
         objetos[0]->SetPosInicial(-10);
 
-        objetos[1] = new ObjetoGrafico(CUBO2);
+        objetos[1] = new ObjetoGrafico(CUBO);
         Point3D* p2 = new Point3D(0, 0, 10);
         objetos[1]->SetTranslacao(*p2);
         objetos[1]->SetPosAltura(0);
         objetos[1]->SetPosInicial(10);
         objetos[1]->SetPosInicial(-10);
 
+        objetos[2] = new ObjetoGrafico(CUBO);
+        Point3D* p3 = new Point3D(0, 0, 10);
+        objetos[2]->SetTranslacao(*p3);
+        objetos[2]->SetPosAltura(5);
+        objetos[2]->SetPosInicial(10);
+        objetos[2]->SetPosInicial(-10);
+
 }
 
-
-
-// Função callback chamada para fazer o desenho
-void Desenha(void)
+/** Função callback chamada para fazer o desenho **/
+void Desenha()
 {
 	static double angY = 0;
 
@@ -228,24 +207,8 @@ void Desenha(void)
 
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
-/**
-    for(int i = 0;i < 9; i++){
 
-    objetos[i] = new ObjetoGrafico(CUBO1);
-    Point3D* p = new Point3D(0, 0, 10);
-    objetos[i]->SetTranslacao(*p);
-
-    //setando posicao
-
-    objetos[i]->SetPosAltura(rand()*5);
-    objetos[i]->SetPosInicial(10);
-    objetos[i]->SetPosInicial(-10);
-
-    }
-**/
-	//DesenhaObjetoNoQuadro(objetos[0]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte, objetos[0]->getPosInicial(), objetos[0]->getPosFinal(), objetos[0]->getPosAltura());
-	InicializaPosicoes();
-    for(int i = 0; i < 2; i++ ){
+    for(int i = 0; i < 3; i++ ){
         DesenhaObjetoNoQuadro(objetos[i]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte, objetos[i]->getPosInicial(), objetos[i]->getPosFinal(), objetos[i]->getPosAltura());
     }
 
@@ -258,10 +221,10 @@ void Desenha(void)
 	glutSwapBuffers();
  }
 
-
 /** Inicializa parâmetros de rendering **/
 void Inicializa (void)
 {
+    InicializaPosicoes();
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Fundo de tela preto
 
 	/** Inicializa as variáveis usadas para alterar a posição do observador virtual **/
@@ -273,7 +236,7 @@ void Inicializa (void)
 	angle=30;
 
     quadro = 0;
-    QuadroAnterior = 1;
+    QuadroAnterior = -1;
     QuadroSeguinte = 2;
 
 	glShadeModel(GL_SMOOTH);
@@ -282,14 +245,13 @@ void Inicializa (void)
 	glEnable (GL_CULL_FACE);
 }
 
-
 /** Função callback chamada quando o tamanho da janela é alterado **/
 void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 {
-	// Para previnir uma divisão por zero
+	/** Para previnir uma divisão por zero **/
 	if ( h == 0 ) h = 1;
 
-	// Especifica as dimensões da viewport
+	/** Especifica as dimensões da viewport **/
 	glViewport(0, 0, w, h);
 
 	/** Calcula a correção de aspecto **/
@@ -301,34 +263,35 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 /** seleciona do quadro-chave  **/
 void selecaoDeQuadros(unsigned char tecla)
 {
-    if(tecla=='0')
-        DesenhaObjetoNoQuadro(objetos[0]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte, objetos[0]->getPosInicial(), objetos[0]->getPosFinal(), objetos[0]->getPosAltura());
-    if(tecla=='1')
-        cout << "ola";
-    if(tecla=='2')
-        cout << "ola";
-    if(tecla=='3')
-        cout << "ola";
-    if(tecla=='4')
-        cout << "ola";
-    if(tecla=='5')
-        cout << "ola";
-    if(tecla=='6')
-        cout << "ola";
-    if(tecla=='7')
-        cout << "ola";
-    if(tecla=='8')
-        cout << "ola";
-    if(tecla=='9')
-        cout << "ola";
+
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+	DefineIluminacao();
+	EspecificaParametrosVisualizacao();
+
+    switch (tecla)
+    {
+        case '0':
+                cout << "quadro 0";
+    }
+    if (quadro < NRO_QDO_INTERMEDIARIOS)
+	   quadro++;
+ 	else quadro=0; // aqui o correto será avançar os nros dos Quadro-Chave
+
+    glutSwapBuffers();
 }
 
 /** Função callback chamada para gerenciar eventos de teclas **/
 void Teclado (unsigned char tecla, int x, int y)
 {
     selecaoDeQuadros(tecla);
-	if(tecla==27) // ESC ?
+	if(tecla==27) /** ESC **/
 		exit(0);
+}
+
+void exibicaoPorObjeto(void) {
+    cout << "ola";
+
 }
 
 /** Função callback chamada para gerenciar eventos de teclas especiais (F1,PgDn,...) **/
@@ -344,7 +307,7 @@ void TeclasEspeciais (int tecla, int x, int y)
 							break;
 		case GLUT_KEY_DOWN:	rotX--;
 							break;
-		case GLUT_KEY_HOME:	obsZ++;
+		case GLUT_KEY_HOME:	exibicaoPorObjeto();
 							break;
 		case GLUT_KEY_END:	obsZ--;
 							break;
@@ -360,8 +323,7 @@ void Anima(int value)
 	glutTimerFunc(60,Anima, 1);
 }
 
-
-// Função callback chamada para gerenciar eventos do mouse
+/** Função callback chamada para gerenciar eventos do mouse **/
 void GerenciaMouse(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON)
@@ -375,8 +337,7 @@ void GerenciaMouse(int button, int state, int x, int y)
 	EspecificaParametrosVisualizacao();
 }
 
-
-// Programa Principal
+/** Programa Principal **/
 int main(void)
 {
     int argc = 0;
@@ -384,29 +345,29 @@ int main(void)
 
 	glutInit(&argc,argv);
 
-	// Define do modo de operação da GLUT
+	/** Define do modo de operação da GLUT **/
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-	// Especifica o tamanho inicial em pixels da janela GLUT
+	/** Especifica o tamanho inicial em pixels da janela GLUT **/
 	glutInitWindowSize(450,350);
-	// Cria a janela passando como argumento o título da mesma
+	/** Cria a janela passando como argumento o título da mesma **/
 	glutCreateWindow("Animacao por Quadros Chave");
-	// Registra callback de redesenho da janela de visualização
+	/** Registra callback de redesenho da janela de visualização **/
 	glutDisplayFunc(Desenha);
-	// Registra a função callback para tratamento das teclas ASCII
+	/** Registra a função callback para tratamento das teclas ASCII **/
 	glutKeyboardFunc (Teclado);
-    // Registra a função callback para tratamento das teclas especiais
+    /** Registra a função callback para tratamento das teclas especiais **/
 	glutSpecialFunc (TeclasEspeciais);
-	// Registra a função callback que gerencia os eventos do mouse
+	/** Registra a função callback que gerencia os eventos do mouse **/
 	glutMouseFunc(GerenciaMouse);
-	// Registra a função callback que será chamada a cada intervalo de tempo
+	/** Registra a função callback que será chamada a cada intervalo de tempo **/
 	glutTimerFunc(60, Anima, 1);
-	// Registra a função callback de redimensionamento da janela de visualização
+	/** Registra a função callback de redimensionamento da janela de visualização **/
     glutReshapeFunc(AlteraTamanhoJanela);
-	// Chama a função responsável por fazer as inicializações
+	/** Chama a função responsável por fazer as inicializações **/
 	Inicializa();
 
 
-	// Inicia o processamento e aguarda interações do usuário
+	/** Inicia o processamento e aguarda interações do usuário **/
 	glutMainLoop();
 
 	return 0;

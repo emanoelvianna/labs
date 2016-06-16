@@ -333,7 +333,7 @@
 
 1464284692 d:\html\homepagepucrs\cg\trabs\t2_2016_1\projetocodeblocks\objetografico.h
 
-1465097834 source:c:\users\matheus\desktop\trabalho 2 cg\projetocodeblocks\anima.cpp
+1466053365 source:c:\users\emanoel\documents\desenvolvimento\labs\c\animacao\projetocodeblocks\anima.cpp
 	<GLUT/glut.h>
 	<GL/glut.h>
 	<iostream>
@@ -342,80 +342,22 @@
 	"Point3D.h"
 	"ObjetoGrafico.h"
 
-1307913234 c:\users\matheus\desktop\trabalho 2 cg\projetocodeblocks\include\gl\glut.h
+1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\animacao\projetocodeblocks\include\gl\glut.h
 	"freeglut.h"
 
-1307913234 c:\users\matheus\desktop\trabalho 2 cg\projetocodeblocks\include\gl\freeglut.h
+1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\animacao\projetocodeblocks\include\gl\freeglut.h
 	"freeglut_std.h"
 	"freeglut_ext.h"
 
-1307913234 c:\users\matheus\desktop\trabalho 2 cg\projetocodeblocks\include\gl\freeglut_std.h
+1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\animacao\projetocodeblocks\include\gl\freeglut_std.h
 	<windows.h>
 	<GL/gl.h>
 	<GL/glu.h>
 
-1307913234 c:\users\matheus\desktop\trabalho 2 cg\projetocodeblocks\include\gl\freeglut_ext.h
+1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\animacao\projetocodeblocks\include\gl\freeglut_ext.h
 
-1464284622 c:\users\matheus\desktop\trabalho 2 cg\projetocodeblocks\point3d.h
+1464284622 c:\users\emanoel\documents\desenvolvimento\labs\c\animacao\projetocodeblocks\point3d.h
 	<iostream>
 
-1465097630 c:\users\matheus\desktop\trabalho 2 cg\projetocodeblocks\objetografico.h
-
-1465511406 source:c:\users\14180122\desktop\projetocodeblocks\anima.cpp
-	<GLUT/glut.h>
-	<GL/glut.h>
-	<iostream>
-	<cstdlib>
-	<iomanip>
-	"Point3D.h"
-	"ObjetoGrafico.h"
-	"time.h"
-
-1307913234 c:\users\14180122\desktop\projetocodeblocks\include\gl\glut.h
-	"freeglut.h"
-
-1307913234 c:\users\14180122\desktop\projetocodeblocks\include\gl\freeglut.h
-	"freeglut_std.h"
-	"freeglut_ext.h"
-
-1307913234 c:\users\14180122\desktop\projetocodeblocks\include\gl\freeglut_std.h
-	<windows.h>
-	<GL/gl.h>
-	<GL/glu.h>
-
-1307913234 c:\users\14180122\desktop\projetocodeblocks\include\gl\freeglut_ext.h
-
-1464284622 c:\users\14180122\desktop\projetocodeblocks\point3d.h
-	<iostream>
-
-1465511431 c:\users\14180122\desktop\projetocodeblocks\objetografico.h
-
-1465511456 source:c:\users\emanoel\documents\desenvolvimento\labs\c\animacaoquadroschave\anima.cpp
-	<GLUT/glut.h>
-	<GL/glut.h>
-	<iostream>
-	<cstdlib>
-	<iomanip>
-	"Point3D.h"
-	"ObjetoGrafico.h"
-	"time.h"
-
-1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\animacaoquadroschave\include\gl\glut.h
-	"freeglut.h"
-
-1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\animacaoquadroschave\include\gl\freeglut.h
-	"freeglut_std.h"
-	"freeglut_ext.h"
-
-1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\animacaoquadroschave\include\gl\freeglut_std.h
-	<windows.h>
-	<GL/gl.h>
-	<GL/glu.h>
-
-1307913234 c:\users\emanoel\documents\desenvolvimento\labs\c\animacaoquadroschave\include\gl\freeglut_ext.h
-
-1464284622 c:\users\emanoel\documents\desenvolvimento\labs\c\animacaoquadroschave\point3d.h
-	<iostream>
-
-1465511431 c:\users\emanoel\documents\desenvolvimento\labs\c\animacaoquadroschave\objetografico.h
+1466053457 c:\users\emanoel\documents\desenvolvimento\labs\c\animacao\projetocodeblocks\objetografico.h
 
