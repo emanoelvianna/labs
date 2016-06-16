@@ -13,7 +13,30 @@
 using namespace std;
 
 /** Constantes **/
+
+/** definição das constantes que identificam o objeto **/
 const int CUBO = 0;
+const int SPHERE = 1;
+const int CONE = 2;
+const int CUBE = 3;
+const int DODECAHEDRON = 4;
+const int ICOSAEDRO = 5;
+const int TEAPOT = 6;
+const int TETRAHEDRON = 7;
+const int TORUS = 8;
+const int OCTAHEDRON = 9;
+
+/** definição dos valores utilizados para as instancias dos objetos **/
+GLdouble base = 5;
+GLdouble height = 5;
+GLint slices = 5;
+GLint stacks = 5;
+GLdouble size = 5;
+GLdouble innerRadius = 5;
+GLdouble outerRadius = 5;
+GLdouble nsides = 5;
+GLdouble rings = 5;
+
 const int NRO_QDO_INTERMEDIARIOS = 100;
 
 /** Variáveis **/
@@ -23,6 +46,7 @@ GLint quadro;
 GLint quadroChave;
 GLint QuadroAnterior;
 GLint QuadroSeguinte;
+
 
 /** guarda os objetos graficos estanciados pelo o usuário **/
 ObjetoGrafico* lista[10];
@@ -112,7 +136,27 @@ void DesenhaObjeto(int obj)
     switch (obj)
     {
         case CUBO: glutSolidCube(2);
-                   break;
+                break;
+        /** glutSolidSphere(radius, slices, stacks) **/
+        case SPHERE: glutSolidSphere(5, 5, 5);
+                break;
+        /** glutSolidCone(base ,height ,slices, stacks) **/
+        case CONE: glutSolidCone(base ,height ,slices, stacks);
+                break;
+        case CUBE: glutSolidCube(size);
+                break;
+        case DODECAHEDRON: glutSolidDodecahedron();
+                break;
+        case ICOSAEDRO: glutSolidIcosahedron();
+                break;
+        case TEAPOT: glutSolidTeapot(size);
+                break;
+        case TETRAHEDRON: glutSolidTetrahedron();
+                break;
+        case TORUS: glutSolidTorus(innerRadius, outerRadius, nsides, rings);
+                break;
+        case OCTAHEDRON: glutSolidOctahedron();
+                break;
     }
 }
 
@@ -155,10 +199,15 @@ void Desenha(void)
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
 
-	DesenhaObjetoNoQuadro (CUBO, // objeto a ser desenhado
+	DesenhaObjetoNoQuadro (TEAPOT, // objeto a ser desenhado
                            quadro, // nro do quadro intermediário atual
                            QuadroAnterior, // nro do quadro chave anterior ao quadro intermediário
                            QuadroSeguinte); // nro do quadro chave seguinte ao quadro intermediário
+
+    DesenhaObjetoNoQuadro (CUBO, // objeto a ser desenhado
+                       quadro, // nro do quadro intermediário atual
+                       QuadroAnterior, // nro do quadro chave anterior ao quadro intermediário
+                       QuadroSeguinte); // nro do quadro chave seguinte ao quadro intermediário
 
 
     // se não exibiu todos os quadros intermediários, passa para o próximo
