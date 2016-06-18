@@ -1,9 +1,9 @@
 /**
 TODO:
 
+[] Usuário selecionar o objeto, mostrando algum diferencial no objeto selecionado
 [] Modos de exibição: por objeto funcionar para mais um objeto
 [] Modos de exibição: por quadro-chave funcionar para mais um objeto
-[] Usuário selecionar o objeto, mostrando algum diferencial no objeto selecionado
 [] Usuário pode aplicar rotação, translação, escala no objeto selecionado
 
 **/
@@ -68,37 +68,34 @@ void inicializarLista() {
     Point3D* p0 = new Point3D(0, 0, 10);
     lista[0]->SetTranslacao(*p0);
     lista[0]->SetPosAltura(-9);
-    lista[0]->SetPosInicial(10);
     lista[0]->SetPosInicial(-10);
     lista[0]->SetTX1(-15);
     lista[0]->SetTX2(20);
     lista[0]->SetRY1(0);
     lista[0]->SetRY2(360);
-    lista[0]->SetTY(10);
+    lista[0]->SetTY(-40);
 
     lista[1] = new ObjetoGrafico(SPHERE);
     Point3D* p1 = new Point3D(0, 0, 10);
     lista[1]->SetTranslacao(*p1);
     lista[1]->SetPosAltura(9);
-    lista[1]->SetPosInicial(10);
-    lista[1]->SetPosInicial(-10);
+    lista[1]->SetPosInicial(-20);
     lista[1]->SetTX1(5);
     lista[1]->SetTX2(10);
     lista[1]->SetRY1(0);
     lista[1]->SetRY2(360);
-    lista[1]->SetTY(-10);
-
+    lista[1]->SetTY(-80);
 
     lista[2] = new ObjetoGrafico(CONE);
     Point3D* p2 = new Point3D(0, 0, 10);
     lista[2]->SetTranslacao(*p2);
     lista[2]->SetPosAltura(14);
-    lista[2]->SetPosInicial(10);
-    lista[2]->SetPosInicial(-10);
+    lista[2]->SetPosInicial(-30);
     lista[2]->SetTX1(15);
     lista[2]->SetTX2(-10);
     lista[2]->SetRY1(0);
     lista[2]->SetRY2(360);
+    lista[2]->SetTY(30);
 
     lista[3] = new ObjetoGrafico(DODECAHEDRON);
     Point3D* p3 = new Point3D(0, 0, 10);
@@ -110,6 +107,7 @@ void inicializarLista() {
     lista[3]->SetTX2(-10);
     lista[3]->SetRY1(0);
     lista[3]->SetRY2(360);
+    lista[3]->SetTY(-10);
 
     lista[4] = new ObjetoGrafico(ICOSAEDRO);
     Point3D* p4 = new Point3D(0, 0, 10);
@@ -121,6 +119,7 @@ void inicializarLista() {
     lista[4]->SetTX2(-10);
     lista[4]->SetRY1(0);
     lista[4]->SetRY2(360);
+    lista[4]->SetTY(-20);
 
     lista[5] = new ObjetoGrafico(TEAPOT);
     Point3D* p5 = new Point3D(0, 0, 10);
@@ -132,6 +131,7 @@ void inicializarLista() {
     lista[5]->SetTX2(-10);
     lista[5]->SetRY1(0);
     lista[5]->SetRY2(360);
+    lista[5]->SetTY(-40);
 
     lista[6] = new ObjetoGrafico(TETRAHEDRON);
     Point3D* p6 = new Point3D(0, 0, 10);
@@ -140,9 +140,10 @@ void inicializarLista() {
     lista[6]->SetPosInicial(10);
     lista[6]->SetPosInicial(-10);
     lista[6]->SetTX1(15);
-    lista[6]->SetTX2(-10);
+    lista[6]->SetTX2(10);
     lista[6]->SetRY1(0);
     lista[6]->SetRY2(360);
+    lista[6]->SetTY(-40);
 
     lista[7] = new ObjetoGrafico(OCTAHEDRON);
     Point3D* p7 = new Point3D(0, 0, 10);
@@ -150,10 +151,11 @@ void inicializarLista() {
     lista[7]->SetPosAltura(14);
     lista[7]->SetPosInicial(10);
     lista[7]->SetPosInicial(-10);
-    lista[7]->SetTX1(15);
-    lista[7]->SetTX2(-10);
+    lista[7]->SetTX1(-15);
+    lista[7]->SetTX2(10);
     lista[7]->SetRY1(0);
     lista[7]->SetRY2(360);
+    lista[7]->SetTY(5);
 
     lista[8] = new ObjetoGrafico(CONE);
     Point3D* p8 = new Point3D(0, 0, 10);
@@ -161,10 +163,11 @@ void inicializarLista() {
     lista[8]->SetPosAltura(14);
     lista[8]->SetPosInicial(10);
     lista[8]->SetPosInicial(-10);
-    lista[8]->SetTX1(15);
-    lista[8]->SetTX2(-10);
+    lista[8]->SetTX1(-15);
+    lista[8]->SetTX2(-30);
     lista[8]->SetRY1(0);
     lista[8]->SetRY2(360);
+    lista[8]->SetTY(30);
 }
 
 /** Função responsável pela especificação dos parâmetros de iluminação **/
@@ -178,7 +181,7 @@ void DefineIluminacao (void)
     GLfloat PosicaoLuz1[]  = {-3.0f, -3.0f, 0.0f, 1.0f };
     GLfloat Especularidade[] = {1.0f, 1.0f, 1.0f, 1.0f };
 
-    // Ativa o "Color Tracking"
+    /** Ativa o "Color Tracking" **/
 	glEnable (GL_COLOR_MATERIAL);
 
     // Habilita o uso de iluminação
@@ -218,15 +221,15 @@ void DefineIluminacao (void)
     glMateriali(GL_FRONT,GL_SHININESS,20);
 }
 
-// Função usada para especificar a posição do observador virtual
+/** Função usada para especificar a posição do observador virtual **/
 void PosicionaObservador(void)
 {
-	// Especifica sistema de coordenadas do modelo
+	/** Especifica sistema de coordenadas do modelo **/
 	glMatrixMode(GL_MODELVIEW);
-	// Inicializa sistema de coordenadas do modelo
+	/** Inicializa sistema de coordenadas do modelo **/
 	glLoadIdentity();
 
-	// Especifica posição do observador e do alvo
+	/** Especifica posição do observador e do alvo **/
 	glTranslatef(0,0,-obsZ);
 	glRotatef(rotX,1,0,0);
 	glRotatef(rotY,0,1,0);
@@ -277,7 +280,7 @@ void DesenhaObjeto(int obj)
 /** Função que desenha um objeto no quadro especificado por parâmetro **/
 void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, int QChave_seguinte)
 {
-    for(int i = 0 ; i < 7; i++){
+    for(int i = 0 ; i < 9; i++){
         //float TX1, TX2, RY1, RY2;
         float TX, TY, TZ, RX, RY, RZ;
 
@@ -310,8 +313,8 @@ void Desenha(void)
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
 
-	for(int i = 0; i < 7; i++) {
-
+	for(int i = 0; i < 9; i++) {
+    cout << lista[i]->getTipoDoObjeto();
 	DesenhaObjetoNoQuadro (lista[i]->getTipoDoObjeto(), // objeto a ser desenhado
                            quadro, // nro do quadro intermediário atual
                            QuadroAnterior, // nro do quadro chave anterior ao quadro intermediário
@@ -366,7 +369,7 @@ void Inicializa (void)
 	/** observador virtual **/
 	rotX = 30;
 	rotY = 0;
-	obsZ = 50;
+	obsZ = 250;
 
 	/** Inicializa a variável que especifica o ângulo da projeção **/
 	/** perspectiva **/
