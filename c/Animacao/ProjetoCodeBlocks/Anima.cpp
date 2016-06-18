@@ -171,7 +171,7 @@ void inicializarLista() {
     lista[8]->SetTX2(40);
     lista[8]->SetRY1(0);
     lista[8]->SetRY2(360);
-    lista[8]->SetTY(30);
+    lista[8]->SetTY(39);
 
     lista[9] = new ObjetoGrafico(CYLINDER);
     Point3D* p9 = new Point3D(0, 0, 10);
