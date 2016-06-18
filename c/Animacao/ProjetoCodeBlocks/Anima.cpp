@@ -304,7 +304,7 @@ void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, in
 }
 
 // Função callback chamada para fazer o desenho
-void Desenha(void)
+void Desenha()
 {
 	static double angY = 0;
 
@@ -313,14 +313,8 @@ void Desenha(void)
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
 
-	for(int i = 0; i < 9; i++) {
-    cout << lista[i]->getTipoDoObjeto();
-	DesenhaObjetoNoQuadro (lista[i]->getTipoDoObjeto(), // objeto a ser desenhado
-                           quadro, // nro do quadro intermediário atual
-                           QuadroAnterior, // nro do quadro chave anterior ao quadro intermediário
-                           QuadroSeguinte); // nro do quadro chave seguinte ao quadro intermediário
-
-	}
+	DesenhaObjetoNoQuadro (lista[0]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte);
+	DesenhaObjetoNoQuadro (lista[1]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte);
 
     // se não exibiu todos os quadros intermediários, passa para o próximo
 	if (quadro < NRO_QDO_INTERMEDIARIOS)
@@ -331,8 +325,8 @@ void Desenha(void)
 	glutSwapBuffers();
  }
 
-/** mostra todos os quadros chaves do objeto **/
- void TodosNoQuadroChave()
+/** um objeto, em todos os seus quadros-chave **/
+ void QuadrosChavesDeTodosOsObjetos()
 {
 	static double angY = 0;
 
@@ -345,9 +339,8 @@ void Desenha(void)
 
 	glutSwapBuffers();
  }
-
-/** mostra todos os quadros chaves do objeto **/
-void SelecionaQuadroChave() {
+/** mostra todos os quadros chaves dos objetos **/
+void QuadrosChavesDoObjeto() {
     static double angY = 0;
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -407,31 +400,33 @@ void Teclado (unsigned char tecla, int x, int y)
 		exit(0);
     if(tecla=='0') /** cria o primeiro quadro chave **/
         quadroChave = 0;
-		SelecionaQuadroChave();
+		QuadrosChavesDeTodosOsObjetos();
     if(tecla=='1') /** cria o primeiro quadro chave **/
-        quadroChave = 50;
-		SelecionaQuadroChave();
+        quadroChave = 10;
+		QuadrosChavesDeTodosOsObjetos();
+    if(tecla=='2') /** cria o primeiro quadro chave **/
+        quadroChave = 20;
+		QuadrosChavesDeTodosOsObjetos();
     if(tecla=='3') /** cria o primeiro quadro chave **/
-        quadroChave = 100;
-		SelecionaQuadroChave();
+        quadroChave = 30;
+		QuadrosChavesDeTodosOsObjetos();
     if(tecla=='4') /** cria o primeiro quadro chave **/
-        quadroChave = 100;
-		SelecionaQuadroChave();
+        quadroChave = 40;
+		QuadrosChavesDeTodosOsObjetos();
     if(tecla=='5') /** cria o primeiro quadro chave **/
-        quadroChave = 100;
-		SelecionaQuadroChave();
+        quadroChave = 50;
+		QuadrosChavesDeTodosOsObjetos();
     if(tecla=='6') /** cria o primeiro quadro chave **/
-        quadroChave = 100;
-		SelecionaQuadroChave();
+        quadroChave = 60;
+		QuadrosChavesDeTodosOsObjetos();
     if(tecla=='7') /** cria o primeiro quadro chave **/
-        quadroChave = 100;
-		SelecionaQuadroChave();
+        quadroChave = 70;
+		QuadrosChavesDeTodosOsObjetos();
     if(tecla=='8') /** cria o primeiro quadro chave **/
-        quadroChave = 100;
-		SelecionaQuadroChave();
+        quadroChave = 90;
     if(tecla=='9') /** cria o primeiro quadro chave **/
         quadroChave = 100;
-		SelecionaQuadroChave();
+		QuadrosChavesDeTodosOsObjetos();
     /**
         TODO: ainda é preciso fazer para os outros quadros: 0'...'9'.
     **/
@@ -449,6 +444,10 @@ void selecionaObjeto() {
 
 }
 
+void edicao(int i) {
+
+}
+
 /** Função callback chamada para gerenciar eventos de teclas especiais (F1,PgDn,...) **/
 void TeclasEspeciais (int tecla, int x, int y)
 {
@@ -463,13 +462,16 @@ void TeclasEspeciais (int tecla, int x, int y)
 		case GLUT_KEY_DOWN:	rotX--;
 							break;
         /** Modos de Exibição: Por quadro-chave **/
-		case GLUT_KEY_HOME:	glutDisplayFunc(TodosNoQuadroChave);;
+		case GLUT_KEY_HOME:	glutDisplayFunc(QuadrosChavesDoObjeto);
 							break;
         /** Modos de Exibição: Por objeto **/
-		case GLUT_KEY_END:	glutDisplayFunc(SelecionaQuadroChave);
+		case GLUT_KEY_END:	glutDisplayFunc(QuadrosChavesDeTodosOsObjetos);
 							break;
         /** Modo de animação **/
 		case GLUT_KEY_F1:   glutDisplayFunc(Desenha);
+                            break;
+        /** Modo de edicao **/
+		case GLUT_KEY_F2:   edicao(1);
                             break;
         case GLUT_KEY_F11:
                             if(posicao > 0)
