@@ -9,8 +9,16 @@ class ObjetoGrafico
         int tipoDoObjeto;
         float posInicial, posFinal, posAltura;
         float TX1, TX2, RY1, RY2, TY;
+        GLfloat red, green, blue, alpha;
     public:
-        ObjetoGrafico(int tipo) {tipoDoObjeto = tipo;};
+        ObjetoGrafico(int tipo) {
+            tipoDoObjeto = tipo;
+            /** cor padrão **/
+            red = 1;
+            green = 1;
+            blue = 1;
+            alpha = 0;
+        };
         void Print();
 
         void SetTranslacao(Point3D p){tranlacao = p;};
@@ -24,6 +32,7 @@ class ObjetoGrafico
         void SetRY1(float t){RY1 = t;};
         void SetRY2(float t){RY2 = t;};
         void SetTY(float t){TY = t;};
+        void SetColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a){ red = r; green = g; blue = b; alpha = a;};
 
         int getTipoDoObjeto(){ return tipoDoObjeto;};
         float getPosInicial(){ return posInicial;};
@@ -34,6 +43,10 @@ class ObjetoGrafico
         float getRY1(){ return RY1;};
         float getRY2(){ return RY2;};
         float getTY(){ return TY;};
+        GLfloat getRed(){return red;};
+        GLfloat getGreen(){return green;};
+        GLfloat getBlue(){return blue;};
+        GLfloat getAlpha(){return alpha;};
 };
 
 #endif // OBJETOGRAFICO_H_INCLUDED

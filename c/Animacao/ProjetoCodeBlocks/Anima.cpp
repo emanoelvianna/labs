@@ -2,8 +2,8 @@
 TODO:
 
 [] Usuário selecionar o objeto, mostrando algum diferencial no objeto selecionado
-[] Modos de exibição: por objeto funcionar para mais um objeto
-[] Modos de exibição: por quadro-chave funcionar para mais um objeto
+[] Modos de exibição: por objeto
+[x] Modos de exibição: por quadro-chave
 [] Usuário pode aplicar rotação, translação, escala no objeto selecionado
 
 **/
@@ -48,7 +48,7 @@ GLdouble rings = 5;
 GLdouble top = 5;
 GLUquadric* quad;
 
-const int NRO_QDO_INTERMEDIARIOS = 100;
+const int NRO_QDO_INTERMEDIARIOS = 180;
 
 /** Variáveis **/
 GLfloat angle, fAspect, rotX, rotY, obsZ;
@@ -73,8 +73,8 @@ void inicializarLista() {
     lista[0]->SetTranslacao(*p0);
     lista[0]->SetPosAltura(-9);
     lista[0]->SetPosInicial(-10);
-    lista[0]->SetTX1(-15);
-    lista[0]->SetTX2(20);
+    lista[0]->SetTX1(-50);
+    lista[0]->SetTX2(40);
     lista[0]->SetRY1(0);
     lista[0]->SetRY2(360);
     lista[0]->SetTY(-40);
@@ -84,8 +84,8 @@ void inicializarLista() {
     lista[1]->SetTranslacao(*p1);
     lista[1]->SetPosAltura(9);
     lista[1]->SetPosInicial(-20);
-    lista[1]->SetTX1(5);
-    lista[1]->SetTX2(10);
+    lista[1]->SetTX1(-50);
+    lista[1]->SetTX2(40);
     lista[1]->SetRY1(0);
     lista[1]->SetRY2(360);
     lista[1]->SetTY(-80);
@@ -95,8 +95,8 @@ void inicializarLista() {
     lista[2]->SetTranslacao(*p2);
     lista[2]->SetPosAltura(14);
     lista[2]->SetPosInicial(-30);
-    lista[2]->SetTX1(15);
-    lista[2]->SetTX2(-10);
+    lista[2]->SetTX1(-50);
+    lista[2]->SetTX2(40);
     lista[2]->SetRY1(0);
     lista[2]->SetRY2(360);
     lista[2]->SetTY(30);
@@ -107,8 +107,8 @@ void inicializarLista() {
     lista[3]->SetPosAltura(14);
     lista[3]->SetPosInicial(10);
     lista[3]->SetPosInicial(-10);
-    lista[3]->SetTX1(15);
-    lista[3]->SetTX2(-10);
+    lista[3]->SetTX1(-50);
+    lista[3]->SetTX2(40);
     lista[3]->SetRY1(0);
     lista[3]->SetRY2(360);
     lista[3]->SetTY(-10);
@@ -119,8 +119,8 @@ void inicializarLista() {
     lista[4]->SetPosAltura(14);
     lista[4]->SetPosInicial(10);
     lista[4]->SetPosInicial(-10);
-    lista[4]->SetTX1(15);
-    lista[4]->SetTX2(-10);
+    lista[4]->SetTX1(-50);
+    lista[4]->SetTX2(40);
     lista[4]->SetRY1(0);
     lista[4]->SetRY2(360);
     lista[4]->SetTY(-20);
@@ -131,11 +131,11 @@ void inicializarLista() {
     lista[5]->SetPosAltura(14);
     lista[5]->SetPosInicial(10);
     lista[5]->SetPosInicial(-10);
-    lista[5]->SetTX1(15);
-    lista[5]->SetTX2(-10);
+    lista[5]->SetTX1(-50);
+    lista[5]->SetTX2(40);
     lista[5]->SetRY1(0);
     lista[5]->SetRY2(360);
-    lista[5]->SetTY(-40);
+    lista[5]->SetTY(-60);
 
     lista[6] = new ObjetoGrafico(TETRAHEDRON);
     Point3D* p6 = new Point3D(0, 0, 10);
@@ -143,8 +143,8 @@ void inicializarLista() {
     lista[6]->SetPosAltura(14);
     lista[6]->SetPosInicial(10);
     lista[6]->SetPosInicial(-10);
-    lista[6]->SetTX1(15);
-    lista[6]->SetTX2(10);
+    lista[6]->SetTX1(-50);
+    lista[6]->SetTX2(40);
     lista[6]->SetRY1(0);
     lista[6]->SetRY2(360);
     lista[6]->SetTY(-40);
@@ -155,8 +155,8 @@ void inicializarLista() {
     lista[7]->SetPosAltura(14);
     lista[7]->SetPosInicial(10);
     lista[7]->SetPosInicial(-10);
-    lista[7]->SetTX1(-15);
-    lista[7]->SetTX2(10);
+    lista[7]->SetTX1(-50);
+    lista[7]->SetTX2(40);
     lista[7]->SetRY1(0);
     lista[7]->SetRY2(360);
     lista[7]->SetTY(5);
@@ -167,8 +167,8 @@ void inicializarLista() {
     lista[8]->SetPosAltura(14);
     lista[8]->SetPosInicial(10);
     lista[8]->SetPosInicial(-10);
-    lista[8]->SetTX1(-15);
-    lista[8]->SetTX2(-30);
+    lista[8]->SetTX1(-50);
+    lista[8]->SetTX2(40);
     lista[8]->SetRY1(0);
     lista[8]->SetRY2(360);
     lista[8]->SetTY(30);
@@ -179,11 +179,11 @@ void inicializarLista() {
     lista[9]->SetPosAltura(14);
     lista[9]->SetPosInicial(10);
     lista[9]->SetPosInicial(-10);
-    lista[9]->SetTX1(-15);
-    lista[9]->SetTX2(-30);
+    lista[9]->SetTX1(-50);
+    lista[9]->SetTX2(40);
     lista[9]->SetRY1(0);
     lista[9]->SetRY2(360);
-    lista[9]->SetTY(30);
+    lista[9]->SetTY(50);
 }
 
 /** Função responsável pela especificação dos parâmetros de iluminação **/
@@ -296,8 +296,8 @@ void DesenhaObjeto(int obj)
     }
 }
 
-/** Função que desenha um objeto no quadro especificado por parâmetro **/
-void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, int QChave_seguinte)
+/** Função que desenha os objetos no quadro especificado por parâmetro **/
+void DesenhaObjetoNoQuadro (int quadrocorrente)
 {
     for(int i = 0 ; i < 10; i++){
         //float TX1, TX2, RY1, RY2;
@@ -322,6 +322,26 @@ void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, in
     }
 }
 
+/** Função que desenha todos os quadros do objeto selecionado **/
+void DesenhaQuadrosDoObjetoSelecionado (int quadrocorrente, int p)
+{
+    float TX, TY, TZ, RX, RY, RZ;
+    /** Calcula o valor da translação e rotação no quadro corrente **/
+    TX = (lista[p]->getTX2()-lista[p]->getTX1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[p]->getTX1();
+    RY = (lista[p]->getRY2()-lista[p]->getRY1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[p]->getRY1();
+    TY = lista[p]->getTY();
+
+    /** fazer o mesmo para TY, TZ, RX e RZ **/
+    TZ=RX=RZ=0;
+    glPushMatrix();
+        glTranslatef(TX, TY, TZ);
+        glRotatef(RX, 1,0,0);
+        glRotatef(RY, 0,1,0);
+        glRotatef(RX, 0,0,1);
+        DesenhaObjeto(lista[p]->getTipoDoObjeto());
+    glPopMatrix();
+}
+
 // Função callback chamada para fazer o desenho
 void Desenha()
 {
@@ -333,7 +353,7 @@ void Desenha()
 	EspecificaParametrosVisualizacao();
 
     for(int i = 0; i < 10; i++) {
-        DesenhaObjetoNoQuadro (lista[i]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte);
+        DesenhaObjetoNoQuadro(quadro);
     }
     // se não exibiu todos os quadros intermediários, passa para o próximo
 	if (quadro < NRO_QDO_INTERMEDIARIOS)
@@ -354,7 +374,7 @@ void Desenha()
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
 
-	DesenhaObjetoNoQuadro (CUBE, quadroChave, QuadroAnterior, QuadroSeguinte);
+	DesenhaObjetoNoQuadro (quadroChave);
 
 	glutSwapBuffers();
  }
@@ -367,7 +387,9 @@ void QuadrosChavesDoObjeto() {
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
 
-	DesenhaObjetoNoQuadro (CUBE, 0, QuadroAnterior, QuadroSeguinte);
+    for(int i = 0; i < 10; i++) {
+        DesenhaQuadrosDoObjetoSelecionado(i*20, posicao);
+    }
 
 	glutSwapBuffers();
 }
@@ -425,30 +447,30 @@ void Teclado (unsigned char tecla, int x, int y)
         quadroChave = 0;
 		QuadrosChavesDeTodosOsObjetos();
     if(tecla=='1') /** cria o primeiro quadro chave **/
-        quadroChave = 10;
-		QuadrosChavesDeTodosOsObjetos();
-    if(tecla=='2') /** cria o primeiro quadro chave **/
         quadroChave = 20;
 		QuadrosChavesDeTodosOsObjetos();
-    if(tecla=='3') /** cria o primeiro quadro chave **/
-        quadroChave = 30;
-		QuadrosChavesDeTodosOsObjetos();
-    if(tecla=='4') /** cria o primeiro quadro chave **/
+    if(tecla=='2') /** cria o primeiro quadro chave **/
         quadroChave = 40;
 		QuadrosChavesDeTodosOsObjetos();
-    if(tecla=='5') /** cria o primeiro quadro chave **/
-        quadroChave = 50;
-		QuadrosChavesDeTodosOsObjetos();
-    if(tecla=='6') /** cria o primeiro quadro chave **/
+    if(tecla=='3') /** cria o primeiro quadro chave **/
         quadroChave = 60;
 		QuadrosChavesDeTodosOsObjetos();
+    if(tecla=='4') /** cria o primeiro quadro chave **/
+        quadroChave = 80;
+		QuadrosChavesDeTodosOsObjetos();
+    if(tecla=='5') /** cria o primeiro quadro chave **/
+        quadroChave = 100;
+		QuadrosChavesDeTodosOsObjetos();
+    if(tecla=='6') /** cria o primeiro quadro chave **/
+        quadroChave = 120;
+		QuadrosChavesDeTodosOsObjetos();
     if(tecla=='7') /** cria o primeiro quadro chave **/
-        quadroChave = 70;
+        quadroChave = 140;
 		QuadrosChavesDeTodosOsObjetos();
     if(tecla=='8') /** cria o primeiro quadro chave **/
-        quadroChave = 90;
+        quadroChave = 160;
     if(tecla=='9') /** cria o primeiro quadro chave **/
-        quadroChave = 100;
+        quadroChave = 180;
 		QuadrosChavesDeTodosOsObjetos();
     /**
         TODO: ainda é preciso fazer para os outros quadros: 0'...'9'.
@@ -464,7 +486,16 @@ void Anima(int value)
 }
 
 void selecionaObjeto() {
+    static double angY = 0;
 
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+	DefineIluminacao();
+	EspecificaParametrosVisualizacao();
+
+	DesenhaQuadrosDoObjetoSelecionado (quadro, posicao);
+
+	glutSwapBuffers();
 }
 
 void edicao(int i) {
@@ -499,12 +530,12 @@ void TeclasEspeciais (int tecla, int x, int y)
         case GLUT_KEY_F11:
                             if(posicao > 0)
                                 posicao= posicao - 1;
-                            selecionaObjeto();
+                            //glutDisplayFunc(selecionaObjeto);
                             break;
         case GLUT_KEY_F12:
                             if(posicao < 9)
                                 posicao= posicao + 1;
-                            selecionaObjeto();
+                            //glutDisplayFunc(selecionaObjeto);
                             break;
 	}
 	PosicionaObservador();
