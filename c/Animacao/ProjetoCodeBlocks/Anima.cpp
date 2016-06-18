@@ -33,6 +33,7 @@ const int TEAPOT = 5;
 const int TETRAHEDRON = 6;
 const int TORUS = 7;
 const int OCTAHEDRON = 8;
+const int CYLINDER = 9;
 
 /** definição dos valores utilizados para as instancias dos objetos **/
 GLdouble base = 5;
@@ -44,6 +45,8 @@ GLdouble innerRadius = 5;
 GLdouble outerRadius = 5;
 GLdouble nsides = 5;
 GLdouble rings = 5;
+GLdouble top = 5;
+GLUquadric* quad;
 
 const int NRO_QDO_INTERMEDIARIOS = 100;
 
@@ -54,6 +57,7 @@ GLint quadro;
 GLint quadroChave;
 GLint QuadroAnterior;
 GLint QuadroSeguinte;
+
 
 /** utilizado para auxiliar na selecao do objeto **/
 int posicao = 0;
@@ -145,7 +149,7 @@ void inicializarLista() {
     lista[6]->SetRY2(360);
     lista[6]->SetTY(-40);
 
-    lista[7] = new ObjetoGrafico(OCTAHEDRON);
+    lista[7] = new ObjetoGrafico(TORUS);
     Point3D* p7 = new Point3D(0, 0, 10);
     lista[7]->SetTranslacao(*p7);
     lista[7]->SetPosAltura(14);
@@ -157,7 +161,7 @@ void inicializarLista() {
     lista[7]->SetRY2(360);
     lista[7]->SetTY(5);
 
-    lista[8] = new ObjetoGrafico(CONE);
+    lista[8] = new ObjetoGrafico(OCTAHEDRON);
     Point3D* p8 = new Point3D(0, 0, 10);
     lista[8]->SetTranslacao(*p8);
     lista[8]->SetPosAltura(14);
@@ -168,6 +172,18 @@ void inicializarLista() {
     lista[8]->SetRY1(0);
     lista[8]->SetRY2(360);
     lista[8]->SetTY(30);
+
+    lista[9] = new ObjetoGrafico(CYLINDER);
+    Point3D* p9 = new Point3D(0, 0, 10);
+    lista[9]->SetTranslacao(*p9);
+    lista[9]->SetPosAltura(14);
+    lista[9]->SetPosInicial(10);
+    lista[9]->SetPosInicial(-10);
+    lista[9]->SetTX1(-15);
+    lista[9]->SetTX2(-30);
+    lista[9]->SetRY1(0);
+    lista[9]->SetRY2(360);
+    lista[9]->SetTY(30);
 }
 
 /** Função responsável pela especificação dos parâmetros de iluminação **/
@@ -274,13 +290,16 @@ void DesenhaObjeto(int obj)
                 break;
         case OCTAHEDRON: glutSolidOctahedron();
                 break;
+        /** gluCylinder(GLUquadric* quad, GLdouble base,GLdouble top,GLdouble height,GLint slices,GLint stacks); **/
+        case CYLINDER: gluCylinder(quad, base, top, height, slices, stacks);
+                break;
     }
 }
 
 /** Função que desenha um objeto no quadro especificado por parâmetro **/
 void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, int QChave_seguinte)
 {
-    for(int i = 0 ; i < 9; i++){
+    for(int i = 0 ; i < 10; i++){
         //float TX1, TX2, RY1, RY2;
         float TX, TY, TZ, RX, RY, RZ;
 
@@ -298,7 +317,7 @@ void DesenhaObjetoNoQuadro (int obj, int quadrocorrente, int QChave_anterior, in
             glRotatef(RX, 1,0,0);
             glRotatef(RY, 0,1,0);
             glRotatef(RX, 0,0,1);
-            DesenhaObjeto(obj);
+            DesenhaObjeto(lista[i]->getTipoDoObjeto());
         glPopMatrix();
     }
 }
@@ -313,9 +332,9 @@ void Desenha()
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
 
-	DesenhaObjetoNoQuadro (lista[0]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte);
-	DesenhaObjetoNoQuadro (lista[1]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte);
-
+    for(int i = 0; i < 10; i++) {
+        DesenhaObjetoNoQuadro (lista[i]->getTipoDoObjeto(), quadro, QuadroAnterior, QuadroSeguinte);
+    }
     // se não exibiu todos os quadros intermediários, passa para o próximo
 	if (quadro < NRO_QDO_INTERMEDIARIOS)
 	   quadro++;
@@ -356,6 +375,10 @@ void QuadrosChavesDoObjeto() {
 /** Inicializa parâmetros de rendering **/
 void Inicializa (void)
 {
+    /** usado para desenhar o cilindro **/
+    quad = gluNewQuadric();
+    gluQuadricNormals(quad, GLU_SMOOTH);
+
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Fundo de tela preto
 
 	/** Inicializa as variáveis usadas para alterar a posição do **/
