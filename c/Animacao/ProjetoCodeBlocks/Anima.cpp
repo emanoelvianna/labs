@@ -2,7 +2,7 @@
 TODO:
 
 [] Usuário selecionar o objeto, mostrando algum diferencial no objeto selecionado
-[] Modos de exibição: por objeto
+[x] Modos de exibição: por objeto
 [x] Modos de exibição: por quadro-chave
 [] Usuário pode aplicar rotação, translação, escala no objeto selecionado
 
@@ -59,9 +59,11 @@ GLint QuadroAnterior;
 GLint QuadroSeguinte;
 
 
-/** utilizado para auxiliar na selecao do objeto **/
+/** utilizado para auxiliar para modos de exibição: por objeto**/
 int posicao = 0;
 
+/** utilizado para auxiliar para modo de edição **/
+int objSelecionado = 0;
 
 /** guarda os objetos graficos estanciados pelo o usuário **/
 ObjetoGrafico* lista[10];
@@ -89,6 +91,7 @@ void inicializarLista() {
     lista[1]->SetRY1(0);
     lista[1]->SetRY2(360);
     lista[1]->SetTY(-80);
+    lista[1]->SetColor(1, 1, 1, 1);
 
     lista[2] = new ObjetoGrafico(CONE);
     Point3D* p2 = new Point3D(0, 0, 10);
@@ -100,6 +103,7 @@ void inicializarLista() {
     lista[2]->SetRY1(0);
     lista[2]->SetRY2(360);
     lista[2]->SetTY(30);
+    lista[2]->SetColor(1, 1, 1, 1);
 
     lista[3] = new ObjetoGrafico(DODECAHEDRON);
     Point3D* p3 = new Point3D(0, 0, 10);
@@ -112,6 +116,7 @@ void inicializarLista() {
     lista[3]->SetRY1(0);
     lista[3]->SetRY2(360);
     lista[3]->SetTY(-10);
+    lista[3]->SetColor(1, 1, 1, 1);
 
     lista[4] = new ObjetoGrafico(ICOSAEDRO);
     Point3D* p4 = new Point3D(0, 0, 10);
@@ -124,6 +129,7 @@ void inicializarLista() {
     lista[4]->SetRY1(0);
     lista[4]->SetRY2(360);
     lista[4]->SetTY(-20);
+    lista[4]->SetColor(1, 1, 1, 1);
 
     lista[5] = new ObjetoGrafico(TEAPOT);
     Point3D* p5 = new Point3D(0, 0, 10);
@@ -136,6 +142,7 @@ void inicializarLista() {
     lista[5]->SetRY1(0);
     lista[5]->SetRY2(360);
     lista[5]->SetTY(-60);
+    lista[5]->SetColor(1, 1, 1, 1);
 
     lista[6] = new ObjetoGrafico(TETRAHEDRON);
     Point3D* p6 = new Point3D(0, 0, 10);
@@ -147,7 +154,8 @@ void inicializarLista() {
     lista[6]->SetTX2(40);
     lista[6]->SetRY1(0);
     lista[6]->SetRY2(360);
-    lista[6]->SetTY(-40);
+    lista[6]->SetTY(-30);
+    lista[6]->SetColor(1, 1, 1, 1);
 
     lista[7] = new ObjetoGrafico(TORUS);
     Point3D* p7 = new Point3D(0, 0, 10);
@@ -160,6 +168,7 @@ void inicializarLista() {
     lista[7]->SetRY1(0);
     lista[7]->SetRY2(360);
     lista[7]->SetTY(5);
+    lista[7]->SetColor(1, 1, 1, 1);
 
     lista[8] = new ObjetoGrafico(OCTAHEDRON);
     Point3D* p8 = new Point3D(0, 0, 10);
@@ -172,6 +181,7 @@ void inicializarLista() {
     lista[8]->SetRY1(0);
     lista[8]->SetRY2(360);
     lista[8]->SetTY(39);
+    lista[8]->SetColor(1, 1, 1, 1);
 
     lista[9] = new ObjetoGrafico(CYLINDER);
     Point3D* p9 = new Point3D(0, 0, 10);
@@ -184,6 +194,7 @@ void inicializarLista() {
     lista[9]->SetRY1(0);
     lista[9]->SetRY2(360);
     lista[9]->SetTY(50);
+    lista[9]->SetColor(1, 1, 1, 1);
 }
 
 /** Função responsável pela especificação dos parâmetros de iluminação **/
@@ -273,10 +284,10 @@ void DesenhaObjeto(int obj)
         case CUBE: glutSolidCube(2);
                 break;
         /** glutSolidSphere(radius, slices, stacks) **/
-        case SPHERE: glutSolidSphere(5, 5, 5);
+        case SPHERE: glutSolidSphere(5, 10, 20);
                 break;
         /** glutSolidCone(base ,height ,slices, stacks) **/
-        case CONE: glutSolidCone(base ,height ,slices, stacks);
+        case CONE: glutSolidCone(4 ,height ,slices, stacks);
                 break;
         case DODECAHEDRON: glutSolidDodecahedron();
                 break;
@@ -300,7 +311,6 @@ void DesenhaObjeto(int obj)
 void DesenhaObjetoNoQuadro (int quadrocorrente)
 {
     for(int i = 0 ; i < 10; i++){
-        //float TX1, TX2, RY1, RY2;
         float TX, TY, TZ, RX, RY, RZ;
 
         /** Calcula o valor da translação e rotação no quadro corrente **/
@@ -313,6 +323,7 @@ void DesenhaObjetoNoQuadro (int quadrocorrente)
 
         // desenha o objeto
         glPushMatrix();
+            glColor4f(lista[i]->getRed(), lista[i]->getGreen(), lista[i]->getBlue(), lista[i]->getAlpha());
             glTranslatef(TX, TY, TZ);
             glRotatef(RX, 1,0,0);
             glRotatef(RY, 0,1,0);
@@ -333,7 +344,9 @@ void DesenhaQuadrosDoObjetoSelecionado (int quadrocorrente, int p)
 
     /** fazer o mesmo para TY, TZ, RX e RZ **/
     TZ=RX=RZ=0;
+    glColor4f(1, 1, 1, 1);
     glPushMatrix();
+        glColor4f(lista[p]->getRed(), lista[p]->getGreen(), lista[p]->getBlue(), lista[p]->getAlpha());
         glTranslatef(TX, TY, TZ);
         glRotatef(RX, 1,0,0);
         glRotatef(RY, 0,1,0);
@@ -342,7 +355,7 @@ void DesenhaQuadrosDoObjetoSelecionado (int quadrocorrente, int p)
     glPopMatrix();
 }
 
-// Função callback chamada para fazer o desenho
+/** Função callback chamada para fazer o desenho **/
 void Desenha()
 {
 	static double angY = 0;
@@ -390,7 +403,6 @@ void QuadrosChavesDoObjeto() {
     for(int i = 0; i < 10; i++) {
         DesenhaQuadrosDoObjetoSelecionado(i*20, posicao);
     }
-
 	glutSwapBuffers();
 }
 
@@ -445,33 +457,34 @@ void Teclado (unsigned char tecla, int x, int y)
 		exit(0);
     if(tecla=='0') /** cria o primeiro quadro chave **/
         quadroChave = 0;
-		QuadrosChavesDeTodosOsObjetos();
+    QuadrosChavesDeTodosOsObjetos();
     if(tecla=='1') /** cria o primeiro quadro chave **/
         quadroChave = 20;
-		QuadrosChavesDeTodosOsObjetos();
+    QuadrosChavesDeTodosOsObjetos();
     if(tecla=='2') /** cria o primeiro quadro chave **/
         quadroChave = 40;
-		QuadrosChavesDeTodosOsObjetos();
+    QuadrosChavesDeTodosOsObjetos();
     if(tecla=='3') /** cria o primeiro quadro chave **/
         quadroChave = 60;
-		QuadrosChavesDeTodosOsObjetos();
+    QuadrosChavesDeTodosOsObjetos();
     if(tecla=='4') /** cria o primeiro quadro chave **/
         quadroChave = 80;
-		QuadrosChavesDeTodosOsObjetos();
+    QuadrosChavesDeTodosOsObjetos();
     if(tecla=='5') /** cria o primeiro quadro chave **/
         quadroChave = 100;
-		QuadrosChavesDeTodosOsObjetos();
+    QuadrosChavesDeTodosOsObjetos();
     if(tecla=='6') /** cria o primeiro quadro chave **/
         quadroChave = 120;
-		QuadrosChavesDeTodosOsObjetos();
+    QuadrosChavesDeTodosOsObjetos();
     if(tecla=='7') /** cria o primeiro quadro chave **/
         quadroChave = 140;
-		QuadrosChavesDeTodosOsObjetos();
+    QuadrosChavesDeTodosOsObjetos();
     if(tecla=='8') /** cria o primeiro quadro chave **/
         quadroChave = 160;
+    QuadrosChavesDeTodosOsObjetos();
     if(tecla=='9') /** cria o primeiro quadro chave **/
         quadroChave = 180;
-		QuadrosChavesDeTodosOsObjetos();
+    QuadrosChavesDeTodosOsObjetos();
     /**
         TODO: ainda é preciso fazer para os outros quadros: 0'...'9'.
     **/
@@ -485,21 +498,56 @@ void Anima(int value)
 	glutTimerFunc(60,Anima, 1);
 }
 
+/** realiza a edição do objeto **/
+void edicao(int quadrocorrente) {
+     for(int i = 0 ; i < 10; i++){
+        if(i == objSelecionado)
+            /** seta diferente **/
+            lista[i]->SetColor(0, 1, 0, 1);
+
+        float TX, TY, TZ, RX, RY, RZ;
+
+        /** Calcula o valor da translação e rotação no quadro corrente **/
+        TX = (lista[i]->getTX2()-lista[i]->getTX1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[i]->getTX1();
+        RY = (lista[i]->getRY2()-lista[i]->getRY1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[i]->getRY1();
+        TY = lista[i]->getTY();
+
+        /** fazer o mesmo para TY, TZ, RX e RZ **/
+        TZ=RX=RZ=0;
+
+        // desenha o objeto
+        glPushMatrix();
+            glColor4f(lista[i]->getRed(), lista[i]->getGreen(), lista[i]->getBlue(), lista[i]->getAlpha());
+            glTranslatef(TX, TY, TZ);
+            glRotatef(RX, 1,0,0);
+            glRotatef(RY, 0,1,0);
+            glRotatef(RX, 0,0,1);
+            DesenhaObjeto(lista[i]->getTipoDoObjeto());
+        glPopMatrix();
+    }
+    /** utilizado para retornar a cor padrão, quando objeto deselecionar **/
+    inicializarLista();
+}
+
+/** função para selecionar objeto **/
 void selecionaObjeto() {
-    static double angY = 0;
+	static double angY = 0;
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
 
-	DesenhaQuadrosDoObjetoSelecionado (quadro, posicao);
+    for(int i = 0; i < 10; i++) {
+        edicao(quadro);
+    }
+    // se não exibiu todos os quadros intermediários, passa para o próximo
+	if (quadro < NRO_QDO_INTERMEDIARIOS)
+	   quadro++;
+ 	else quadro=0; /** aqui o correto será avançar os nros dos Quadro-Chave **/
 
+	/** Executa os comandos OpenGL **/
 	glutSwapBuffers();
-}
-
-void edicao(int i) {
-
 }
 
 /** Função callback chamada para gerenciar eventos de teclas especiais (F1,PgDn,...) **/
@@ -507,6 +555,7 @@ void TeclasEspeciais (int tecla, int x, int y)
 {
 	switch (tecla)
 	{
+
 		case GLUT_KEY_LEFT:	rotY--;
 							break;
 		case GLUT_KEY_RIGHT:rotY++;
@@ -524,24 +573,35 @@ void TeclasEspeciais (int tecla, int x, int y)
         /** Modo de animação **/
 		case GLUT_KEY_F1:   glutDisplayFunc(Desenha);
                             break;
-        /** Modo de edicao **/
-		case GLUT_KEY_F2:   edicao(1);
-                            break;
+        /** seleção do objeto modos de exibição: Por objeto **/
         case GLUT_KEY_F11:
                             if(posicao > 0)
-                                posicao= posicao - 1;
-                            //glutDisplayFunc(selecionaObjeto);
+                                posicao = posicao - 1;
                             break;
+        /** seleção do objeto modos de exibição: Por objeto **/
         case GLUT_KEY_F12:
                             if(posicao < 9)
-                                posicao= posicao + 1;
-                            //glutDisplayFunc(selecionaObjeto);
+                                posicao = posicao + 1;
+                            break;
+        /** seleção do objeto modos de edição **/
+        case GLUT_KEY_F9:
+                            if(objSelecionado > 0){
+                                objSelecionado = objSelecionado - 1;
+                                glutDisplayFunc(selecionaObjeto);
+                            }
+                            break;
+        /** seleção do objeto modos de edição **/
+        case GLUT_KEY_F10:
+                            if(objSelecionado < 9){
+                                objSelecionado = objSelecionado + 1;
+                                glutDisplayFunc(selecionaObjeto);
+                            }
                             break;
 	}
 	PosicionaObservador();
 }
 
-// Função callback chamada para gerenciar eventos do mouse
+/** Função callback chamada para gerenciar eventos do mouse **/
 void GerenciaMouse(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON)
@@ -555,9 +615,17 @@ void GerenciaMouse(int button, int state, int x, int y)
 	EspecificaParametrosVisualizacao();
 }
 
-// Programa Principal
+/** Programa Principal **/
 int main(void)
 {
+    cout << "--------\n";
+    cout << " F1: modo de animacao. \n";
+    cout << " F10: modo de edicao, utilize F9 e F10 seleciona objeto, \n \t 'r': rotacaoo; 'e': escala; 't': translacao. \n";
+    cout << " HOME: modo de exibicao por objeto, F11 e F12 para selecionar o objeto. \n";
+    cout << " END: modo de exibicao por quadro-chave, 0 a 9 para selecionar o quadro-chave. \n";
+
+    cout << "--------\n";
+
     inicializarLista();
     int argc = 0;
 	char *argv[] = { (char *)"gl", 0 };
