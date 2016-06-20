@@ -522,6 +522,10 @@ void edicao(int quadrocorrente) {
             glRotatef(RX, 1,0,0);
             glRotatef(RY, 0,1,0);
             glRotatef(RX, 0,0,1);
+            if(i == objSelecionado){
+                Point3D aux = lista[i]->getTranslacao();
+                glTranslatef(aux.GetX(), aux.GetY(), aux.GetZ());
+            }
             DesenhaObjeto(lista[i]->getTipoDoObjeto());
         glPopMatrix();
     }

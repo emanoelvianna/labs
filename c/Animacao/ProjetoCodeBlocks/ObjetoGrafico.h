@@ -34,6 +34,7 @@ class ObjetoGrafico
         void SetTY(float t){TY = t;};
         void SetColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a){ red = r; green = g; blue = b; alpha = a;};
 
+        Point3D getTranslacao(){ return tranlacao;};
         int getTipoDoObjeto(){ return tipoDoObjeto;};
         float getPosInicial(){ return posInicial;};
         float getPosFinal(){ return posFinal;};
