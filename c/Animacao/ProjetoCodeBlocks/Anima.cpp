@@ -65,6 +65,9 @@ int posicao = 0;
 /** utilizado para auxiliar para modo de edição **/
 int objSelecionado = 0;
 
+/** utilizado para controler de inserir e excluir objetos **/
+int quantidadeObjs = 0;
+
 /** guarda os objetos graficos estanciados pelo o usuário **/
 ObjetoGrafico* lista[10];
 
@@ -307,31 +310,58 @@ void DesenhaObjeto(int obj)
     }
 }
 
-/** Função que desenha os objetos no quadro especificado por parâmetro **/
+/** Função que possibilita ir adicionando objetos na animação **/
 void DesenhaObjetoNoQuadro (int quadrocorrente)
 {
-    for(int i = 0 ; i < 10; i++){
-        float TX, TY, TZ, RX, RY, RZ;
+        for(int i = 0 ; i < quantidadeObjs; i++){
+            float TX, TY, TZ, RX, RY, RZ;
 
-        /** Calcula o valor da translação e rotação no quadro corrente **/
-        TX = (lista[i]->getTX2()-lista[i]->getTX1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[i]->getTX1();
-        RY = (lista[i]->getRY2()-lista[i]->getRY1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[i]->getRY1();
-        TY = lista[i]->getTY();
+            /** Calcula o valor da translação e rotação no quadro corrente **/
+            TX = (lista[i]->getTX2()-lista[i]->getTX1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[i]->getTX1();
+            RY = (lista[i]->getRY2()-lista[i]->getRY1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[i]->getRY1();
+            TY = lista[i]->getTY();
 
-        /** fazer o mesmo para TY, TZ, RX e RZ **/
-        TZ=RX=RZ=0;
+            /** fazer o mesmo para TY, TZ, RX e RZ **/
+            TZ=RX=RZ=0;
 
-        // desenha o objeto
-        glPushMatrix();
-            glColor4f(lista[i]->getRed(), lista[i]->getGreen(), lista[i]->getBlue(), lista[i]->getAlpha());
-            glTranslatef(TX, TY, TZ);
-            glRotatef(RX, 1,0,0);
-            glRotatef(RY, 0,1,0);
-            glRotatef(RX, 0,0,1);
-            DesenhaObjeto(lista[i]->getTipoDoObjeto());
-        glPopMatrix();
-    }
+            // desenha o objeto
+            glPushMatrix();
+                glColor4f(lista[i]->getRed(), lista[i]->getGreen(), lista[i]->getBlue(), lista[i]->getAlpha());
+                glTranslatef(TX, TY, TZ);
+                glRotatef(RX, 1,0,0);
+                glRotatef(RY, 0,1,0);
+                glRotatef(RX, 0,0,1);
+                DesenhaObjeto(lista[i]->getTipoDoObjeto());
+            glPopMatrix();
+        }
 }
+
+/** Função que desenha todos os objetos, utilizada na animação do end **/
+void DesenhaTodosOsObjetos(int quadrocorrente)
+{
+        for(int i = 0 ; i < 10; i++){
+            float TX, TY, TZ, RX, RY, RZ;
+
+            /** Calcula o valor da translação e rotação no quadro corrente **/
+            TX = (lista[i]->getTX2()-lista[i]->getTX1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[i]->getTX1();
+            RY = (lista[i]->getRY2()-lista[i]->getRY1()) / NRO_QDO_INTERMEDIARIOS * quadrocorrente + lista[i]->getRY1();
+            TY = lista[i]->getTY();
+
+            /** fazer o mesmo para TY, TZ, RX e RZ **/
+            TZ=RX=RZ=0;
+
+            // desenha o objeto
+            glPushMatrix();
+                glColor4f(lista[i]->getRed(), lista[i]->getGreen(), lista[i]->getBlue(), lista[i]->getAlpha());
+                glTranslatef(TX, TY, TZ);
+                glRotatef(RX, 1,0,0);
+                glRotatef(RY, 0,1,0);
+                glRotatef(RX, 0,0,1);
+                DesenhaObjeto(lista[i]->getTipoDoObjeto());
+            glPopMatrix();
+        }
+}
+
 
 /** Função que desenha todos os quadros do objeto selecionado **/
 void DesenhaQuadrosDoObjetoSelecionado (int quadrocorrente, int p)
@@ -387,7 +417,7 @@ void Desenha()
 	DefineIluminacao();
 	EspecificaParametrosVisualizacao();
 
-	DesenhaObjetoNoQuadro (quadroChave);
+	DesenhaTodosOsObjetos(quadroChave);
 
 	glutSwapBuffers();
  }
@@ -448,46 +478,6 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 	fAspect = (GLfloat)w/(GLfloat)h;
 
 	EspecificaParametrosVisualizacao();
-}
-
-/** Função callback chamada para gerenciar eventos de teclas **/
-void Teclado (unsigned char tecla, int x, int y)
-{
-	if(tecla==27) /** ESC ? **/
-		exit(0);
-    if(tecla=='0') /** cria o primeiro quadro chave **/
-        quadroChave = 0;
-    QuadrosChavesDeTodosOsObjetos();
-    if(tecla=='1') /** cria o primeiro quadro chave **/
-        quadroChave = 20;
-    QuadrosChavesDeTodosOsObjetos();
-    if(tecla=='2') /** cria o primeiro quadro chave **/
-        quadroChave = 40;
-    QuadrosChavesDeTodosOsObjetos();
-    if(tecla=='3') /** cria o primeiro quadro chave **/
-        quadroChave = 60;
-    QuadrosChavesDeTodosOsObjetos();
-    if(tecla=='4') /** cria o primeiro quadro chave **/
-        quadroChave = 80;
-    QuadrosChavesDeTodosOsObjetos();
-    if(tecla=='5') /** cria o primeiro quadro chave **/
-        quadroChave = 100;
-    QuadrosChavesDeTodosOsObjetos();
-    if(tecla=='6') /** cria o primeiro quadro chave **/
-        quadroChave = 120;
-    QuadrosChavesDeTodosOsObjetos();
-    if(tecla=='7') /** cria o primeiro quadro chave **/
-        quadroChave = 140;
-    QuadrosChavesDeTodosOsObjetos();
-    if(tecla=='8') /** cria o primeiro quadro chave **/
-        quadroChave = 160;
-    QuadrosChavesDeTodosOsObjetos();
-    if(tecla=='9') /** cria o primeiro quadro chave **/
-        quadroChave = 180;
-    QuadrosChavesDeTodosOsObjetos();
-    /**
-        TODO: ainda é preciso fazer para os outros quadros: 0'...'9'.
-    **/
 }
 
 /** Função callback chamada pela GLUT a cada intervalo de tempo **/
@@ -605,6 +595,55 @@ void TeclasEspeciais (int tecla, int x, int y)
 	PosicionaObservador();
 }
 
+/** Função callback chamada para gerenciar eventos de teclas **/
+void Teclado (unsigned char tecla, int x, int y)
+{
+	if(tecla==27) /** ESC ? **/
+		exit(0);
+    if(tecla=='0') /** cria o primeiro quadro chave **/
+        quadroChave = 0;
+    QuadrosChavesDeTodosOsObjetos();
+    if(tecla=='1') /** cria o primeiro quadro chave **/
+        quadroChave = 20;
+    QuadrosChavesDeTodosOsObjetos();
+    if(tecla=='2') /** cria o primeiro quadro chave **/
+        quadroChave = 40;
+    QuadrosChavesDeTodosOsObjetos();
+    if(tecla=='3') /** cria o primeiro quadro chave **/
+        quadroChave = 60;
+    QuadrosChavesDeTodosOsObjetos();
+    if(tecla=='4') /** cria o primeiro quadro chave **/
+        quadroChave = 80;
+    QuadrosChavesDeTodosOsObjetos();
+    if(tecla=='5') /** cria o primeiro quadro chave **/
+        quadroChave = 100;
+    QuadrosChavesDeTodosOsObjetos();
+    if(tecla=='6') /** cria o primeiro quadro chave **/
+        quadroChave = 120;
+    QuadrosChavesDeTodosOsObjetos();
+    if(tecla=='7') /** cria o primeiro quadro chave **/
+        quadroChave = 140;
+    QuadrosChavesDeTodosOsObjetos();
+    if(tecla=='8') /** cria o primeiro quadro chave **/
+        quadroChave = 160;
+    QuadrosChavesDeTodosOsObjetos();
+    if(tecla=='9') /** cria o primeiro quadro chave **/
+        quadroChave = 180;
+    QuadrosChavesDeTodosOsObjetos();
+
+    /** teclas para inserir e excluir objetos **/
+    if(tecla == 'i'){ // inserir
+        if(quantidadeObjs < 10){
+            quantidadeObjs++;
+        }
+    }
+    if(tecla == 'd'){ // excluir
+        if(quantidadeObjs > 0){
+            quantidadeObjs--;
+        }
+    }
+}
+
 /** Função callback chamada para gerenciar eventos do mouse **/
 void GerenciaMouse(int button, int state, int x, int y)
 {
@@ -623,6 +662,8 @@ void GerenciaMouse(int button, int state, int x, int y)
 int main(void)
 {
     cout << "--------\n";
+    cout << " i para inserir obejtos \n";
+    cout << " d para excluir obejtos \n";
     cout << " F1: modo de animacao. \n";
     cout << " F10: modo de edicao, utilize F9 e F10 seleciona objeto, \n \t 'r': rotacaoo; 'e': escala; 't': translacao. \n";
     cout << " HOME: modo de exibicao por objeto, F11 e F12 para selecionar o objeto. \n";
