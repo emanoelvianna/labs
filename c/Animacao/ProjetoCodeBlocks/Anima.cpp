@@ -66,7 +66,7 @@ int posicao = 0;
 int objSelecionado = 0;
 
 /** utilizado para controler de inserir e excluir objetos **/
-int quantidadeObjs = 0;
+int quantidadeObjs = 10;
 
 /** guarda os objetos graficos estanciados pelo o usuário **/
 ObjetoGrafico* lista[10];
@@ -89,22 +89,22 @@ void inicializarLista() {
     lista[1]->SetTranslacao(*p1);
     lista[1]->SetPosAltura(9);
     lista[1]->SetPosInicial(-20);
-    lista[1]->SetTX1(-50);
-    lista[1]->SetTX2(40);
+    lista[1]->SetTX1(40);
+    lista[1]->SetTX2(-50);
     lista[1]->SetRY1(0);
-    lista[1]->SetRY2(360);
+    lista[1]->SetRY2(100);
     lista[1]->SetTY(-80);
     lista[1]->SetColor(1, 1, 1, 1);
 
     lista[2] = new ObjetoGrafico(CONE);
     Point3D* p2 = new Point3D(0, 0, 10);
     lista[2]->SetTranslacao(*p2);
-    lista[2]->SetPosAltura(14);
-    lista[2]->SetPosInicial(-30);
+    lista[2]->SetPosAltura(30);
+    lista[2]->SetPosInicial(-50);
     lista[2]->SetTX1(-50);
     lista[2]->SetTX2(40);
     lista[2]->SetRY1(0);
-    lista[2]->SetRY2(360);
+    lista[2]->SetRY2(450);
     lista[2]->SetTY(30);
     lista[2]->SetColor(1, 1, 1, 1);
 
@@ -112,10 +112,9 @@ void inicializarLista() {
     Point3D* p3 = new Point3D(0, 0, 10);
     lista[3]->SetTranslacao(*p3);
     lista[3]->SetPosAltura(14);
-    lista[3]->SetPosInicial(10);
-    lista[3]->SetPosInicial(-10);
+    lista[3]->SetPosInicial(-30);
     lista[3]->SetTX1(-50);
-    lista[3]->SetTX2(40);
+    lista[3]->SetTX2(1);
     lista[3]->SetRY1(0);
     lista[3]->SetRY2(360);
     lista[3]->SetTY(-10);
@@ -127,7 +126,7 @@ void inicializarLista() {
     lista[4]->SetPosAltura(14);
     lista[4]->SetPosInicial(10);
     lista[4]->SetPosInicial(-10);
-    lista[4]->SetTX1(-50);
+    lista[4]->SetTX1(50);
     lista[4]->SetTX2(40);
     lista[4]->SetRY1(0);
     lista[4]->SetRY2(360);
@@ -153,7 +152,7 @@ void inicializarLista() {
     lista[6]->SetPosAltura(14);
     lista[6]->SetPosInicial(10);
     lista[6]->SetPosInicial(-10);
-    lista[6]->SetTX1(-50);
+    lista[6]->SetTX1(-100);
     lista[6]->SetTX2(40);
     lista[6]->SetRY1(0);
     lista[6]->SetRY2(360);
@@ -167,7 +166,7 @@ void inicializarLista() {
     lista[7]->SetPosInicial(10);
     lista[7]->SetPosInicial(-10);
     lista[7]->SetTX1(-50);
-    lista[7]->SetTX2(40);
+    lista[7]->SetTX2(100);
     lista[7]->SetRY1(0);
     lista[7]->SetRY2(360);
     lista[7]->SetTY(5);
@@ -179,8 +178,8 @@ void inicializarLista() {
     lista[8]->SetPosAltura(14);
     lista[8]->SetPosInicial(10);
     lista[8]->SetPosInicial(-10);
-    lista[8]->SetTX1(-50);
-    lista[8]->SetTX2(40);
+    lista[8]->SetTX1(100);
+    lista[8]->SetTX2(-50);
     lista[8]->SetRY1(0);
     lista[8]->SetRY2(360);
     lista[8]->SetTY(39);
@@ -192,7 +191,7 @@ void inicializarLista() {
     lista[9]->SetPosAltura(14);
     lista[9]->SetPosInicial(10);
     lista[9]->SetPosInicial(-10);
-    lista[9]->SetTX1(-50);
+    lista[9]->SetTX1(100);
     lista[9]->SetTX2(40);
     lista[9]->SetRY1(0);
     lista[9]->SetRY2(360);
