@@ -1,43 +1,60 @@
-(* programas de estudos *)
-fun prefixo([], []) = true |
-prefixo(lista, []) = false |
-prefixo(a::[], b::br) = a = b |
-prefixo(a::p, b::l) = a = b andalso prefixo(p, l);
+(* soma de n numeros *)
+fun somaNumeros([]) = 0 | somaNumeros(x::r) = x + somaNumeros(r);
 
-fun sufixo(L, S) = prefixo(rev(L), rev(S)); 
+(* produto de n numeros *)
+fun produto([]) = 1 | produto(x::r) = x * produto(r);
+
+(* media de n numeros *)
+fun media([]) = 0.0 | media(lista) = real(somaNumeros(lista)) / real(length(lista));
+
+(* econtra o maior *)
+fun retornaMaior(n1, n2) = if n1 > n2 then n1 else n2;
+
+(* verifica se o numero maior é multiplo do menor *)
+fun eMultiplo(n1, n2) =  
+let 
+	val maior = retornaMaior(n1, n2)
+	val menor = n1 + n2 - maior
+in 
+	if maior mod menor = 0 then true else false
+end; 
+
+(* remove elemento da lista *)
+fun removeElemento([], elemento) = [] | removeElemento(x::r, elemento) = 
+	if x = elemento then removeElemento(r, elemento) 
+	else x ::(removeElemento(r, elemento));
+
+(* inserir elemento no inicio da lista *)
+fun inserirElementoNoInicio([], elemento) = [elemento] | inserirElementoNoInicio(x::r, elemento) = elemento::(x::r);
+
+(* inserir elemento no final da lista *)
+fun inserirElementoNoFinal([], elemento) = [elemento] | inserirElementoNoFinal(x::r, elemento) = rev(elemento::(rev(x::r)));
+
+(* calcula a soma de inteiros de 1 a N *)
+fun somaUmAteN(0) = 0 | somaUmAteN(n) = n + somaUmAteN(n-1);  
+
+(* retira o ultimo da lista *)
+fun retiraUltimo [] = [] |
+    retiraUltimo(x::[]) = [] |
+    retiraUltimo(x::r)= if tl(r) = [] then [x] else x :: retiraUltimo(r);
+    
+(* retira valores pares *)
+fun retiraPares([]) = [] | retiraPares(x::r) = if x mod 2 = 0 then retiraPares(r) else x::(retiraPares(r));
+
+(* media de lista sem pares *)
+fun mediaSemPares([]) = 0.0 | mediaSemPares(lista) = media(retiraPares(lista));
+
+(* encontra o maior da lista *)
+fun encontraMaior(lista) = hd([]) 
+| encontraMaior(x::[]) = x
+| encontraMaior(x::xs) =
+let 
+	val m = encontraMaior(xs)
+in
+	if x > m then x else m
+end;
+ 
 	
-fun soma(n) = if n > 1 then n + soma(n-1) else 1;
-
-fun retiraNegativos([]) = [] | retiraNegativos(x::xr) = if x >= 0 then x :: retiraNegativos(xr) else retiraNegativos(xr);
-
-fun maior([]) = hd([]) | maior(x::[]) = x | maior(x::xr) =
-	let 
-		val aux = maior(xr);
-	in 
-		if x > aux then x else aux
-	end;	
-
-fun retiraUltimo(lista) = rev(tl(rev(lista)));
-
-(* exercicios com base de dados *)
-val alunos = [("Fulano",17,"12345678",[9.5,8.7,10.0]),("Beltrano",18,"87654321",[5.2,6.6,4.1])];
 
 
-(*
-23) Dada uma base de dados com nome, idade, matrícula e notas de 3 disciplinas para cada um de N
-alunos, encontrar
-a) a idade do aluno com um determinado nome,
-b) encontrar as notas de um aluno com determinada matrícula e
-c) encontrar a nota da segunda disciplina de um aluno que tirou uma dada nota na primeira. 
-*)
 
-
-fun idadeDadoNome(nome,[]) = 0
-| idadeDadoNome(nome,(n,i,m,notas)::xs) = if nome = n then i else idadeDadoNome(nome,xs);
-	
-fun buscaNotas(m, []) = [] 
-| buscaNotas(m, (nome, idade, matricula, notas)::xr) = if m = matricula then notas else buscaNotas(m, xr);
-
-fun buscaNotaP2(n1, []) = 0.0
-| buscaNotaP2(n1, (nome, idade, matricula, [])::r) = buscaNotaP2(n1,r)
-| buscaNotaP2(n1, (nome, idade, matricula, [p1, p2, p3])::r)) = if n1 = p1 then p2 else buscaNotaP2(r);
