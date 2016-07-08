@@ -2,47 +2,83 @@
 <html ng-app="listaTelefonica">
 
 <head>
-  <meta charset="utf-8">
-  <title>Olá mundo</title>
-  <script src="lib/angular.min.js"></script>
-  <link href="lib/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet" media="screen" />
-  <style media="screen">
-    .jumbotron {
-      width: 400px;
-      text-align: center;
-      margin-left: auto;
-      margin-right: auto;
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="utf-8">
+    <title>Olá mundo</title>
+    <script src="lib/angular.min.js"></script>
+    <link href="lib/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <style media="screen">
+        .jumbotron {
+            width: 400px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+        }
 
-  <script>
-    angular.module("listaTelefonica", []);
-    angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope) {
-      $scope.projeto = "Lista Telefonica";
-      $scope.contatos = [
-        {nome: "Pedro", telefone: "3330-3033"},
-        {nome: "Ana", telefone: "9430-1033"},
-        {nome: "Maria", telefone: "3311-3053"}
-      ];
-    })
-  </script>
+        .table {
+            margin-top: 20px;
+        }
+
+        .form-control {
+            margin-bottom: 10px;
+        }
+
+        th {
+            text-align: center;
+        }
+    </style>
+
+    <script>
+        angular.module("listaTelefonica", []);
+        angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope) {
+            $scope.app = "Lista Telefonica";
+            $scope.contatos = [{
+                nome: "Pedro",
+                telefone: "99998888"
+            }, {
+                nome: "Ana",
+                telefone: "99998877"
+            }, {
+                nome: "Maria",
+                telefone: "99998866"
+            }];
+            $scope.adicionarContato = function(contato) {
+                $scope.contatos.push(angular.copy(contato));
+                delete $scope.contato;
+            };
+        });
+    </script>
 </head>
+<!-- declara onde começa o -->
+
 <body ng-controller="listaTelefonicaCtrl">
-  <div class="jumbotron">
-    <h4>{{projeto}}</h4>
-    <table>
-      <tr>
-        <th>Nome</th>
-        <th>Telefone</th>
-      </tr>
-      <tr ng-repeat="contato in contatos">
-        <td>{{contatos.nome}}</td>
-        <td>{{contatos.telefone}}</td>
-      </tr>
-    </table>
-
-  </div>
+    <div class="jumbotron">
+        <!-- A interpolação ou a utilização do ng-bind busca o atributo do $scope -->
+        <h4>{{app}}</h4>
+        <!-- ou <h4 ng-bind="projeto"></h4>  -->
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Telefone
+                </th>
+            </tr>
+            <tr ng-repeat="contato in contatos">
+                <td>
+                    {{contato.nome}}
+                </td>
+                <td>
+                    {{contato.telefone}}
+                </td>
+            </tr>
+        </table>
+        <!-- a utilização da ng-model adicionar o atributo ao $scope -->
+        <input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome" />
+        <input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone" />
+        <button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)">Adicionar Contato</button>
+        {{contato}}
+    </div>
 </body>
-
 </html>
