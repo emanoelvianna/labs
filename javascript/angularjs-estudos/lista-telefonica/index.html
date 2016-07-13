@@ -42,6 +42,16 @@
                 nome: "Maria",
                 telefone: "99998866"
             }];
+            $scope.operadoras = [{
+                nome: "oi",
+                codigo: 55
+            }, {
+                nome: "vivo",
+                codigo: 15
+            }, {
+                nome: "tim",
+                codigo: 51
+            }, ];
             $scope.adicionarContato = function(contato) {
                 $scope.contatos.push(angular.copy(contato));
                 delete $scope.contato;
@@ -55,7 +65,7 @@
     <div class="jumbotron">
         <!-- A interpolação ou a utilização do ng-bind busca o atributo do $scope -->
         <h4>{{app}}</h4>
-        <!-- ou <h4 ng-bind="projeto"></h4>  -->
+        <!-- Ou <h4 ng-bind="app"></h4> -->
         <table class="table table-striped">
             <tr>
                 <th>
@@ -63,6 +73,9 @@
                 </th>
                 <th>
                     Telefone
+                </th>
+                <th>
+                    Operadora
                 </th>
             </tr>
             <tr ng-repeat="contato in contatos">
@@ -72,13 +85,25 @@
                 <td>
                     {{contato.telefone}}
                 </td>
+                <td>
+                    {{contato.operadora.nome}}
+                </td>
             </tr>
         </table>
-        <!-- a utilização da ng-model adicionar o atributo ao $scope -->
+        {{contato}}
+        <!-- a utilização da ng-model adicionar/atribui o atributo ao $scope -->
         <input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome" />
         <input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone" />
-        <button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)">Adicionar Contato</button>
-        {{contato}}
+        <select class="form-control" ng-model="contato.operadora" ng-options="operadora.codigo as operadora.nome for operadora in operadoras"></select>
+        <!-- utilizar o ng-options é a melhor opção quando necessitamos saber o elemente selecionado em um select, o ng-repeat é mais simples -->
+
+        <button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>
+        <!-- ng-disabled utilizado para desabilitar um campo, se utiliza de uma expressão -->
+        <!-- sobre a expressão: se contato.nome != undefined ou contato.telefone != undefined então abiliza o botão -->
+        </br>
+        {{contato.nome}} {{contato.telefone}}
+
     </div>
 </body>
+
 </html>
