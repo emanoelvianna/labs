@@ -20,9 +20,24 @@ class NegociacaoController {
         event.preventDefault();
         // criando uma negociacao
         // convertendo a string que vem do input data para um object Date
-        let date = this._inputData.value.split('-'); // tranforma em um array, exemplo: ['2016', '11', '01']
-        let negociacao = new Negociacao(date, this._inputQuantidade.value, this._inputValor.value);
 
+        let data = new Date(...this._inputData.value.split('-').map((item, index) => (index == 1) ? item - 1 : item));
+        console.log(data);
+        // utilizando a nova função Arrow functions
+
+        /*
+          -- poderia fazer assim também:
+
+          let data = new Date(...this._inputData.value.split('-').map(function(item, index) {
+              if (index === 1) {
+                  return item - 1;
+              }
+              return item;
+          }));
+          // tranforma em um array, exemplo: ['2016', '11',  '01'], colocando cada index do array no construtor (...)
+          // a função map nós ajudar com a criação do mês que começa em 0 ate 11 por isso o -1
+        */
+        let negociacao = new Negociacao(data, this._inputQuantidade.value, this._inputValor.value);
         console.log(negociacao);
     }
 }
