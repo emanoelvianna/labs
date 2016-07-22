@@ -67,6 +67,7 @@
             $scope.adicionarContato = function(contato) {
                 $scope.contatos.push(angular.copy(contato));
                 delete $scope.contato;
+                $scope.contatoForm.$setPristine(); // Pristine indica que o campo nunca foi tocado/preenchido!
             };
             $scope.excluirContato = function(contatos) {
                 $scope.contatos = contatos.filter(function(contato) {
@@ -123,24 +124,40 @@
             </tr>
         </table>
         {{contato}}
-        <!-- a utilização da ng-model adicionar/atribui o atributo ao $scope -->
-        <input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome" />
-        <input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone" />
-        <select class="form-control" ng-model="contato.operadora" ng-options="operadora.codigo as operadora.nome for operadora in operadoras"></select>
-        <!-- utilizar o ng-options é a melhor opção quando necessitamos saber o elemente selecionado em um select, o ng-repeat é mais simples -->
-        <!--
-        Algumas formas alternativas e quem sabe interessantes de utilizar o ng-options:
-          1: ng-options="operadora.nome group by operadora.categoria for operadora in operadoras" = onde estou criando uma categoria e ordenando atraves dela, exemplo: fixo ou movel
-          2: ng-options="operadora.codigo as operadora.nome for operadora in operadoras" = formas diferente de popular
-        -->
+        <!-- consultado a validade do formulario/campos -->
+        formulário é válido: {{contatoForm.$valid}}
+        <form name="contatoForm">
+            <!-- a utilização da ng-model adicionar/atribui o atributo ao $scope -->
+            <input class="form-control" type="text" ng-model="contato.nome" name="nome" placeholder="Nome" ng-required="true" />
+            <input class="form-control" type="text" ng-model="contato.telefone" name="telefone" placeholder="Telefone" ng-required="true" />
+            <select class="form-control" ng-model="contato.operadora" ng-options="operadora.codigo as operadora.nome for operadora in operadoras"></select>
+            <!-- utilizar o ng-options é a melhor opção quando necessitamos saber o elemente selecionado em um select, o ng-repeat é mais simples -->
 
-        <button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>
+            <!--
+            Algumas formas alternativas e quem sabe interessantes de utilizar o ng-options:
+            1: ng-options="operadora.nome group by operadora.categoria for operadora in operadoras" = onde estou criando uma categoria e ordenando atraves dela, exemplo: fixo ou movel
+            2: ng-options="operadora.codigo as operadora.nome for operadora in operadoras" = formas diferente de popular
+            -->
+
+            <!-- mensagens para para o usuário: -->
+            <div ng-show="contatoForm.nome.$invalid && contatoForm.nome.$dirty" class="alert alert-danger">
+                Por favor, preencha o nome.
+            </div>
+            <!-- contatoForm.nome.$dirty,  $dirty chamado quando campo já foi clicado mas preenchido com erro! -->
+
+            <div ng-show="contatoForm.telefone.$invalid && contatoForm.telefone.$dirty" class="alert alert-danger">
+                Por favor, preencha o telefone.
+            </div>
+
+        </form>
+        <button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="!contatoForm.$valid">Adicionar Contato</button>
         <button class="btn btn-danger btn-block" ng-click="excluirContato(contatos)" ng-disabled="!isContatoSelecionado(contatos)">Excluir Contato</button>
         <!-- ng-disabled utilizado para desabilitar um campo, se utiliza de uma expressão -->
         <!-- sobre a expressão: se contato.nome != undefined ou contato.telefone != undefined então abiliza o botão -->
         <!-- ng-disabled="!isContatoSelecionado(contatos)" : se não tem contato selecionado -->
         </br>
         {{contato.nome}} {{contato.telefone}}
+
     </div>
     <!-- <div ng-include="'footer.html'"></div> -->
 </body>
