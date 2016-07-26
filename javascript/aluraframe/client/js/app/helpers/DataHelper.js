@@ -1,11 +1,13 @@
 class DataHelper {
 
     constructor() {
+
         throw new Error('Classe não pode ser instanciada');
     }
 
     // a utilizanção de static nós diz que o método pertence a definição da classe
     static textoParaData(texto) {
+
         // expressão para validar o texto que deve estar no formato: ano/mes/dia, ex: 2016/11/12
         let isValido = /\d{4}-\d{2}-\d{2}/.test(texto);
         if (isValido) {
@@ -32,6 +34,7 @@ class DataHelper {
     }
 
     static dataParaTexto(data) {
+
         // ao invés de fazer assim:
         //  return data.getDate() + '/' + (data.getMonth() + 1) + '/' + data.getFullYear();
         // utilizamos o template string da nova versão do JavaScript
