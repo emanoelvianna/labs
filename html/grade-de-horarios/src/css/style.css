@@ -1,0 +1,18 @@
+  table {
+      border: 1px solid #C0D1DD;
+  }
+  .cabecario {
+      background-color: #babec0;
+  }
+  th {
+      padding: 15px;
+      width: 100px;
+  }
+  td {
+      border: 1px solid #C0D1DD;
+      text-align: center;
+      width: 100px;
+  }
+  .aula {
+      background-color: #e6e7e8;
+  }
