@@ -1,6 +1,8 @@
 package br.com.principal;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 public class GramaticaGp1 {
 
@@ -16,6 +18,10 @@ public class GramaticaGp1 {
 	public ParserVal yylval;
 	private static int la;
 	private boolean debug = true;
+
+	public GramaticaGp1(Reader r) {
+		lexico = new Lexico(r);
+	}
 
 	public void G() {
 		check(GRAPH);
@@ -42,7 +48,7 @@ public class GramaticaGp1 {
 
 	// Auxiliar para fatorações da gramática
 	private void ContinuaNodeList() {
-		
+
 	}
 
 	private void NomeList() {
@@ -132,6 +138,31 @@ public class GramaticaGp1 {
 	}
 
 	public static void main(String[] args) {
+		GramaticaGp1 parser = null;
+		try {
+			if (args.length == 0)
+				parser = new GramaticaGp1(new InputStreamReader(System.in));
+			else
+				parser = new GramaticaGp1(new java.io.FileReader(args[0]));
+
+			la = parser.yylex();
+
+			parser.G();
+
+			if (la == Lexico.YYEOF)
+				System.out.println("\n\nSucesso!");
+			else
+				System.out.println("\n\nFalhou - esperado EOF.");
+
+		} catch (java.io.FileNotFoundException e) {
+			System.out.println("File not found : \"" + args[0] + "\"");
+		} catch (java.io.IOException e) {
+			System.out.println("IO error scanning file \"" + args[0] + "\"");
+			System.out.println(e);
+		} catch (Exception e) {
+			System.out.println("Unexpected exception:");
+			e.printStackTrace();
+		}
 
 	}
 }
