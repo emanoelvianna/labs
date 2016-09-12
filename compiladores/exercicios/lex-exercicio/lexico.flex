@@ -13,6 +13,7 @@
 public static int IDENT		= 257;
 public static int TRACO		= 258;
 public static int STRING	= 259;
+public static int GRAPH 	= 260; 
 
 
 /**
@@ -71,15 +72,15 @@ LineTerminator = \r|\n|\r\n
 COMENTARIO = \/
 
 %%
-
-{LETTER}({LETTER}|{DIGIT})* 	{ return IDENT;}
+GRAPH				{ return GRAPH; }
+{LETTER}({LETTER}|{DIGIT})* 	{ return IDENT; }
 \"[^\"]*\"  			{ return STRING; } 
 
 ";" |
 "{" |
 "}" |
 "--"                        	{ return TRACO;}
-{COMENTARIO}{COMENTARIO}		{ }
+{COMENTARIO}{COMENTARIO}	{ }
 {WHITESPACE}*               	{ }
-{LineTerminator}				{ }
+{LineTerminator}		{ }
 .          {System.out.println(yyline+1 + ": caracter invalido: "+yytext());}
