@@ -22,7 +22,7 @@ public class GramaticaGp1 {
 	 ConList -> Conexao RestoConexao
 	 RestoConexao -> 'Auxiliar' ConList | // producao vazia
 	 
-	 Conexao -> Nome '--' Nome '--'
+	 Conexao -> Nome '--' Nome ';'
 	
 	 */
 
@@ -123,12 +123,16 @@ public class GramaticaGp1 {
 		Nome();
 		if (la == '-') {
 			check('-');
-			check('-'); // dois traços
-			Nome();
-			if (la == ';') {
-				check(';');
+			if(la == '-'){
+				check('-'); // dois traços
+				Nome();
+				if (la == ';') {
+					check(';');
+				} else {
+					yyerror("esperado ';'");
+				}
 			} else {
-				yyerror("esperado ';'");
+				yyerror("esperado '--'");
 			}
 		} else {
 			yyerror("esperado '--'");
