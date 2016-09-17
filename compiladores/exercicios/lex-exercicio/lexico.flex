@@ -14,6 +14,7 @@ public static int IDENT		= 257;
 public static int TRACO		= 258;
 public static int STRING	= 259;
 public static int GRAPH 	= 260; 
+public static int AUXILIAR 	= 261;
 
 
 /**
@@ -72,15 +73,18 @@ LineTerminator = \r|\n|\r\n
 COMENTARIO = \/
 
 %%
-GRAPH				{ return GRAPH; }
+graph				{ return GRAPH; }
+auxiliar			{ return AUXILIAR; } 
+
 {LETTER}({LETTER}|{DIGIT})* 	{ return IDENT; }
 \"[^\"]*\"  			{ return STRING; } 
 
 ";" |
 "{" |
-"}" |
+"}" 				{ return yytext().charAt(0); } 
 "--"                        	{ return TRACO;}
 {COMENTARIO}{COMENTARIO}	{ }
 {WHITESPACE}*               	{ }
 {LineTerminator}		{ }
-.          {System.out.println(yyline+1 + ": caracter invalido: "+yytext());}
+. { System.out.println("Erro lexico: caracter invalido: <" + yytext() + ">"); }
+

@@ -5,12 +5,33 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 public class GramaticaGp1 {
+	
+	/*
+	 Gramatica modificada:
+	 
+	 G -> GRAPH nome '{' NodeList ContList '}'
+	 
+	 NodeList -> Nome NomeList RestoNodeList
+	 RestoNodeList -> 'Auxiliar' NodeList | // producao vazia
+	 
+	 NomeList -> Nome ';' RestoNomeList
+	 RestoNomeList -> 'Auxiliar' NomeList | // producao vazia
+	 
+	 Nome -> IDENT | STRING 
+	 
+	 ConList -> Conexao RestoConexao
+	 RestoConexao -> 'Auxiliar' ConList | // producao vazia
+	 
+	 Conexao -> Nome '--' Nome '--'
+	
+	 */
 
 	private static final int BASE_TOKEN_NUM = 301;
 	public static final int STRING = 302;
 	public static final int IDENT = 303;
 	public static final int TRACO = 304;
 	public static final int GRAPH = 305;
+	private static final int AUXILIAR = 306;
 
 	public static final String tokenList[] = { "STRING", "IDENT", "TRACO", "GRAPH" };
 
@@ -46,24 +67,30 @@ public class GramaticaGp1 {
 		ContinuaNodeList();
 	}
 
-	// Auxiliar para fatorações da gramática
+	// Auxiliar
 	private void ContinuaNodeList() {
-
+		if (la == AUXILIAR) {
+			check(AUXILIAR);
+			NodeList();
+		} else {
+			// produção vazia
+		}
 	}
 
 	private void NomeList() {
-		ContinuaNomeList();
 		Nome();
 		if (la == ';') {
 			check(';');
+			ContinuaNomeList();
 		} else {
 			yyerror("esperado ';'");
 		}
 	}
 
-	// Auxiliar para fatorações da gramática
+	// Auxiliar
 	private void ContinuaNomeList() {
-		if (la != ';') {
+		if (la == AUXILIAR) {
+			check(AUXILIAR);
 			NomeList();
 		} else {
 			// produção vazia
@@ -80,7 +107,16 @@ public class GramaticaGp1 {
 
 	private void ConList() {
 		Conexao();
-		ConList();
+		ContinuaConList();
+	}
+	
+	private void ContinuaConList() {
+		if (la == AUXILIAR) {
+			check(AUXILIAR);
+			ConList();
+		} else {
+			// produção vazia
+		}
 	}
 
 	private void Conexao() {
