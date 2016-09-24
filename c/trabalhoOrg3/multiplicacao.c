@@ -12,6 +12,14 @@ Também avaliar o que se pode melhorar nos loops e questões de desempenho e hie
 
 Ainda precisa se avaliar se utilizamso uma função randomica para gerar os valores
 
+[] Identificar o trecho que código que gera mais ‘misses’ e analisar a causa do miss. Se possível, propor
+uma alteração (não trivial) no programa para melhorar o desempenho do acesso à memória;
+[] Relatório conciso (+-7 páginas) feito em Latex
+[] Caracterizar o programa em termos de parâmetros de hierarquia de memória (tamanho da cache,
+associatividade, e tamanho do bloco) utilizando range de parâmetros de cache realistas.
+[] Se houver uma proposta de otimização, mostrar como era o código original e o otimizado e explicar precisamente o
+motivo da otimização proposta ter melhorado o desempenho.
+
 **/
 
 #include <stdio.h>
@@ -21,7 +29,7 @@ Ainda precisa se avaliar se utilizamso uma função randomica para gerar os valo
 #define linha 500
 #define coluna 500
 
-int randomInteger (float low, float high)
+double randomInteger (double low, double high)
 {
     int k;
     double d;
@@ -32,16 +40,16 @@ int randomInteger (float low, float high)
 
 int main() {
 
-  int M1[linha][coluna];
-	int M2[linha][coluna];
-  int matrizResultante[linha][coluna];
+  double M1[linha][coluna];
+	double M2[linha][coluna];
+  double matrizResultante[linha][coluna];
 
 	/** preenchendo a matriz com valores randomicos **/
 
 	for(int i = 0; i < linha; i++) {
 		for(int j = 0; j < coluna; j++) {
-			M1[i][j] = randomInteger(100, 500);
-			M2[i][j] = randomInteger(100, 500);
+			M1[i][j] = randomInteger(100.00, 500.00);
+			M2[i][j] = randomInteger(100.00, 500.00);
 		}
 	}
 
@@ -55,14 +63,14 @@ int main() {
 		}
 	}
 
-	// /** escrevendo a matriz resultante **/
-	// for(int i = 0; i < linha; i++) {
-	// 	for(int j = 0; j < coluna; j++) {
-	// 		printf("%d", matrizResultante[i][j]);
-	// 		printf(" ");
-	// 	}
-	// 	printf("\n");
-	// }
+	/** escrevendo a matriz resultante **/
+	for(int i = 0; i < linha; i++) {
+		for(int j = 0; j < coluna; j++) {
+			printf("%lf", matrizResultante[i][j]);
+			printf(" ");
+		}
+		printf("\n");
+	}
 
   return 0;
 }
