@@ -25,11 +25,14 @@ motivo da otimização proposta ter melhorado o desempenho.
 #include <stdio.h>
 #include <stdlib.h>
 
-/** decleracao do tamanho da linha e coluna da matriz **/
-#define linha 500
-#define coluna 500
+#define N_LINHAS 1000
+#define N_COLUNAS 1000
 
-double randomInteger (double low, double high)
+long double M1[N_LINHAS][N_COLUNAS];
+long double M2[N_LINHAS][N_COLUNAS];
+long double matrizResultante[N_LINHAS][N_COLUNAS];
+
+int randomInteger (double low, double high)
 {
     int k;
     double d;
@@ -38,39 +41,38 @@ double randomInteger (double low, double high)
     return low + k;
 }
 
-int main() {
+int main()
+{
 
-  double M1[linha][coluna];
-	double M2[linha][coluna];
-  double matrizResultante[linha][coluna];
+    /** preenchendo a matriz com valores randomicos **/
+    for(int i = 0; i < N_LINHAS; i++) {
+      for(int j = 0; j < N_COLUNAS; j++) {
+        M1[i][j] = 1;
+        M2[i][j] = 1;
+      }
+    }
 
-	/** preenchendo a matriz com valores randomicos **/
+   /** multiplicando a matriz **/
+   for (int i = 0; i < N_LINHAS; i++)
+   {
+      for (int j = 0; j < N_COLUNAS; j++)
+      {
+         matrizResultante[i][j] = 0;
+         for (int k = 0; k < N_COLUNAS; k++)
+         {
+            matrizResultante[i][j] += M1[i][k] * M2[k][j];
+         }
+      }
+   }
 
-	for(int i = 0; i < linha; i++) {
-		for(int j = 0; j < coluna; j++) {
-			M1[i][j] = randomInteger(100.00, 500.00);
-			M2[i][j] = randomInteger(100.00, 500.00);
-		}
-	}
+   /** escrevendo a matriz resultante **/
+  //  for(int i = 0; i < N_LINHAS; i++) {
+  //    for(int j = 0; j < N_COLUNAS; j++) {
+  //       printf("%LF", matrizResultante[i][j]);
+  //      printf(" ");
+  //    }
+  //    printf("\n");
+  //  }
 
-	/** multiplicando a matriz **/
-	for(int i = 0; i < linha; i++) {
-		for(int j = 0; j < coluna; j++) {
-			matrizResultante[i][j] = 0;
-			for(int k = 0; k < coluna; k++) {
-				matrizResultante[i][j] += M1[i][k] * M2[k][j];
-			}
-		}
-	}
-
-	/** escrevendo a matriz resultante **/
-	for(int i = 0; i < linha; i++) {
-		for(int j = 0; j < coluna; j++) {
-			printf("%lf", matrizResultante[i][j]);
-			printf(" ");
-		}
-		printf("\n");
-	}
-
-  return 0;
+   return 0;
 }
