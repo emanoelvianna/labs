@@ -25,8 +25,8 @@ motivo da otimização proposta ter melhorado o desempenho.
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N_LINHAS 1000
-#define N_COLUNAS 1000
+#define N_LINHAS 500
+#define N_COLUNAS 500
 
 long double M1[N_LINHAS][N_COLUNAS];
 long double M2[N_LINHAS][N_COLUNAS];
@@ -53,13 +53,10 @@ int main()
     }
 
    /** multiplicando a matriz **/
-   for (int i = 0; i < N_LINHAS; i++)
-   {
-      for (int j = 0; j < N_COLUNAS; j++)
-      {
+   for (int i = 0; i < N_LINHAS; i++) {
+      for (int j = 0; j < N_COLUNAS; j++) {
          matrizResultante[i][j] = 0;
-         for (int k = 0; k < N_COLUNAS; k++)
-         {
+         for (int k = 0; k < N_COLUNAS; k++) {
             matrizResultante[i][j] += M1[i][k] * M2[k][j];
          }
       }
