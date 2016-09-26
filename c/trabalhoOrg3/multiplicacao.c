@@ -30,7 +30,7 @@ motivo da otimização proposta ter melhorado o desempenho.
 
 long double M1[N_LINHAS][N_COLUNAS];
 long double M2[N_LINHAS][N_COLUNAS];
-long double matrizResultante[N_LINHAS][N_COLUNAS];
+long double M3[N_LINHAS][N_COLUNAS];
 
 int randomInteger (double low, double high)
 {
@@ -43,33 +43,32 @@ int randomInteger (double low, double high)
 
 int main()
 {
-
     /** preenchendo a matriz com valores randomicos **/
     for(int i = 0; i < N_LINHAS; i++) {
       for(int j = 0; j < N_COLUNAS; j++) {
-        M1[i][j] = 1;
-        M2[i][j] = 1;
+        M1[i][j] = randomInteger(1, 100);
+        M2[i][j] = randomInteger(1, 100);
       }
     }
 
    /** multiplicando a matriz **/
    for (int i = 0; i < N_LINHAS; i++) {
       for (int j = 0; j < N_COLUNAS; j++) {
-         matrizResultante[i][j] = 0;
+         M3[i][j] = 0;
          for (int k = 0; k < N_COLUNAS; k++) {
-            matrizResultante[i][j] += M1[i][k] * M2[k][j];
+            M3[i][j] += M1[i][k] * M2[k][j];
          }
       }
    }
 
    /** escrevendo a matriz resultante **/
-  //  for(int i = 0; i < N_LINHAS; i++) {
-  //    for(int j = 0; j < N_COLUNAS; j++) {
-  //       printf("%LF", matrizResultante[i][j]);
-  //      printf(" ");
-  //    }
-  //    printf("\n");
-  //  }
+   for(int i = 0; i < N_LINHAS; i++) {
+     for(int j = 0; j < N_COLUNAS; j++) {
+        printf("%LF", M3[i][j]);
+       printf(" ");
+     }
+     printf("\n");
+   }
 
    return 0;
 }
