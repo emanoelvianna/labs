@@ -43,27 +43,28 @@ int randomInteger (double low, double high)
 
 int main()
 {
+    int i, j, k;
     /** preenchendo a matriz com valores randomicos **/
-    for(int i = 0; i < N_LINHAS; i++) {
-      for(int j = 0; j < N_COLUNAS; j++) {
+    for(i = 0; i < N_LINHAS; i++) {
+      for(j = 0; j < N_COLUNAS; j++) {
         M1[i][j] = randomInteger(1, 100);
         M2[i][j] = randomInteger(1, 100);
       }
     }
 
    /** multiplicando a matriz **/
-   for (int i = 0; i < N_LINHAS; i++) {
-      for (int j = 0; j < N_COLUNAS; j++) {
+   for (i = 0; i < N_LINHAS; i++) {
+      for (j = 0; j < N_COLUNAS; j++) {
          M3[i][j] = 0;
-         for (int k = 0; k < N_COLUNAS; k++) {
+         for (k = 0; k < N_COLUNAS; k++) {
             M3[i][j] += M1[i][k] * M2[k][j];
          }
       }
    }
 
    /** escrevendo a matriz resultante **/
-   for(int i = 0; i < N_LINHAS; i++) {
-     for(int j = 0; j < N_COLUNAS; j++) {
+   for(i = 0; i < N_LINHAS; i++) {
+     for(j = 0; j < N_COLUNAS; j++) {
         printf("%LF", M3[i][j]);
        printf(" ");
      }
