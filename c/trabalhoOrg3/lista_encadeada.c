@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TAMANHO 500
+#define TAMANHO 1000000
 
 // estrutura aluno
 typedef struct aluno
@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
     t_alunos * ini_aluno; // ponteiro para a struct aluno
     t_alunos * proximo_aluno; // ponteiro para o proximo
     int i = 0;
+    long double mediaEscola = 0;
 
     // aloca memoria
     ini_aluno = (t_alunos *)malloc(sizeof(t_alunos));
@@ -33,23 +34,27 @@ int main(int argc, char *argv[])
 
         if(i < TAMANHO) // se deseja continuar...
         {
-            // aloca mem�ria
+            // aloca memoria
             proximo_aluno->proximo = (t_alunos *)malloc(sizeof(t_alunos));
             proximo_aluno = proximo_aluno->proximo; // aponta para o pr�ximo
+            printf("%i\n", i);
+            i++;
         }
         else
             break; // sai do loop
     }
-    /*
-        O proximo e NULL porque ss sabemos que uma lista encadeada chegou
-        ao fim quando o proximo elemento aponta para NULL
-    */
+
     proximo_aluno->proximo = NULL;
-    // proximo_aluno aponta para o mesmo de ini_aluno, comeca do inicio
     proximo_aluno = ini_aluno;
     printf("\n");
-    // mostra todos os dados
-    // enquanto proximo_aluno for diferente de NULL
+
+    while(proximo_aluno != NULL)
+    {
+        mediaEscola += proximo_aluno->nota;
+        proximo_aluno = proximo_aluno->proximo;
+    }
+    printf("Media da escola : %LF \n", mediaEscola/TAMANHO);
+
     while(proximo_aluno != NULL)
     {
         printf("nota: %6.f\n", proximo_aluno->nota);

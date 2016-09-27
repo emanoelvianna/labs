@@ -25,8 +25,8 @@ motivo da otimização proposta ter melhorado o desempenho.
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N_LINHAS 500
-#define N_COLUNAS 500
+#define N_LINHAS 1000
+#define N_COLUNAS 1000
 
 struct aluno {
 	char *nome;
@@ -39,7 +39,8 @@ struct aluno alunos[N_LINHAS][N_COLUNAS];
 int main() {
 
     int i, j;
-		double mediaEscola = 0;
+		int k = 0;
+		long double mediaEscola = 0;
 
 		/** preenchendo a matriz com valores **/
     for(i = 0; i < N_LINHAS; i++) {
@@ -47,6 +48,7 @@ int main() {
 				alunos[i][j].nome = "Aluno";
 				alunos[i][j].turma = 10;
 				alunos[i][j].nota = 10.00;
+				k++;
       }
     }
 
@@ -57,7 +59,8 @@ int main() {
 			}
 		}
 
-		printf("Media da escola : %f \n", mediaEscola/N_COLUNAS);
+		printf("Media da escola : %LF \n", mediaEscola/N_COLUNAS);
+		printf("Quantidade de alunos : %d \n", k);
 
    	/** escrevendo a matriz resultante
    	for(i = 0; i < N_LINHAS; i++) {
