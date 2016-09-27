@@ -28,48 +28,46 @@ motivo da otimização proposta ter melhorado o desempenho.
 #define N_LINHAS 500
 #define N_COLUNAS 500
 
-long double M1[N_LINHAS][N_COLUNAS];
-long double M2[N_LINHAS][N_COLUNAS];
-long double M3[N_LINHAS][N_COLUNAS];
+struct aluno {
+	char *nome;
+	int turma;
+	double nota;
+};
 
-int randomInteger (double low, double high)
-{
-    int k;
-    double d;
-    d = (double) rand () / ((double) RAND_MAX + 1);
-    k = d * (high - low + 1);
-    return low + k;
-}
+struct aluno alunos[N_LINHAS][N_COLUNAS];
 
-int main()
-{
-    int i, j, k;
-    /** preenchendo a matriz com valores randomicos **/
+int main() {
+
+    int i, j;
+		double mediaEscola = 0;
+
+		/** preenchendo a matriz com valores **/
     for(i = 0; i < N_LINHAS; i++) {
       for(j = 0; j < N_COLUNAS; j++) {
-        M1[i][j] = randomInteger(1, 100);
-        M2[i][j] = randomInteger(1, 100);
+				alunos[i][j].nome = "Aluno";
+				alunos[i][j].turma = 10;
+				alunos[i][j].nota = 10.00;
       }
     }
 
-   /** multiplicando a matriz **/
-   for (i = 0; i < N_LINHAS; i++) {
-      for (j = 0; j < N_COLUNAS; j++) {
-         M3[i][j] = 0;
-         for (k = 0; k < N_COLUNAS; k++) {
-            M3[i][j] += M1[i][k] * M2[k][j];
-         }
-      }
-   }
+		/** calcula a media da escola **/
+		for(i = 0; i < N_LINHAS; i++) {
+      for(j = 0; j < N_COLUNAS; j++) {
+				mediaEscola += alunos[i][j].nota;
+			}
+		}
 
-   /** escrevendo a matriz resultante **/
-   for(i = 0; i < N_LINHAS; i++) {
-     for(j = 0; j < N_COLUNAS; j++) {
-        printf("%LF", M3[i][j]);
-       printf(" ");
-     }
-     printf("\n");
-   }
+		printf("Media da escola : %f \n", mediaEscola/N_COLUNAS);
 
-   return 0;
+   	/** escrevendo a matriz resultante
+   	for(i = 0; i < N_LINHAS; i++) {
+     	for(j = 0; j < N_COLUNAS; j++) {
+        	printf("%LF", escola[i][j].nota);
+        	printf(" ");
+     	}
+     	printf("\n");
+   	}
+		**/
+
+   	return 0;
 }
