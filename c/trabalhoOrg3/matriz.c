@@ -25,8 +25,8 @@ motivo da otimização proposta ter melhorado o desempenho.
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N_LINHAS 1000
-#define N_COLUNAS 1000
+#define N_LINHAS 500
+#define N_COLUNAS 500
 
 struct aluno {
 	char *nome;
