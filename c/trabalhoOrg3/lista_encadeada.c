@@ -28,9 +28,9 @@ int main(int argc, char *argv[])
     while(1)
     {
 
-        proximo_aluno[i].nome = "Aluno";
-        proximo_aluno[i].turma = 10;
-        proximo_aluno[i].nota = 10.00;
+        proximo_aluno.nome = "Aluno";
+        proximo_aluno.turma = 10;
+        proximo_aluno.nota = 10.00;
 
         if(i < TAMANHO) // se deseja continuar...
         {
