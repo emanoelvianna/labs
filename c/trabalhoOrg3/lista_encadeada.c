@@ -1,61 +1,61 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TAMANHO 1000000
+#define TAMANHO 25000000
 
-// estrutura aluno
+// estrutura ponto
 typedef struct aluno
 {
-    char *nome;
-    int turma;
     double nota;
     struct aluno * proximo; // ponteiro para o proximo
-} t_alunos;
+    char *nome;
+    int turma;
+} t_aluno;
 
 int main(int argc, char *argv[])
 {
-    t_alunos* aluno_atual; // ponteiro para a struct aluno
-    t_alunos* head;
-
     int i = 0;
-    long double mediaEscola = 0;
+    t_aluno * ini_aluno; // ponteiro para a struct ponto
+    t_aluno * proximo_aluno; // ponteiro para o proximo
+		long double mediaEscola = 0;
 
-    aluno_atual = (t_alunos *)malloc(sizeof(t_alunos));
-    head = (t_alunos *)malloc(sizeof(t_alunos));
-
-    aluno_atual->nome = "First";
-    aluno_atual->turma = 10;
-    aluno_atual->nota = 10.00;
-    head = aluno_atual;
+    // aloca memoria
+    ini_aluno = (t_aluno *)malloc(sizeof(t_aluno));
+    // proximo_aluno aponta para endereco de ini_aluno
+    proximo_aluno = ini_aluno;
 
     // enquanto for verdade...
     while(1)
     {
-      if(i < TAMANHO) {
-        // aloca memoria
-        aluno_atual->proximo = (t_alunos *)malloc(sizeof(t_alunos));
-        aluno_atual->proximo->nome = "Aluno";
-        aluno_atual->proximo->turma = 10;
-        aluno_atual->proximo->nota = 10.00;
-        aluno_atual = aluno_atual->proximo;
+        if(i < TAMANHO) // se deseja continuar...
+        {
 
-        i++;
-      } else {
-        break; // sai do loop
-		  }
+    				proximo_aluno->nome = "Aluno";
+    				proximo_aluno->turma = 10;
+            proximo_aluno->nota = 10.00;
+
+            // aloca memoria
+            proximo_aluno->proximo = (t_aluno *)malloc(sizeof(t_aluno));
+            proximo_aluno = proximo_aluno->proximo; // aponta para o pr�ximo
+            i = i + 1;
+        }
+        else
+            break; // sai do loop
     }
 
-    while(aluno_atual != NULL)
+    proximo_aluno->proximo = NULL;
+    proximo_aluno = ini_aluno;
+    printf("\n");
+
+    while(proximo_aluno != NULL)
     {
-        mediaEscola += aluno_atual->nota;
-        aluno_atual = aluno_atual->proximo;
+        mediaEscola += proximo_aluno->nota;
+        //printf("nota: %6.f", proximo_aluno->nota);
+        proximo_aluno = proximo_aluno->proximo; // aponta para o pr�ximo
     }
-    printf("Media da escola : %LF \n", mediaEscola/TAMANHO);
 
-    while(aluno_atual != NULL)
-    {
-        //printf("nota: %6.f\n", aluno_atual->nota);
-        aluno_atual = aluno_atual->proximo; // aponta para o proximo
-    }
+    printf("quantidade de nodos: %d\n", TAMANHO);
+    printf("media: %LF\n", mediaEscola/TAMANHO);
+
     return 0;
 }
