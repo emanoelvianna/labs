@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TAMANHO 25000000
+#define TAMANHO 250000
 
 // estrutura ponto
 typedef struct aluno

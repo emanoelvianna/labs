@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N_LINHAS 5000
-#define N_COLUNAS 5000
+#define N_LINHAS 500
+#define N_COLUNAS 500
 
 // estrutura ponto
 typedef struct aluno
 {
     double nota;
-    struct aluno * proximo; // ponteiro para o proximo
     char *nome;
     int turma;
 } t_aluno;

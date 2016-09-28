@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N_LINHAS 5000
-#define N_COLUNAS 5000
+#define N_LINHAS 500
+#define N_COLUNAS 500
 
 struct aluno {
+	double nota;
 	char *nome;
 	int turma;
-	double nota;
 };
 
 struct aluno alunos[N_LINHAS][N_COLUNAS];
@@ -15,7 +15,6 @@ struct aluno alunos[N_LINHAS][N_COLUNAS];
 int main() {
 
     int i, j;
-		int k = 0;
 		long double mediaEscola = 0;
 
 		/** preenchendo a matriz com valores **/
@@ -24,7 +23,6 @@ int main() {
 				alunos[i][j].nome = "Aluno";
 				alunos[i][j].turma = 10;
 				alunos[i][j].nota = 10.00;
-				k++;
       }
     }
 
