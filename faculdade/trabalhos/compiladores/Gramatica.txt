@@ -1,0 +1,21 @@
+BC --> 	Imediato
+       | Atribuicao
+       | Funcao
+       | Controle
+
+Imediato --> Numero Operador Numero AuxiliarImediato
+	     | AuxiliarImediato
+
+AuxiliarImediato --> "TokenAuxiliarImediato" Imediato
+		     | Operador Numero Imediato
+		     | ε
+
+
+
+
+
+
+
+// são produções que ainda precisam ser feitas: Atribuicao, Funcao e Controle
+
+// Perceba Numero, Operador e "TokenAuxiliarImediato" são Tokens (terminais)
