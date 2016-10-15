@@ -1,8 +1,0 @@
-BC --> 	Imediato
-       | Atribuicao
-       | Funcao
-       | Controle
-
-Imediato --> Numero Operador Numero Imediato
-	     | Operador Numero Imediato
-	     | ε

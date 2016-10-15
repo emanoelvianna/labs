@@ -10,11 +10,12 @@
 
 %{
 
-public static int IDENTIFICADOR		= 257;
-public static int ATRIBUICAO		= 258;
-public static int STRING		= 259;
-public static int NUMERO 		= 260;
-public static int AUXILIAR 		= 261;
+public static int VARIAVEL		= 257;
+public static int IDENTIFICADOR		= 258;
+public static int NUMERO		= 259;
+public static int OPERADOR		= 260;
+public static int ATRIBUICAO		= 261;
+
 
 /**
    * Runs the scanner on input files.
@@ -65,31 +66,21 @@ public static int AUXILIAR 		= 261;
 
 %}
 
-NUMERO=		([0-9]*\.)*[0-9]+
+DIGIT=		[0-9]
 LETTER=		[a-zA-Z]
-WHITESPACE=	[ \t]
-LineTerminator = \r|\n|\r\n
-COMENTARIO = \/
 
 %%
 
+{LETTER}({LETTER}|{DIGIT})* 	{ return VARIAVEL; }
 {LETTER}({LETTER}|{DIGIT})* 	{ return IDENTIFICADOR; }
-\"[^\"]*\"  			{ return STRING; }
 ([0-9]*\.)*[0-9]+ 		{ return NUMERO; }
 
 "+" | 
 "-" | 
 "*" | 
 "/" | 
-"^" | 
-"(" |
-")" |
-";" |
-"," |
-"{" |
-"}" 				{ return yytext().charAt(0); }
-"="         			{ return ATRIBUICAO;}
+"^" 				{ return OPERADOR;}
 
-{WHITESPACE}*               	{ }
-{LineTerminator}		{ }
+'=' 				{ return ATRIBUICAO;}
+ 
 . { System.out.println("Erro lexico: caracter invalido: <" + yytext() + ">"); }

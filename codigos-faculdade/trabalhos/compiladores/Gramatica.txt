@@ -1,0 +1,34 @@
+BC --> 	Imediato
+       | Atribuicao
+       | Funcao
+       | Controle
+
+Imediato --> Numero AuxiliarImediato
+
+AuxiliarImediato --> '+' Imediato
+		      | '-' Imediato
+		      | '*' Imediato
+		      | '/' Imediato
+		      | '^' Imediato
+		      | ε 	
+
+Atribuicao --> Identificador '=' Expressao
+
+Expressao --> Numero AuxiliarExpressao
+	      | Variavel AuxiliarExpressao
+
+AuxiliarExpressao --> '+' Expressao
+		      | '-' Expressao
+		      | '*' Expressao
+		      | '/' Expressao
+		      | '^' Expressao
+		      | ε 	
+
+
+--- Observações sobre a gramatica:
+
+São Tokens:
+'=', '+', '-', '*', '/', '^'
+Numero, Operador, Identificador, Variavel
+
+Aqui foram utilizados os simbolos, mas lá no regex ele pode retornar o Operador para represetar os simbolos matematicos!
