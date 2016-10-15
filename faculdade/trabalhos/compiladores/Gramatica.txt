@@ -3,28 +3,6 @@ BC --> 	Imediato
        | Funcao
        | Controle
 
-Imediato --> Numero Operador Numero AuxiliarImediato
-	     | AuxiliarImediato
-
-AuxiliarImediato --> 'TokenAuxiliarImediato'Imediato
-		     | Operador Numero Imediato
-		     | ε
-
-Atribuicao --> Variavel '=' AuxiliarAtribuicao
-
-AuxiliarAtribuicao --> 'Operador' Operador AuxiliarAtribuicao
-		       | 'Variavel' Variavel AuxiliarAtribuicao
-		       | 'Numero' Numero AuxiliarAtribuicao
-		       | ε
-
-
-Funcao --> 'define' Variavel '(' Parametro ')' '{' CorpoFuncao '}'
-
-Parametro --> Variavel AuxiliarParametro
-
-AuxiliarParametro --> ',' Parametro
-		      | ε
-
-
-// são produções que ainda precisam ser feitas: Funcao e Controle
-// Gramatica precisa de revisão!
+Imediato --> Numero Operador Numero Imediato
+	     | Operador Numero Imediato
+	     | ε
