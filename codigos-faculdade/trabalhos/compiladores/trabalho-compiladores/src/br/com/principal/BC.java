@@ -349,7 +349,7 @@ public class BC {
 				yyerror("esperado 'VARIAVEL' ou 'NUMERO'");
 			}
 		} else {
-			yyerror("esperado 'VARIAVEL' ou 'NUMERO'");
+			yyerror("esperado 'VARIAVEL', 'NUMERO' ou 'NOT'");
 		}
 	}
 
@@ -378,8 +378,8 @@ public class BC {
 			} else {
 				yyerror("esperado 'VARIAVEL'");
 			}
-		} else if (la == MENOR) {
-			check(MENOR);
+		} else if (la == '<') {
+			check('<');
 			if (la == VARIAVEL) {
 				Valor();
 				ExpressaoSimples();
@@ -394,8 +394,8 @@ public class BC {
 			} else {
 				yyerror("esperado 'VARIAVEL'");
 			}
-		} else if (la == MAIOR) {
-			check(MAIOR);
+		} else if (la == '>') {
+			check('>');
 			if (la == VARIAVEL) {
 				Valor();
 				ExpressaoSimples();
@@ -418,6 +418,8 @@ public class BC {
 			} else {
 				yyerror("esperado 'VARIAVEL'");
 			}
+		} else {
+			yyerror("esperado operadores logicos ou matematicos!");
 		}
 	}
 
