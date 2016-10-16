@@ -12,6 +12,26 @@ public class BC {
 	public static int NUMERO = 259;
 	public static int OPERADOR = 260;
 	public static int ATRIBUICAO = 261;
+	public static int STRING = 262;
+	public static int DEFINE = 263;
+	public static int AUTO = 264;
+	public static int IF = 265;
+	public static int ELSE = 266;
+	public static int NOT = 267;
+	public static int OR = 268;
+	public static int AND = 269;
+	public static int MENORIGUAL = 270;
+	public static int MENOR = 271;
+	public static int MAIOR = 272;
+	public static int MAIORIGUAL = 273;
+	public static int IGUAL = 274;
+	public static int DIFERENTE = 275;
+	public static int WHILE = 276;
+	public static int FOR = 277;
+	public static int MENOSMENOS = 278;
+	public static int MAISMAIS = 279;
+	public static int RETORNO = 280;
+	public static int PRINT = 281;
 
 	public static final String tokenList[] = { "STRING", "IDENT", "TRACO", "GRAPH" };
 
@@ -31,7 +51,7 @@ public class BC {
 
 	private void Imediato() {
 		if (la == NUMERO) {
-			check(NUMERO);
+			Valor();
 			AuxiliarImediato();
 		} else {
 			yyerror("esperado 'NUMERO'");
@@ -61,7 +81,7 @@ public class BC {
 
 	private void Atribuicao() {
 		if (la == IDENTIFICADOR) {
-			check(IDENTIFICADOR);
+			Valor();
 			if (la == '=') {
 				check('=');
 				Expressao();
@@ -74,14 +94,11 @@ public class BC {
 	}
 
 	private void Expressao() {
-		if (la == NUMERO) {
-			check(NUMERO);
-			AuxiliarExpressao();
-		} else if (la == VARIAVEL) {
-			check(VARIAVEL);
+		if (la == VARIAVEL || la == NUMERO) {
+			Valor();
 			AuxiliarExpressao();
 		} else {
-			yyerror("esperado 'NUMERO' ou 'VARIAVEL'");
+			yyerror("esperado 'VARIAVEL' ou 'NUMERO'");
 		}
 	}
 
@@ -103,6 +120,354 @@ public class BC {
 			Expressao();
 		} else {
 			// produção vazia
+		}
+	}
+
+	private void Funcao() {
+		if (la == DEFINE) {
+			check(DEFINE);
+			if (la == IDENTIFICADOR) {
+				Valor();
+				if (la == '(') {
+					check('(');
+					Parametros();
+					if (la == ')') {
+						check(')');
+						if (la == '{') {
+							check('{');
+							CorpoFuncao();
+							if (la == '}') {
+								check('}');
+							} else {
+								yyerror("esperado '}'");
+							}
+						} else {
+							yyerror("esperado '{'");
+						}
+					} else {
+						yyerror("esperado ')'");
+					}
+				} else {
+					yyerror("esperado '('");
+				}
+			} else {
+				yyerror("esperado 'IDENTIFICADOR'");
+			}
+		} else {
+			yyerror("esperado 'DEFINE'");
+		}
+	}
+
+	private void Parametros() {
+		if (la == VARIAVEL) {
+			Valor();
+			AuxiliarParametros();
+		} else {
+			yyerror("esperado 'VARIAVEL'");
+		}
+	}
+
+	private void AuxiliarParametros() {
+		if (la == ',') {
+			check(',');
+			if (la == VARIAVEL) {
+				Valor();
+				Parametros();
+			} else {
+				yyerror("esperado 'VARIAVEL'");
+			}
+		} else {
+			// produção vazia
+		}
+	}
+
+	private void CorpoFuncao() {
+		if (la == AUTO) {
+			Declaracao();
+		} else if (la == IF) {
+			Condicional();
+		} else if (la == WHILE || la == FOR) {
+			Loop();
+		} else if (la == RETORNO) {
+			Retorno();
+		} else if (la == PRINT) {
+			Escrever();
+		} else {
+			ExpressaoCorpo();
+		}
+	}
+
+	private void ExpressaoCorpo() {
+		if (la == ';') {
+			check(';');
+		} else if (la == VARIAVEL || la == NUMERO) {
+			Expressao();
+		}
+	}
+
+	private void Escrever() {
+		check(PRINT);
+		AuxiliarEscrever();
+	}
+
+	private void AuxiliarEscrever() {
+		if (la == VARIAVEL || la == NUMERO) {
+			Valor();
+		} else {
+			Expressao();
+		}
+	}
+
+	private void Retorno() {
+		check(RETORNO);
+		AuxiliarRetorno();
+	}
+
+	private void AuxiliarRetorno() {
+		if (la == ';') {
+			check(';');
+		} else {
+			Expressao();
+		}
+	}
+
+	private void Loop() {
+		if (la == WHILE) {
+			check(WHILE);
+			if (la == '(') {
+				check('(');
+				if (la == ')') {
+					check(')');
+					ExpressaoSimples();
+					if (la == '{') {
+						check('{');
+						CorpoFuncao();
+						if (la == '}') {
+							check('}');
+							// aqui rola deixar em branco?
+						} else {
+							yyerror("esperado '}'");
+						}
+					} else {
+						yyerror("esperado '{'");
+					}
+				} else {
+					yyerror("esperado ')'");
+				}
+			} else {
+				yyerror("esperado '('");
+			}
+		} else if (la == FOR) {
+			check(FOR);
+			if (la == '(') {
+				check('(');
+				if (la == VARIAVEL) {
+					Valor();
+					if (la == '=') {
+						check('=');
+						if (la == NUMERO || la == VARIAVEL) {
+							Valor();
+							if (la == ';') {
+								check(';');
+								ExpressaoSimples();
+								if (la == ';') {
+									check(';');
+									Mutavel();
+									if (la == ')') {
+										check(')');
+										if (la == '{') {
+											check('{');
+											CorpoFuncao();
+											if (la == '}') {
+												check('}');
+											} else {
+												yyerror("esperado '}'");
+											}
+										} else {
+											yyerror("esperado '{'");
+										}
+									} else {
+										yyerror("esperado ')'");
+									}
+								} else {
+									yyerror("esperado ';'");
+								}
+							} else {
+								yyerror("esperado ';'");
+							}
+						} else {
+							yyerror("esperado 'NUMERO' ou 'VARIAVEL'");
+						}
+					} else {
+						yyerror("esperado '='");
+					}
+				} else {
+					yyerror("esperado 'VARIAVEL'");
+				}
+			} else {
+				yyerror("esperado '('");
+			}
+		}
+	}
+
+	private void Mutavel() {
+		if (la == VARIAVEL || la == NUMERO) {
+			Valor();
+			AuxiliarMutavel();
+		} else {
+			yyerror("esperado 'VARIAVEL' ou 'NUMERO'");
+		}
+	}
+
+	private void AuxiliarMutavel() {
+		if (la == MENOSMENOS) {
+			check(MENOSMENOS);
+		} else {
+			check(MAISMAIS);
+		}
+	}
+
+	private void Condicional() {
+		check(IF);
+		if (la == '(') {
+			ExpressaoSimples();
+		} else {
+			yyerror("esperado '('");
+		}
+	}
+
+	private void ExpressaoSimples() {
+		if (la == VARIAVEL || la == NUMERO) {
+			Valor();
+			AuxiliarExpressaoSimples();
+		} else if (la == NOT) {
+			check(NOT);
+			if (la == VARIAVEL || la == NUMERO) {
+				Valor();
+				AuxiliarExpressaoSimples();
+			} else {
+				yyerror("esperado 'VARIAVEL' ou 'NUMERO'");
+			}
+		} else {
+			yyerror("esperado 'VARIAVEL' ou 'NUMERO'");
+		}
+	}
+
+	private void AuxiliarExpressaoSimples() {
+		if (la == OR) {
+			check(OR);
+			if (la == VARIAVEL) {
+				Valor();
+				ExpressaoSimples();
+			} else {
+				yyerror("esperado 'VARIAVEL'");
+			}
+		} else if (la == AND) {
+			check(AND);
+			if (la == VARIAVEL) {
+				Valor();
+				ExpressaoSimples();
+			} else {
+				yyerror("esperado 'VARIAVEL'");
+			}
+		} else if (la == MENORIGUAL) {
+			check(MENORIGUAL);
+			if (la == VARIAVEL) {
+				Valor();
+				ExpressaoSimples();
+			} else {
+				yyerror("esperado 'VARIAVEL'");
+			}
+		} else if (la == MENOR) {
+			check(MENOR);
+			if (la == VARIAVEL) {
+				Valor();
+				ExpressaoSimples();
+			} else {
+				yyerror("esperado 'VARIAVEL'");
+			}
+		} else if (la == MAIORIGUAL) {
+			check(MAIORIGUAL);
+			if (la == VARIAVEL) {
+				Valor();
+				ExpressaoSimples();
+			} else {
+				yyerror("esperado 'VARIAVEL'");
+			}
+		} else if (la == MAIOR) {
+			check(MAIOR);
+			if (la == VARIAVEL) {
+				Valor();
+				ExpressaoSimples();
+			} else {
+				yyerror("esperado 'VARIAVEL'");
+			}
+		} else if (la == IGUAL) {
+			check(IGUAL);
+			if (la == VARIAVEL) {
+				Valor();
+				ExpressaoSimples();
+			} else {
+				yyerror("esperado 'VARIAVEL'");
+			}
+		} else if (la == DIFERENTE) {
+			check(DIFERENTE);
+			if (la == VARIAVEL) {
+				Valor();
+				ExpressaoSimples();
+			} else {
+				yyerror("esperado 'VARIAVEL'");
+			}
+		}
+	}
+
+	private void AuxiliarCondicional() {
+		if (la == ELSE) {
+			check(ELSE);
+			CorpoFuncao();
+		} else if (la == ';') {
+			check(';');
+			Condicional();
+		} else {
+			// produção vazia
+		}
+	}
+
+	private void Declaracao() {
+		check(AUTO);
+		if (la == VARIAVEL) {
+			Valor();
+			AuxiliarDeclaracao();
+		} else {
+			yyerror("esperado 'VARIAVEL'");
+		}
+	}
+
+	private void AuxiliarDeclaracao() {
+		if (la == ',') {
+			check(',');
+			if (la == VARIAVEL) {
+				Valor();
+				Declaracao();
+			} else {
+				yyerror("esperado 'VARIAVEL'");
+			}
+		} else {
+			// produção vazia
+		}
+	}
+
+	private void Valor() {
+		if (la == VARIAVEL) {
+			check(VARIAVEL);
+		} else if (la == IDENTIFICADOR) {
+			check(IDENTIFICADOR);
+		} else if (la == NUMERO) {
+			check(NUMERO);
+		} else if (la == STRING) {
+			check(STRING);
+		} else {
+			yyerror("esperado 'NUMERO' ou 'IDENTIFICADOR' ou 'NUMERO' ou 'STRING'");
 		}
 	}
 

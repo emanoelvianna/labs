@@ -3,7 +3,7 @@ BC --> 	Imediato
        | Funcao
        | Controle
 
-Imediato --> Numero AuxiliarImediato
+Imediato --> Valor AuxiliarImediato
 
 AuxiliarImediato --> '+' Imediato
 		      | '-' Imediato
@@ -12,23 +12,86 @@ AuxiliarImediato --> '+' Imediato
 		      | '^' Imediato
 		      | ε 	
 
-Atribuicao --> Identificador '=' Expressao
+Atribuicao --> Valor '=' Expressao
 
-Expressao --> Numero AuxiliarExpressao
-	      | Variavel AuxiliarExpressao
+Expressao --> Valor AuxiliarExpressao
 
 AuxiliarExpressao --> '+' Expressao
 		      | '-' Expressao
 		      | '*' Expressao
 		      | '/' Expressao
 		      | '^' Expressao
-		      | ε 	
+		      | ε
+ 	
+Funcao --> DEFINE Valor '(' Parametros ')' '{' CorpoFuncao '}'
+
+Parametros --> VALOR AuxiliarParametros
+
+AuxiliarParametros --> ',' VARIAVEL Parametros
+		       | ε
+
+CorpoFuncao --> ExpressaoCorpo
+		| Declaracao
+		| Condicional
+		| Loop
+		| Retorno
+		| Escrever
+
+Declaracao --> AUTO VARIAVEL AuxiliarDeclaracao
+
+AuxiliarDeclaracao --> ',' VARIAVEL Declaracao
+		       | ε
+
+Condicional --> IF '(' ExpressaoSimples ')' '{' CorpoFuncao '}' AuxiliarCondicional
+
+AuxiliarCondicional --> ELSE CorpoFuncao			// Não tenho certeza se esta correto!
+			| ';' Condicional
+			| ε
+
+ExpressaoSimples --> Valor AuxiliarExpressaoSimples
+		     | NOT Valor AuxiliarExpressaoSimples
+
+AuxiliarExpressaoSimples --> OR Valor ExpressaoSimples
+			     | AND Valor ExpressaoSimples
+                             | MENORIGUAL Valor ExpressaoSimples
+			     | MENOR Valor ExpressaoSimples
+			     | MAIOR Valor ExpressaoSimples
+			     | MAIORIGUAL Valor ExpressaoSimples
+                             | IGUAL Valor ExpressaoSimples
+			     | DIFERENTE Valor ExpressaoSimples
+
+Loop --> WHILE '(' ExpressaoSimples ')' '{' CorpoFuncao '}'
+	| FOR '(' VARIAVEL '=' Valor ';' ExpressaoSimples ';' Mutavel ')' '{' CorpoFuncao '}'
+
+Mutavel --> NUMERO AuxiliarMutavel
+
+AuxiliarMutavel --> MENOSMENOS
+		    | MAISMAIS
+
+Retorna --> RETORNA AuxiliarRetorna
+
+AuxiliarRetorna --> ';'
+		    | Expressao
+
+Escrever --> PRINT AuxiliarEscrever
+
+AuxiliarEscrever --> Valor
+		    | Expressao
+
+ExpressaoCorpo --> Expressao ';' 
+		   | ';'	
+
+Valor --> VARIAVEL
+	 | IDENTIFICADOR
+	 | NUMERO
+	 | STRING
 
 
 --- Observações sobre a gramatica:
 
 São Tokens:
-'=', '+', '-', '*', '/', '^'
-Numero, Operador, Identificador, Variavel
+'=', '+', '-', '*', '/', '^', ';', ',', '(', ')', '{', '}'
+NUMERO, IDENTIFICADOR, VARIAVEL, WHILE, FOR, STRING, IF, ELSE, AUTO, DEFINE, OR, AND, MENORIGUAL, MENOR, MAIOR, MAIORIGUAL, IGUAL, 
+DIFERENTE, MENOSMENOS, MAISMAIS, PRINT
 
-Aqui foram utilizados os simbolos, mas lá no regex ele pode retornar o Operador para represetar os simbolos matematicos!
+Aqui foram utilizados os simbolos, mas lá no regex ele pode retornar o Operador para represetar os simbolos matematicos! ( ainda não sei se é uma boa ideia fazer isso.. )
