@@ -21,17 +21,16 @@ public class BC {
 	public static int OR = 268;
 	public static int AND = 269;
 	public static int MENORIGUAL = 270;
-	public static int MENOR = 271;
-	public static int MAIOR = 272;
-	public static int MAIORIGUAL = 273;
-	public static int IGUAL = 274;
-	public static int DIFERENTE = 275;
-	public static int WHILE = 276;
-	public static int FOR = 277;
-	public static int MENOSMENOS = 278;
-	public static int MAISMAIS = 279;
-	public static int RETORNO = 280;
-	public static int PRINT = 281;
+	public static int MAIORIGUAL = 271;
+	public static int IGUAL = 272;
+	public static int DIFERENTE = 273;
+	public static int WHILE = 274;
+	public static int FOR = 275;
+	public static int MENOSMENOS = 276;
+	public static int MAISMAIS = 277;
+	public static int RETORNO = 278;
+	public static int PRINT = 279;
+
 
 	public static final String tokenList[] = { "STRING", "IDENT", "TRACO", "GRAPH" };
 
