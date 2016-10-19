@@ -71,7 +71,7 @@ AuxiliarMutavel --> MENOSMENOS
 Retorna --> RETORNA AuxiliarRetorna
 
 AuxiliarRetorna --> ';'
-		    | Expressao
+		    | Expressao ';'
 
 Escrever --> PRINT AuxiliarEscrever
 
