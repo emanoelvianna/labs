@@ -99,6 +99,8 @@ public static int PRINT = 281;
 
 DIGIT=		[0-9]
 LETTER=		[a-zA-Z]
+WHITESPACE=	[ \t]
+LineTerminator = \r|\n|\r\n  
 
 %%
 
@@ -131,6 +133,7 @@ and 				{return AND;}
 "-" |
 "*" |
 "/" |
+"%" |
 "^" |
 "="    				{ return yytext().charAt(0); } 
 
@@ -140,5 +143,8 @@ and 				{return AND;}
 "!="				{return DIFERENTE;}
 "++"				{return MAISMAIS;}
 "--"				{return MENOSMENOS;}
+
+{WHITESPACE}*               	{ }
+{LineTerminator}		{ }
  
 . { System.out.println("Erro lexico: caracter invalido: <" + yytext() + ">"); }
