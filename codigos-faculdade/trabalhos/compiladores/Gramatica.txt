@@ -34,7 +34,7 @@ CorpoFuncao --> ExpressaoCorpo
 		| Declaracao
 		| Condicional
 		| Loop
-		| Retorno
+		| Retorna
 		| Escrever
 
 Declaracao --> AUTO VARIAVEL AuxiliarDeclaracao
