@@ -5,22 +5,14 @@ BC --> 	Imediato
 
 Imediato --> Valor AuxiliarImediato
 
-AuxiliarImediato --> '+' Imediato
-		      | '-' Imediato
-		      | '*' Imediato
-		      | '/' Imediato
-		      | '^' Imediato
-		      | ε 	
+AuxiliarImediato --> Operador Imediato
+		     | ε 	
 
 Atribuicao --> Valor '=' Expressao
 
 Expressao --> Valor AuxiliarExpressao
 
-AuxiliarExpressao --> '+' Expressao
-		      | '-' Expressao
-		      | '*' Expressao
-		      | '/' Expressao
-		      | '^' Expressao
+AuxiliarExpressao --> Operador Expressao
 		      | ε
  	
 Funcao --> DEFINE Valor '(' Parametros ')' '{' CorpoFuncao '}'
@@ -59,6 +51,7 @@ AuxiliarExpressaoSimples --> OR Valor ExpressaoSimples
 			     | MAIORIGUAL Valor ExpressaoSimples
                              | IGUAL Valor ExpressaoSimples
 			     | DIFERENTE Valor ExpressaoSimples
+			     | Operador Valor ExpressaoSimple
 
 Loop --> WHILE '(' ExpressaoSimples ')' '{' CorpoFuncao '}'
 	| FOR '(' VARIAVEL '=' Valor ';' ExpressaoSimples ';' Mutavel ')' '{' CorpoFuncao '}'
@@ -85,6 +78,13 @@ Valor --> VARIAVEL
 	 | IDENTIFICADOR
 	 | NUMERO
 	 | STRING
+	 
+Operador --> '+'
+	    | '-'
+            | '*'
+	    | '/'
+	    | '^'
+            | '%' 
 
 
 --- Observações sobre a gramatica:
