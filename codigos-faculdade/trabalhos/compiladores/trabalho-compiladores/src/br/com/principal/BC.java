@@ -59,20 +59,8 @@ public class BC {
 	}
 
 	private void AuxiliarImediato() {
-		if (la == '+') {
-			check('+');
-			Imediato();
-		} else if (la == '-') {
-			check('-');
-			Imediato();
-		} else if (la == '*') {
-			check('*');
-			Imediato();
-		} else if (la == '/') {
-			check('/');
-			Imediato();
-		} else if (la == '^') {
-			check('^');
+		if (la == '+' || la == '-' || la == '*' || la == '/' || la == '^' || la == '%') {
+			Operador();
 			Imediato();
 		} else {
 			// produção vazia
@@ -103,20 +91,8 @@ public class BC {
 	}
 
 	private void AuxiliarExpressao() {
-		if (la == '+') {
-			check('+');
-			Expressao();
-		} else if (la == '-') {
-			check('-');
-			Expressao();
-		} else if (la == '*') {
-			check('*');
-			Expressao();
-		} else if (la == '/') {
-			check('/');
-			Expressao();
-		} else if (la == '^') {
-			check('^');
+		if (la == '+' || la == '-' || la == '*' || la == '/' || la == '^' || la == '%') {
+			Operador();
 			Expressao();
 		} else {
 			// produção vazia
@@ -159,7 +135,7 @@ public class BC {
 	}
 
 	private void Parametros() {
-		if (la == VARIAVEL) {
+		if (la == VARIAVEL || la == NUMERO || la == STRING) {
 			Valor();
 			AuxiliarParametros();
 		} else {
@@ -170,12 +146,7 @@ public class BC {
 	private void AuxiliarParametros() {
 		if (la == ',') {
 			check(',');
-			if (la == VARIAVEL) {
-				Valor();
-				Parametros();
-			} else {
-				yyerror("esperado 'VARIAVEL'");
-			}
+			Parametros();
 		} else {
 			// produção vazia
 		}
@@ -418,8 +389,32 @@ public class BC {
 			} else {
 				yyerror("esperado 'VARIAVEL'");
 			}
+		} else if (la == '+' || la == '-' || la == '*' || la == '/' || la == '^' || la == '%') {
+			Operador();
+			if (la == VARIAVEL) {
+				Valor();
+				ExpressaoSimples();
+			} else {
+				yyerror("esperado 'VARIAVEL'");
+			}
 		} else {
 			yyerror("esperado operadores logicos ou matematicos!");
+		}
+	}
+
+	private void Operador() {
+		if (la == '+') {
+			check('+');
+		} else if (la == '-') {
+			check('-');
+		} else if (la == '*') {
+			check('*');
+		} else if (la == '/') {
+			check('/');
+		} else if (la == '^') {
+			check('^');
+		} else if (la == '%') {
+			check('%');
 		}
 	}
 
