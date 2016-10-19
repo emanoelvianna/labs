@@ -27,7 +27,7 @@ Funcao --> DEFINE Valor '(' Parametros ')' '{' CorpoFuncao '}'
 
 Parametros --> VALOR AuxiliarParametros
 
-AuxiliarParametros --> ',' VARIAVEL Parametros
+AuxiliarParametros --> ',' VALOR Parametros
 		       | ε
 
 CorpoFuncao --> ExpressaoCorpo
