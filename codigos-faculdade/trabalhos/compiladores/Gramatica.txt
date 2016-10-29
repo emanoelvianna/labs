@@ -31,12 +31,13 @@ Parametros --> VARIAVEL AuxiliarParametros
 AuxiliarParametros --> ',' Parametros
 		       | ε
 
-CorpoFuncao --> ExpressaoCorpo
-		| Declaracao
-		| Condicional
-		| Loop
-		| Retorna
-		| Escrever
+CorpoFuncao --> ExpressaoCorpo CorpoFuncao
+		| Declaracao CorpoFuncao
+		| Condicional CorpoFuncao
+		| Loop CorpoFuncao
+		| Retorna CorpoFuncao 
+		| Escrever CorpoFuncao
+		| ε
 
 Declaracao --> AUTO VARIAVEL AuxiliarDeclaracao
 
