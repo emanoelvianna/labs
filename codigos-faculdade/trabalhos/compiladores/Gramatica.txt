@@ -9,15 +9,20 @@ AuxiliarImediato --> Operador Imediato
 		     | ε 	
 		 
 ValorImedianto --> VARIAVEL
-	 | IDENTIFICADOR
-	 | NUMERO
+	 	  | IDENTIFICADOR
+	  	  | NUMERO
 
 Atribuicao --> Valor '=' Expressao
 
-Expressao --> Valor AuxiliarExpressao
+Expressao --> ValorExpressao AuxiliarExpressao
+	     | '(' ValorExpressao AuxiliarExpressao ')'
 
 AuxiliarExpressao --> Operador Expressao
 		      | ε
+		      
+ValorExpressao --> VARIAVEL
+	 	  | IDENTIFICADOR
+	          | NUMERO		     
  	
 Funcao --> DEFINE IDENTIFICADOR '(' Parametros ')' '{' CorpoFuncao '}'
 
