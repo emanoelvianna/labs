@@ -3,10 +3,14 @@ BC --> 	Imediato
        | Funcao
        | Controle
 
-Imediato --> Valor AuxiliarImediato
+Imediato --> ValorImedianto AuxiliarImediato
 
 AuxiliarImediato --> Operador Imediato
 		     | ε 	
+		 
+ValorImedianto --> VARIAVEL
+	 | IDENTIFICADOR
+	 | NUMERO
 
 Atribuicao --> Valor '=' Expressao
 
