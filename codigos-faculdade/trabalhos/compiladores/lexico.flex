@@ -119,8 +119,7 @@ and 				{return AND;}
 true 				{return TRUE;}
 false 				{return FALSE;}
 
-{LETTER}({LETTER}|{DIGIT})* 	{ return VARIAVEL; }
-{LETTER}({LETTER}|{DIGIT})* 	{ return IDENTIFICADOR;}
+{LETTER}({LETTER}|{DIGIT})* 	{ return IDENTIFICADOR; return VARIAVEL}
 ([0-9]*\.)*[0-9]+ 		{ return NUMERO; }
 \"[^\"]*\"  			{ return STRING; } 
 
