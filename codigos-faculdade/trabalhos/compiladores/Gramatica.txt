@@ -19,7 +19,7 @@ Expressao --> Valor AuxiliarExpressao
 AuxiliarExpressao --> Operador Expressao
 		      | ε
  	
-Funcao --> DEFINE Valor '(' Parametros ')' '{' CorpoFuncao '}'
+Funcao --> DEFINE IDENTIFICADOR '(' Parametros ')' '{' CorpoFuncao '}'
 
 Parametros --> VALOR AuxiliarParametros
 
