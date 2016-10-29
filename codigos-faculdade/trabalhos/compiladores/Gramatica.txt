@@ -21,7 +21,7 @@ AuxiliarExpressao --> Operador Expressao
  	
 Funcao --> DEFINE IDENTIFICADOR '(' Parametros ')' '{' CorpoFuncao '}'
 
-Parametros --> VALOR AuxiliarParametros
+Parametros --> VARIAVEL AuxiliarParametros
 
 AuxiliarParametros --> ',' Parametros
 		       | ε
