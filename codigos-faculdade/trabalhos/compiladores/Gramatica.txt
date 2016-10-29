@@ -86,7 +86,8 @@ AuxiliarRetorna --> ';'
 
 Escrever --> PRINT AuxiliarEscrever
 
-AuxiliarEscrever --> Valor
+AuxiliarEscrever --> STRING
+		    | NUMERO
 		    | Expressao
 
 ExpressaoCorpo --> Expressao ';' 
@@ -95,7 +96,6 @@ ExpressaoCorpo --> Expressao ';'
 Valor --> VARIAVEL
 	 | IDENTIFICADOR
 	 | NUMERO
-	 | STRING
 	 
 Operador --> '+'
 	    | '-'
