@@ -13,6 +13,8 @@ AuxiliarImediato --> Operador Imediato
 ValorImedianto --> VARIAVEL
 	 	  | IDENTIFICADOR
 	  	  | NUMERO
+		  | TRUE
+		  | FALSE
 
 Atribuicao --> Valor '=' Expressao
 
