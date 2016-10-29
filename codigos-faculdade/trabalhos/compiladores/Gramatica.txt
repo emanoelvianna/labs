@@ -1,8 +1,10 @@
-BC --> 	Imediato
-       | Atribuicao
-       | Funcao
-       | Controle
-
+BC --> 	Imediato BC
+       | Atribuicao BC
+       | Funcao BC
+       | Controle BC
+       | Loop BC
+       | ε
+       
 Imediato --> ValorImedianto AuxiliarImediato
 
 AuxiliarImediato --> Operador Imediato
@@ -39,9 +41,9 @@ CorpoFuncao --> ExpressaoCorpo CorpoFuncao
 		| Escrever CorpoFuncao
 		| ε
 
-Declaracao --> AUTO VARIAVEL AuxiliarDeclaracao
+Declaracao --> AUTO VARIAVEL AuxiliarDeclaracao ';'
 
-AuxiliarDeclaracao --> ',' VARIAVEL Declaracao
+AuxiliarDeclaracao --> ',' VARIAVEL AuxiliarDeclaracao
 		       | ε
 
 Condicional --> IF '(' ExpressaoSimples ')' '{' CorpoFuncao '}' AuxiliarCondicional
@@ -50,19 +52,25 @@ AuxiliarCondicional --> ELSE CorpoFuncao			// Não tenho certeza se esta correto
 			| ';' Condicional
 			| ε
 
-ExpressaoSimples --> Valor AuxiliarExpressaoSimples
-		     | NOT Valor AuxiliarExpressaoSimples
+ExpressaoSimples --> ValorExpressaoSimples AuxiliarExpressaoSimples
+		     | NOT ValorExpressaoSimples AuxiliarExpressaoSimples
 
-AuxiliarExpressaoSimples --> OR Valor ExpressaoSimples
-			     | AND Valor ExpressaoSimples
-                             | MENORIGUAL Valor ExpressaoSimples
-			     | MENOR Valor ExpressaoSimples
-			     | MAIOR Valor ExpressaoSimples
-			     | MAIORIGUAL Valor ExpressaoSimples
-                             | IGUAL Valor ExpressaoSimples
-			     | DIFERENTE Valor ExpressaoSimples
-			     | Operador Valor ExpressaoSimple
-
+AuxiliarExpressaoSimples --> OR ValorExpressaoSimples AuxiliarExpressaoSimples
+			     | AND ValorExpressaoSimples AuxiliarExpressaoSimples
+                             | MENORIGUAL ValorExpressaoSimples AuxiliarExpressaoSimples
+			     | MENOR ValorExpressaoSimples AuxiliarExpressaoSimples
+			     | MAIOR ValorExpressaoSimples AuxiliarExpressaoSimples
+			     | MAIORIGUAL ValorExpressaoSimples AuxiliarExpressaoSimples
+                             | IGUAL ValorExpressaoSimples AuxiliarExpressaoSimples
+			     | DIFERENTE ValorExpressaoSimples AuxiliarExpressaoSimples
+			     | Operador ValorExpressaoSimples AuxiliarExpressaoSimples
+			     | ε
+			     
+ValorExpressaoSimples --> VARIAVEL
+	 		 | NUMERO			  
+			 | TRUE
+			 | FALSE
+			 
 Loop --> WHILE '(' ExpressaoSimples ')' '{' CorpoFuncao '}'
 	| FOR '(' VARIAVEL '=' Valor ';' ExpressaoSimples ';' Mutavel ')' '{' CorpoFuncao '}'
 
@@ -82,7 +90,7 @@ AuxiliarEscrever --> Valor
 		    | Expressao
 
 ExpressaoCorpo --> Expressao ';' 
-		   | ';'	
+		   | ';'           // Não sei se faz sentido... se não é um erro!	
 
 Valor --> VARIAVEL
 	 | IDENTIFICADOR
@@ -95,13 +103,12 @@ Operador --> '+'
 	    | '/'
 	    | '^'
             | '%' 
-
+	    | '='	
 
 --- Observações sobre a gramatica:
 
 São Tokens:
 '=', '+', '-', '*', '/', '^', ';', ',', '(', ')', '{', '}'
-NUMERO, IDENTIFICADOR, VARIAVEL, WHILE, FOR, STRING, IF, ELSE, AUTO, DEFINE, OR, AND, MENORIGUAL, MENOR, MAIOR, MAIORIGUAL, IGUAL, 
-DIFERENTE, MENOSMENOS, MAISMAIS, PRINT
+NUMERO, IDENTIFICADOR, VARIAVEL, WHILE, FOR, STRING, IF, ELSE, AUTO, DEFINE, OR, AND, MENORIGUAL, MENOR, MAIOR, MAIORIGUAL, IGUAL, DIFERENTE, MENOSMENOS, MAISMAIS, PRINT, TRUE, FALSE
 
 Aqui foram utilizados os simbolos, mas lá no regex ele pode retornar o Operador para represetar os simbolos matematicos! ( ainda não sei se é uma boa ideia fazer isso.. )
