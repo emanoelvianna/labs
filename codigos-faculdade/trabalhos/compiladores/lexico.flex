@@ -44,6 +44,8 @@ public static int MENOSMENOS = 276;
 public static int MAISMAIS = 277;
 public static int RETORNO = 278;
 public static int PRINT = 279;
+public static int TRUE = 280;
+public static int FALSE = 281;
 
 
 /**
@@ -113,6 +115,9 @@ print				{return PRINT;}
 not 				{return NOT;}
 or 				{return OR;}
 and 				{return AND;}
+
+true 				{return TRUE;}
+false 				{return FALSE;}
 
 {LETTER}({LETTER}|{DIGIT})* 	{ return VARIAVEL; }
 {LETTER}({LETTER}|{DIGIT})* 	{ return IDENTIFICADOR;}
