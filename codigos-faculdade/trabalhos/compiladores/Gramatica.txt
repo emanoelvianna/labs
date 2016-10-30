@@ -78,8 +78,8 @@ Loop --> WHILE '(' ExpressaoSimples ')' '{' CorpoFuncao '}'
 
 Mutavel --> NUMERO AuxiliarMutavel
 
-AuxiliarMutavel --> MENOSMENOS
-		    | MAISMAIS
+AuxiliarMutavel --> DECREMENTO
+		    | INCREMENTO
 
 Retorna --> RETORNA AuxiliarRetorna
 
@@ -111,6 +111,6 @@ Operador --> '+'
 
 São Tokens:
 '=', '+', '-', '*', '/', '^', ';', ',', '(', ')', '{', '}'
-NUMERO, IDENTIFICADOR, VARIAVEL, WHILE, FOR, STRING, IF, ELSE, AUTO, DEFINE, OR, AND, MENORIGUAL, MENOR, MAIOR, MAIORIGUAL, IGUAL, DIFERENTE, MENOSMENOS, MAISMAIS, PRINT, TRUE, FALSE
+NUMERO, IDENTIFICADOR, VARIAVEL, WHILE, FOR, STRING, IF, ELSE, AUTO, DEFINE, OR, AND, MENORIGUAL, MENOR, MAIOR, MAIORIGUAL, IGUAL, DIFERENTE, DECREMENTO, INCREMENTO, PRINT, TRUE, FALSE
 
 Aqui foram utilizados os simbolos, mas lá no regex ele pode retornar o Operador para represetar os simbolos matematicos! ( ainda não sei se é uma boa ideia fazer isso.. )
