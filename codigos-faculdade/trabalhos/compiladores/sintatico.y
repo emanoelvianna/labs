@@ -1,160 +1,68 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Trabalho Compiladores - 2016			                           *
+ * BC - Calculadora Unix			                           *
+ * 						                           *
+ * Alunos:					                           *
+ * Emanoel A Vianna Fabiano - Matricula: 13202030                          *
+ * Emanoel A Vianna Fabiano - Matricula: 13202030                          *
+ * Emanoel A Vianna Fabiano - Matricula: 13202030                          *
+ *                                                                         *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 %{
 	import java.io.*;
 %}
 
-%right '='
-%left IGUAL DIFERENTE MAIORIGUAL MENORIGUAL
-%left AND OR
-%left ','
-%left '+' '-' INCREMENTO DECREMENTO
-%left '*' '/' '%'
-%left '^'
-
-%token IDENTIFICADOR, VARIAVEL, NUMERO, STRING
+%token NL
+%token  <dval> NUMERO
+%token  <sval> IDENTIFICADOR 
+%token  <sval> VARIAVEL 
+%token STRING
 %token IGUAL, DIFERENTE, MAIORIGUAL, MENORIGUAL
-%token INCREMENTO, DECREMENTO, AND, OR, NOT
+%token INCREMENTO, DECREMENTO, AND, OR, NOT, TRUE, FALSE
 %token DEFINE, AUTO, RETORNO
 %token PRINT
 %token IF, ELSE, FOR, WHILE
 
+%type <dval> exp
+
+%nonassoc '<'
+%left '-' '+'
+%left '*', '/'
+%right '^'         /* exponentiation        */
+
 %%
 
-BC	: Imediato BC
-  	| Atribuicao BC
-       	| Funcao BC
-       	| Controle BC
-       	| Loop BC
-       	|
-	;
+bc:   /* empty string */
+	| bc Imediato
+	| error NL { System.out.println("entrada invalida"); }
+       	;
 
-Imediato 	: ValorImedianto AuxiliarImediato
-		;
+      
+line:    NL      	{ if (interactive) System.out.print("\n> "); $$ = null; }
+       | Imediato NL  	{ $$ = $1; System.out.println("\n= " + $1); 
+                 	if (interactive) System.out.print("\n>: "); }
+       | Atribuicao NL
 
-AuxiliarImediato     : Operador Imediato
-		     | 	
-		     ;	
-		 
-ValorImedianto	: VARIAVEL
-	 	| IDENTIFICADOR
-	  	| NUMERO
-		| TRUE
-		| FALSE
-		;
+      
+Imediato	: NL      	{ if (interactive) System.out.print("> "); }
+       		| exp NL  	{ System.out.println(" = " + $1); 
+                   		if (interactive) System.out.print("> "); }
+       		;
 
-Atribuicao : Valor '=' Expressao
-	   ;	
+Atribuicao 	: IDENTIFICADOR '=' exp ';' NL	{ System.out.println(" = " + $1); 
+                   				if (interactive) System.out.print("> "); }
+		;      
 
-Expressao  : ValorExpressao AuxiliarExpressao
-	   | '(' ValorExpressao AuxiliarExpressao ')'
-	   ;
-
-AuxiliarExpressao  : Operador Expressao
-		   | 
-		   ;
-		      
-ValorExpressao	: VARIAVEL
-	 	| IDENTIFICADOR
-	        | NUMERO		     
- 		;
-
-Funcao	: DEFINE IDENTIFICADOR '(' Parametros ')' '{' CorpoFuncao '}'
-	;
-
-Parametros	: VARIAVEL AuxiliarParametros
-	  	;	
-
-AuxiliarParametros	: ',' Parametros
-		       	|
-			;
-
-CorpoFuncao	: ExpressaoCorpo CorpoFuncao
-		| Declaracao CorpoFuncao
-		| Condicional CorpoFuncao
-		| Loop CorpoFuncao
-		| Retorna CorpoFuncao 
-		| Escrever CorpoFuncao
-		|
-		;
-
-Declaracao	: AUTO VARIAVEL AuxiliarDeclaracao ';'
-		;
-
-AuxiliarDeclaracao	: ',' VARIAVEL AuxiliarDeclaracao
-		       	|
-			;
-
-Condicional	: '(' ExpressaoSimples ')' '{' CorpoFuncao '}' AuxiliarCondicional
-		;
-
-AuxiliarCondicional	:ELSE CorpoFuncao
-			| ';' Condicional
-			|
-			;
-
-ExpressaoSimples	: ValorExpressaoSimples AuxiliarExpressaoSimples
-		     	| NOT ValorExpressaoSimples AuxiliarExpressaoSimples
-			;
-
-AuxiliarExpressaoSimples	: OR ValorExpressaoSimples AuxiliarExpressaoSimples
-			     	| AND ValorExpressaoSimples AuxiliarExpressaoSimples
-                             	| MENORIGUAL ValorExpressaoSimples AuxiliarExpressaoSimples
-			     	| MENOR ValorExpressaoSimples AuxiliarExpressaoSimples
-			     	| MAIOR ValorExpressaoSimples AuxiliarExpressaoSimples
-			     	| MAIORIGUAL ValorExpressaoSimples AuxiliarExpressaoSimples
-                             	| IGUAL ValorExpressaoSimples AuxiliarExpressaoSimples
-			     	| DIFERENTE ValorExpressaoSimples AuxiliarExpressaoSimples
-			     	| Operador ValorExpressaoSimples AuxiliarExpressaoSimples
-			     	|
-				;
-			     
-ValorExpressaoSimples	: VARIAVEL
-	 		| NUMERO			  
-			| TRUE
-			| FALSE
-			;
-	 
-Loop	: WHILE '(' ExpressaoSimples ')' '{' CorpoFuncao '}'
-	| FOR '(' VARIAVEL '=' Valor ';' ExpressaoSimples ';' Mutavel ')' '{' CorpoFuncao '}'
-	;
-
-Mutavel	: NUMERO AuxiliarMutavel
-	;
-
-AuxiliarMutavel	: DECREMENTO
-		| INCREMENTO
-		;
-
-Retorna	: RETORNA AuxiliarRetorna
-	;
-
-AuxiliarRetorna	: ';'
-		| Expressao ';'
-		;
-
-Escrever	: PRINT AuxiliarEscrever
-		;
-
-AuxiliarEscrever	: STRING
-			| NUMERO
-		    	| Expressao
-			;
-
-ExpressaoCorpo		: Expressao ';'
-		   	;
-
-Valor 	 : VARIAVEL
-	 | IDENTIFICADOR
-	 | NUMERO
-	 ;
-
-Operador    : '+'
-	    | '-'
-            | '*'
-	    | '/'
-	    | '^'
-            | '%' 
-	    | '='
-	    ;	
+exp		: NUMERO            	{ $$ = $1; }
+       		| exp '+' exp   	{ $$ = $1 + $3; }
+       		| exp '-' exp       	{ $$ = $1 - $3; }
+       		| exp '*' exp        	{ $$ = $1 * $3; }
+       		| exp '/' exp        	{ $$ = $1 / $3; }
+       		| '-' exp 	    	{ $$ = -$2; }
+       		| exp '^' exp        	{ $$ = Math.pow($1, $3); }
+       		| '(' exp ')'        	{ $$ = $2; }
+       		;
 
 %%
 
@@ -196,11 +104,12 @@ Operador    : '+'
       yyparser = new Parser(new FileReader(args[0]));
     }
     else {
-      // interactive mode
-      System.out.println("[Sair CTRL-D]");
-      System.out.print(">");
-      interactive = true;
-	    yyparser = new Parser(new InputStreamReader(System.in));
+      	// interactive mode
+      	System.out.println("[Help #help]");	
+	System.out.println("[Sair CTRL-D]");	      
+	System.out.print("> ");
+      	interactive = true;
+	yyparser = new Parser(new InputStreamReader(System.in));
     }
 
     yyparser.yyparse();

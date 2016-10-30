@@ -26,10 +26,10 @@
 	}
 %}
 
+NUMERO=		([0-9]*\.)*[0-9]+
 DIGIT=		[0-9]
 LETTER=		[a-zA-Z]
-WHITESPACE=	[ \t]
-LineTerminator = \r|\n|\r\n  
+NL  = \n | \r | \r\n
 
 %%
 
@@ -51,7 +51,7 @@ false 				{return Parser.FALSE;}
 
 {LETTER}({LETTER}|{DIGIT})* 	{ return Parser.IDENTIFICADOR;}
 {LETTER}({LETTER}|{DIGIT})* 	{ return Parser.VARIAVEL;}
-([0-9]*\.)*[0-9]+ 		{ return Parser.NUMERO; }
+{NUMERO}  { yyparser.yylval = new ParserVal(Double.parseDouble(yytext())); return Parser.NUMERO; }
 \"[^\"]*\"  			{ return Parser.STRING; } 
 
 "<" |
@@ -68,7 +68,7 @@ false 				{return Parser.FALSE;}
 "/" |
 "%" |
 "^" |
-"="    				{ return yytext().charAt(0); } 
+"="    				{ return (int) yycharat(0); } 
 
 "<="                        	{return Parser.MENORIGUAL;}
 ">="                        	{return Parser.MAIORIGUAL;}
@@ -77,8 +77,7 @@ false 				{return Parser.FALSE;}
 "++"				{return Parser.INCREMENTO;}
 "--"				{return Parser.DECREMENTO;}
 
-{WHITESPACE}*               	{ }
-{LineTerminator}		{ }
-[ \t]+		{ }
+{NL}   { return Parser.NL; } /* nova linha */ 
+[ \t]+ { }
  
 . { System.err.println("Erro (linha " + yyline + "): unexpected character '" + yytext() + "'"); return YYEOF; }
