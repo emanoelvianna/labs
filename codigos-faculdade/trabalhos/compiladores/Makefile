@@ -1,4 +1,4 @@
-# Jflex e Byaccj devem estar na pasta
+# Os softwares Jflex e Byaccj devem estar na pasta ou será necessario informar o caminho
 # Observacao: estou utilizando o jar do JFlex
 
 JFLEX = JFlex.jar
