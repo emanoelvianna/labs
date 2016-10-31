@@ -14,9 +14,9 @@
 %}
 
 %token NL
-%token  <dval> NUMERO
-%token  <sval> IDENTIFICADOR 
-%token  <sval> VARIAVEL 
+%token <dval> NUMERO
+%token <sval> IDENTIFICADOR 
+%token <sval> VARIAVEL
 %token STRING
 %token IGUAL, DIFERENTE, MAIORIGUAL, MENORIGUAL
 %token INCREMENTO, DECREMENTO, AND, OR, NOT, TRUE, FALSE
@@ -29,32 +29,31 @@
 %nonassoc '<'
 %left '-' '+'
 %left '*', '/'
-%right '^'         /* exponentiation        */
+%right '^'
 
 %%
 
-bc:   /* empty string */
-	| bc Imediato
-	| error NL { System.out.println("entrada invalida"); }
+bc:   	/* empty string */
+       	| bc line
        	;
 
+line:	NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
+       	| exp NL  	{ $$ = $1;
+		   	System.out.println("\n= " + $1); 
+                   	if (interactive) System.out.print("\n>: "); }
+       	| imediato NL
+	;
       
-line:    NL      	{ if (interactive) System.out.print("\n> "); $$ = null; }
-       | Imediato NL  	{ $$ = $1; System.out.println("\n= " + $1); 
-                 	if (interactive) System.out.print("\n>: "); }
-       | Atribuicao NL
-
-      
-Imediato	: NL      	{ if (interactive) System.out.print("> "); }
+imediato	: NL      	{ if (interactive) System.out.print("> "); }
        		| exp NL  	{ System.out.println(" = " + $1); 
                    		if (interactive) System.out.print("> "); }
        		;
 
-Atribuicao 	: IDENTIFICADOR '=' exp ';' NL	{ System.out.println(" = " + $1); 
-                   				if (interactive) System.out.print("> "); }
-		;      
-
+atribuicao	: IDENTIFICADOR '=' exp NL	{ $$ = $1}
+		;
+      
 exp		: NUMERO            	{ $$ = $1; }
+		| VARIAVEL            	{ $$ = $1; }
        		| exp '+' exp   	{ $$ = $1 + $3; }
        		| exp '-' exp       	{ $$ = $1 - $3; }
        		| exp '*' exp        	{ $$ = $1 * $3; }
@@ -104,12 +103,11 @@ exp		: NUMERO            	{ $$ = $1; }
       yyparser = new Parser(new FileReader(args[0]));
     }
     else {
-      	// interactive mode
-      	System.out.println("[Help #help]");	
-	System.out.println("[Sair CTRL-D]");	      
-	System.out.print("> ");
-      	interactive = true;
-	yyparser = new Parser(new InputStreamReader(System.in));
+      // interactive mode
+      System.out.println("[Sair CTRL-D]");
+      System.out.print("> ");
+      interactive = true;
+	    yyparser = new Parser(new InputStreamReader(System.in));
     }
 
     yyparser.yyparse();
