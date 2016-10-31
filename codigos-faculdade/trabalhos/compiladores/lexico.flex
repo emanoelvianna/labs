@@ -3,9 +3,9 @@
  * BC - Calculadora Unix			                           *
  * 						                           *
  * Alunos:					                           *
- * Emanoel A Vianna Fabiano - Matricula: 13202030                          *
- * Emanoel A Vianna Fabiano - Matricula: 13202030                          *
- * Emanoel A Vianna Fabiano - Matricula: 13202030                          *
+ * Emanoel A Vianna Fabiano			                           *
+ * Jessica Arruda Ferreira de Santana		                           *
+ * Matheus Cosme Britzke			                           *
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -1,3 +1,15 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Trabalho Compiladores - 2016			                           *
+ * BC - Calculadora Unix			                           *
+ * 						                           *
+ * Alunos:					                           *
+ * Emanoel A Vianna Fabiano			                           *
+ * Jessica Arruda Ferreira de Santana		                           *
+ * Matheus Cosme Britzke			                           *
+ *                                                                         *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+
 BC --> 	Imediato BC
        | Atribuicao BC
        | Funcao BC
@@ -50,7 +62,7 @@ AuxiliarDeclaracao --> ',' VARIAVEL AuxiliarDeclaracao
 
 Condicional --> IF '(' ExpressaoSimples ')' '{' CorpoFuncao '}' AuxiliarCondicional
 
-AuxiliarCondicional --> ELSE CorpoFuncao			// Não tenho certeza se esta correto!
+AuxiliarCondicional --> ELSE CorpoFuncao	
 			| ';' Condicional
 			| ε
 
@@ -92,8 +104,7 @@ AuxiliarEscrever --> STRING
 		    | NUMERO
 		    | Expressao
 
-ExpressaoCorpo --> Expressao ';' 
-		   | ';'           // Não sei se faz sentido... se não é um erro!	
+ExpressaoCorpo --> Expressao ';' 	
 
 Valor --> VARIAVEL
 	 | IDENTIFICADOR
@@ -107,10 +118,10 @@ Operador --> '+'
             | '%' 
 	    | '='	
 
---- Observações sobre a gramatica:
+--- Observações sobre a gramatica: ---
 
 São Tokens:
+
 '=', '+', '-', '*', '/', '^', ';', ',', '(', ')', '{', '}'
 NUMERO, IDENTIFICADOR, VARIAVEL, WHILE, FOR, STRING, IF, ELSE, AUTO, DEFINE, OR, AND, MENORIGUAL, MENOR, MAIOR, MAIORIGUAL, IGUAL, DIFERENTE, DECREMENTO, INCREMENTO, PRINT, TRUE, FALSE
 
-Aqui foram utilizados os simbolos, mas lá no regex ele pode retornar o Operador para represetar os simbolos matematicos! ( ainda não sei se é uma boa ideia fazer isso.. )
