@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class NodoNT implements INodo
 {
-     private TipoOperacao op;
+    private TipoOperacao op;
     private INodo subE, subD;
     private INodo expr;
     private String ident;

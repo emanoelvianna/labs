@@ -20,7 +20,7 @@
 %token <sval> IDENTIFICADOR
 %token <sval> VARIAVEL
 
-%type <obj> exp, line, bc
+%type <obj> bc, line, exp, atribuicao
 
 %nonassoc '<'
 %left '-' '+'
@@ -44,17 +44,26 @@ bc:   	  /* empty string */ {$$=null;}
        | error NL { System.out.println("entrada ignorada"); }
        ;
 
-line:    NL     { if (interactive) System.out.print("\n> "); $$ = null; }
-       | exp NL	{ 
-			$$ = $1;
-		  	System.out.println("\n expressão = " + $1); 
-                   	if (interactive){ 
-				System.out.print("\n "); 
+line:    NL	{ if (interactive) System.out.print("\n> "); $$ = null; }
+	| exp NL	{ 
+				$$ = $1;
+			  	System.out.println("\n expressão = " + $1); 
+		           	if (interactive){ 
+					System.out.print("\n "); 
+				}
 			}
-		}
-       ;
+  	| atribuicao NL { 
+				$$ = $1;
+		           	if (interactive){ 
+					System.out.print("\n "); 
+				}
+			}
+	;
 
-exp:     NUMERO				{ $$ = new NodoTDouble($1); }
+atribuicao:	IDENTIFICADOR '=' exp	{ $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }	
+		;	
+
+exp:	NUMERO				{ $$ = new NodoTDouble($1); }
        | IDENTIFICADOR			{ $$ = new NodoID($1); }
        | exp '+' exp			{ $$ = new NodoNT(TipoOperacao.ADD,(INodo)$1,(INodo)$3); }
        | exp '-' exp			{ $$ = new NodoNT(TipoOperacao.SUB,(INodo)$1,(INodo)$3); }
@@ -102,14 +111,13 @@ exp:     NUMERO				{ $$ = new NodoTDouble($1); }
     if ( args.length > 0 ) {
       // parse a file
       yyparser = new Parser(new FileReader(args[0]));
-    }
-    else {
+    } else {
       // interactive mode
       System.out.println("[para ajudar CTRL-H]");		
       System.out.println("[para sair CTRL-D]");
       System.out.print("> ");
       interactive = true;
-	    yyparser = new Parser(new InputStreamReader(System.in));
+      yyparser = new Parser(new InputStreamReader(System.in));
     }
 
     yyparser.yyparse();
