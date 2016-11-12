@@ -9,63 +9,66 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
 %{
-	import java.io.*;
+  import java.io.*;
+  import java.util.HashMap;
 %}
 
-%token NL
+%token NL          /* nova linha  */
 %token <dval> NUMERO
-%token <sval> IDENTIFICADOR 
+%token <sval> IDENTIFICADOR
 %token <sval> VARIAVEL
-%token STRING
-%token IGUAL, DIFERENTE, MAIORIGUAL, MENORIGUAL
-%token INCREMENTO, DECREMENTO, AND, OR, NOT, TRUE, FALSE
-%token DEFINE, AUTO, RETORNO
-%token PRINT
-%token IF, ELSE, FOR, WHILE
 
-%type <dval> exp
+%type <obj> exp, line, bc
 
 %nonassoc '<'
 %left '-' '+'
 %left '*', '/'
-%right '^'
+%left NEG          /* negation--unary minus */
+%right '^'         /* expoente */
 
 %%
 
-bc:   	/* empty string */
-       	| bc line
-       	;
+bc:   	  /* empty string */ {$$=null;}
+	| bc line { 
+			if ($2 != null) {
+	          		System.out.print("Resultado: " + ((INodo) $2).avalia() +"\n> "); 
+				$$=$2;
+		 	}
+			else {
+	                  	System.out.print("\n> "); 
+				$$=null;
+			}
+		 }
+       | error NL { System.out.println("entrada ignorada"); }
+       ;
 
-line:	NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
-       	| exp NL  	{ $$ = $1;
-		   	System.out.println("\n= " + $1); 
-                   	if (interactive) System.out.print("\n>: "); }
-       	| imediato NL
-	;
-      
-imediato	: NL      	{ if (interactive) System.out.print("> "); }
-       		| exp NL  	{ System.out.println(" = " + $1); 
-                   		if (interactive) System.out.print("> "); }
-       		;
+line:    NL     { if (interactive) System.out.print("\n> "); $$ = null; }
+       | exp NL	{ 
+			$$ = $1;
+		  	System.out.println("\n expressão = " + $1); 
+                   	if (interactive){ 
+				System.out.print("\n "); 
+			}
+		}
+       ;
 
-atribuicao	: IDENTIFICADOR '=' exp NL	{ $$ = $1}
-		;
-      
-exp		: NUMERO            	{ $$ = $1; }
-		| VARIAVEL            	{ $$ = $1; }
-       		| exp '+' exp   	{ $$ = $1 + $3; }
-       		| exp '-' exp       	{ $$ = $1 - $3; }
-       		| exp '*' exp        	{ $$ = $1 * $3; }
-       		| exp '/' exp        	{ $$ = $1 / $3; }
-       		| '-' exp 	    	{ $$ = -$2; }
-       		| exp '^' exp        	{ $$ = Math.pow($1, $3); }
-       		| '(' exp ')'        	{ $$ = $2; }
-       		;
+exp:     NUMERO				{ $$ = new NodoTDouble($1); }
+       | IDENTIFICADOR			{ $$ = new NodoID($1); }
+       | exp '+' exp			{ $$ = new NodoNT(TipoOperacao.ADD,(INodo)$1,(INodo)$3); }
+       | exp '-' exp			{ $$ = new NodoNT(TipoOperacao.SUB,(INodo)$1,(INodo)$3); }
+       | exp '*' exp			{ $$ = new NodoNT(TipoOperacao.MULL,(INodo)$1,(INodo)$3); }
+       | exp '/' exp			{ $$ = new NodoNT(TipoOperacao.DIV,(INodo)$1,(INodo)$3); }
+       | exp '<' exp			{ $$ = new NodoNT(TipoOperacao.LESS,(INodo)$1,(INodo)$3); }
+       | '-' exp  %prec NEG		{ $$ = new NodoNT(TipoOperacao.UMINUS,(INodo)$2,null); }
+       | exp '^' exp			{ $$ = new NodoNT(TipoOperacao.POW,(INodo)$1,(INodo)$3); }
+       | '(' exp ')'			{ $$ = $2; }
+       ;
 
 %%
 
-
+  public static HashMap<String, ResultValue> memory = new HashMap<>();
   private BC bc;
 
 
@@ -86,16 +89,14 @@ exp		: NUMERO            	{ $$ = $1; }
     System.err.println ("Error: " + error);
   }
 
-
   public Parser(Reader r) {
     bc = new BC(r, this);
   }
 
-
   static boolean interactive;
 
   public static void main(String args[]) throws IOException {
-    System.out.println("-- BC simple calculator - version: 2016 --");
+    System.out.println("-- BC simples calculadora --");
 
     Parser yyparser;
     if ( args.length > 0 ) {
@@ -104,7 +105,8 @@ exp		: NUMERO            	{ $$ = $1; }
     }
     else {
       // interactive mode
-      System.out.println("[Sair CTRL-D]");
+      System.out.println("[para ajudar CTRL-H]");		
+      System.out.println("[para sair CTRL-D]");
       System.out.print("> ");
       interactive = true;
 	    yyparser = new Parser(new InputStreamReader(System.in));
@@ -114,7 +116,7 @@ exp		: NUMERO            	{ $$ = $1; }
     
     if (interactive) {
       System.out.println();
-      System.out.println("Tchau");
+      System.out.println("É hora de dar tchau..");
     }
   }
 
