@@ -307,7 +307,7 @@ final static String yyrule[] = {
 "exp : '(' exp ')'",
 };
 
-//#line 79 "sintatico.y"
+//#line 76 "sintatico.y"
 
   public static HashMap<String, ResultValue> memory = new HashMap<>();
   private BC bc;
@@ -521,89 +521,86 @@ case 1:
 break;
 case 2:
 //#line 34 "sintatico.y"
-{ 
-			if (val_peek(0).obj != null) {
-	          		System.out.print("Resultado: " + ((INodo) val_peek(0).obj).avalia() +"\n> "); 
-				yyval.obj=val_peek(0).obj;
-		 	}
-			else {
-	                  	System.out.print("\n> "); 
-				yyval.obj=null;
-			}
-		 }
+{ System.out.print("\n> "); }
 break;
 case 3:
-//#line 44 "sintatico.y"
+//#line 35 "sintatico.y"
 { System.out.println("entrada ignorada"); }
 break;
 case 4:
-//#line 47 "sintatico.y"
+//#line 38 "sintatico.y"
 { if (interactive) System.out.print("\n> "); yyval.obj = null; }
 break;
 case 5:
-//#line 48 "sintatico.y"
+//#line 39 "sintatico.y"
 { 
-				yyval.obj = val_peek(1).obj;
-			  	System.out.println("\n expressão = " + val_peek(1).obj); 
-		           	if (interactive){ 
+				if (val_peek(1).obj != null) {
+					System.out.println("\n Expressão = " + val_peek(1).obj); 			  		
+					System.out.print(" Resultado: " + ((INodo) yyval.obj).avalia()); 
+					yyval.obj=val_peek(1).obj;
+			 	}
+			  	if (interactive){ 
 					System.out.print("\n "); 
 				}
 			}
 break;
 case 6:
-//#line 55 "sintatico.y"
+//#line 49 "sintatico.y"
 { 
-				yyval.obj = val_peek(1).obj;
-		           	if (interactive){ 
+				if (val_peek(1).obj != null) {		  		
+					System.out.print("\n Resultado: " + ((INodo) yyval.obj).avalia()); 
+					yyval.obj=val_peek(1).obj;
+			 	}
+			  	if (interactive){ 
 					System.out.print("\n "); 
 				}
 			}
 break;
 case 7:
-//#line 63 "sintatico.y"
+//#line 60 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.ATRIB, val_peek(2).sval, (INodo)val_peek(0).obj); }
 break;
 case 8:
-//#line 66 "sintatico.y"
+//#line 63 "sintatico.y"
 { yyval.obj = new NodoTDouble(val_peek(0).dval); }
 break;
 case 9:
-//#line 67 "sintatico.y"
+//#line 64 "sintatico.y"
 { yyval.obj = new NodoID(val_peek(0).sval); }
 break;
 case 10:
-//#line 68 "sintatico.y"
+//#line 65 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.ADD,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 11:
-//#line 69 "sintatico.y"
+//#line 66 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.SUB,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 12:
-//#line 70 "sintatico.y"
+//#line 67 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.MULL,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 13:
-//#line 71 "sintatico.y"
+//#line 68 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.DIV,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 14:
-//#line 72 "sintatico.y"
+//#line 69 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.LESS,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 15:
-//#line 73 "sintatico.y"
+//#line 70 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.UMINUS,(INodo)val_peek(0).obj,null); }
 break;
 case 16:
-//#line 74 "sintatico.y"
+//#line 71 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.POW,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 17:
-//#line 75 "sintatico.y"
+//#line 72 "sintatico.y"
 { yyval.obj = val_peek(1).obj; }
 break;
-//#line 530 "Parser.java"
+//#line 527 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

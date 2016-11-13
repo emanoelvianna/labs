@@ -31,30 +31,27 @@
 %%
 
 bc:   	  /* empty string */ {$$=null;}
-	| bc line { 
-			if ($2 != null) {
-	          		System.out.print("Resultado: " + ((INodo) $2).avalia() +"\n> "); 
-				$$=$2;
-		 	}
-			else {
-	                  	System.out.print("\n> "); 
-				$$=null;
-			}
-		 }
-       | error NL { System.out.println("entrada ignorada"); }
-       ;
+	| bc line { System.out.print("\n> "); }
+	| error NL { System.out.println("entrada ignorada"); }
+	;
 
-line:    NL	{ if (interactive) System.out.print("\n> "); $$ = null; }
+line:    NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
 	| exp NL	{ 
-				$$ = $1;
-			  	System.out.println("\n expressão = " + $1); 
-		           	if (interactive){ 
+				if ($1 != null) {
+					System.out.println("\n Expressão = " + $1); 			  		
+					System.out.print(" Resultado: " + ((INodo) $$).avalia()); 
+					$$=$1;
+			 	}
+			  	if (interactive){ 
 					System.out.print("\n "); 
 				}
 			}
   	| atribuicao NL { 
-				$$ = $1;
-		           	if (interactive){ 
+				if ($1 != null) {		  		
+					System.out.print("\n Resultado: " + ((INodo) $$).avalia()); 
+					$$=$1;
+			 	}
+			  	if (interactive){ 
 					System.out.print("\n "); 
 				}
 			}
