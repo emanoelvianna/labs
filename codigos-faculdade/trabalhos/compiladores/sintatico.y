@@ -20,7 +20,7 @@
 %token <sval> IDENTIFICADOR
 %token <sval> VARIAVEL
 
-%type <obj> bc, line, exp, atribuicao
+%type <obj> bc, line, exp, atribuicao, help
 
 %nonassoc '<'
 %left '-' '+'
@@ -55,13 +55,14 @@ line:    NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
 					System.out.print("\n "); 
 				}
 			}
+	| help NL	
 	;
 
 atribuicao:	IDENTIFICADOR '=' exp	{ $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }	
 		;	
 
 exp:	NUMERO				{ $$ = new NodoTDouble($1); }
-       | IDENTIFICADOR			{ $$ = new NodoID($1); }
+       | IDENTIFICADOR			{ $$ = new NodoID($1);}
        | exp '+' exp			{ $$ = new NodoNT(TipoOperacao.ADD,(INodo)$1,(INodo)$3); }
        | exp '-' exp			{ $$ = new NodoNT(TipoOperacao.SUB,(INodo)$1,(INodo)$3); }
        | exp '*' exp			{ $$ = new NodoNT(TipoOperacao.MULL,(INodo)$1,(INodo)$3); }
@@ -71,6 +72,15 @@ exp:	NUMERO				{ $$ = new NodoTDouble($1); }
        | exp '^' exp			{ $$ = new NodoNT(TipoOperacao.POW,(INodo)$1,(INodo)$3); }
        | '(' exp ')'			{ $$ = $2; }
        ;
+
+help:	HELPS				
+	{ System.out.println(
+		"O que é possível fazer:\n"+
+		"- Operações imediatas: Exemplo: 2^3+5\n" +
+ 		"- Operações de atribuições: Exemplo: x = 2^b+5\n"+
+		"- Declaração de função: Exemplo: define d (n) { return (2*n); } \n"
+	); }
+	;
 
 %%
 
@@ -110,7 +120,7 @@ exp:	NUMERO				{ $$ = new NodoTDouble($1); }
       yyparser = new Parser(new FileReader(args[0]));
     } else {
       // interactive mode
-      System.out.println("[para ajudar CTRL-H]");		
+      System.out.println("[para ajudar #help]");		
       System.out.println("[para sair CTRL-D]");
       System.out.print("> ");
       interactive = true;

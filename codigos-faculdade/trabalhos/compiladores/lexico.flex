@@ -36,7 +36,8 @@ NL  = \n | \r | \r\n
 {LETTER}({LETTER}|{DIGIT})* 	{ return Parser.IDENTIFICADOR;}
 {LETTER}({LETTER}|{DIGIT})* 	{ return Parser.VARIAVEL;}
 {NUMERO}  { yyparser.yylval = new ParserVal(Double.parseDouble(yytext())); return Parser.NUMERO; }
-STRING	{ return Parser.STRING; }
+STRING				{ return Parser.STRING; }
+\#help  			{ return Parser.HELPS; } 
 
 "<" |
 ">" |
