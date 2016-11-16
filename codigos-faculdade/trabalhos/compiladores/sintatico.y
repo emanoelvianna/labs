@@ -73,7 +73,7 @@ exp:	NUMERO				{ $$ = new NodoTDouble($1); }
        | '(' exp ')'			{ $$ = $2; }
        ;
 
-help:	HELPS				
+help:	HELP				
 	{ System.out.println(
 		"O que é possível fazer:\n"+
 		"- Operações imediatas: Exemplo: 2^3+5\n" +

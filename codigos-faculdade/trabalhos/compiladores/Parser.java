@@ -162,7 +162,7 @@ public final static short NUMERO=258;
 public final static short IDENTIFICADOR=259;
 public final static short VARIAVEL=260;
 public final static short NEG=261;
-public final static short HELPS=262;
+public final static short HELP=262;
 public final static short YYERRCODE=256;
 final static short yylhs[] = {                           -1,
     0,    0,    0,    1,    1,    1,    1,    3,    2,    2,
@@ -285,7 +285,7 @@ null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,"NL","NUMERO","IDENTIFICADOR","VARIAVEL",
-"NEG","HELPS",
+"NEG","HELP",
 };
 final static String yyrule[] = {
 "$accept : bc",
@@ -307,7 +307,7 @@ final static String yyrule[] = {
 "exp : '-' exp",
 "exp : exp '^' exp",
 "exp : '(' exp ')'",
-"help : HELPS",
+"help : HELP",
 };
 
 //#line 86 "sintatico.y"

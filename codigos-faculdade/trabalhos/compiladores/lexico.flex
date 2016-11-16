@@ -26,18 +26,16 @@
 	}
 %}
 
-NUMERO=		([0-9]*\.)*[0-9]+
-DIGIT=		[0-9]
-LETTER=		[a-zA-Z]
-NL  = \n | \r | \r\n
+NUMERO =	([0-9]*\.)*[0-9]+
+DIGIT =		[0-9]
+LETTER =	[a-zA-Z]
+NL = 		\n | \r | \r\n
 
 %%
 
 {LETTER}({LETTER}|{DIGIT})* 	{ return Parser.IDENTIFICADOR;}
-{LETTER}({LETTER}|{DIGIT})* 	{ return Parser.VARIAVEL;}
 {NUMERO}  { yyparser.yylval = new ParserVal(Double.parseDouble(yytext())); return Parser.NUMERO; }
-STRING				{ return Parser.STRING; }
-\#help  			{ return Parser.HELPS; } 
+#help  				{ return Parser.HELP; } 
 
 "<" |
 ">" |
