@@ -310,10 +310,11 @@ final static String yyrule[] = {
 "help : HELP",
 };
 
-//#line 86 "sintatico.y"
+//#line 95 "sintatico.y"
 
   public static HashMap<String, ResultValue> memory = new HashMap<>();
   private BC bc;
+  private TabSimb ts = new TabSimb();
 
 
   private int yylex () {
@@ -362,7 +363,6 @@ final static String yyrule[] = {
       System.out.println("É hora de dar tchau..");
     }
   }
-
 
 //#line 296 "Parser.java"
 //###############################################################
@@ -560,51 +560,51 @@ case 6:
 			}
 break;
 case 8:
-//#line 61 "sintatico.y"
+//#line 70 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.ATRIB, val_peek(2).sval, (INodo)val_peek(0).obj); }
 break;
 case 9:
-//#line 64 "sintatico.y"
+//#line 73 "sintatico.y"
 { yyval.obj = new NodoTDouble(val_peek(0).dval); }
 break;
 case 10:
-//#line 65 "sintatico.y"
+//#line 74 "sintatico.y"
 { yyval.obj = new NodoID(val_peek(0).sval);}
 break;
 case 11:
-//#line 66 "sintatico.y"
+//#line 75 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.ADD,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 12:
-//#line 67 "sintatico.y"
+//#line 76 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.SUB,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 13:
-//#line 68 "sintatico.y"
+//#line 77 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.MULL,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 14:
-//#line 69 "sintatico.y"
+//#line 78 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.DIV,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 15:
-//#line 70 "sintatico.y"
+//#line 79 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.LESS,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 16:
-//#line 71 "sintatico.y"
+//#line 80 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.UMINUS,(INodo)val_peek(0).obj,null); }
 break;
 case 17:
-//#line 72 "sintatico.y"
+//#line 81 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.POW,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 18:
-//#line 73 "sintatico.y"
+//#line 82 "sintatico.y"
 { yyval.obj = val_peek(1).obj; }
 break;
 case 19:
-//#line 77 "sintatico.y"
+//#line 86 "sintatico.y"
 { System.out.println(
 		"O que é possível fazer:\n"+
 		"- Operações imediatas: Exemplo: 2^3+5\n" +

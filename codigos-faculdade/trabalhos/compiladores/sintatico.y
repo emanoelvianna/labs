@@ -55,6 +55,15 @@ line:    NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
 					System.out.print("\n "); 
 				}
 			}
+
+//			{  
+//				TS_entry nodo = ts.pesquisa($2);
+//    	                		if (nodo != null) 
+//                            			yyerror("variavel " + $2 + " ja declarada");
+//					else ts.insert(new TS_entry($2, $1)); 
+//			}
+
+
 	| help NL	
 	;
 
@@ -86,6 +95,7 @@ help:	HELP
 
   public static HashMap<String, ResultValue> memory = new HashMap<>();
   private BC bc;
+  private TabSimb ts = new TabSimb();
 
 
   private int yylex () {
@@ -134,5 +144,4 @@ help:	HELP
       System.out.println("É hora de dar tchau..");
     }
   }
-
 
