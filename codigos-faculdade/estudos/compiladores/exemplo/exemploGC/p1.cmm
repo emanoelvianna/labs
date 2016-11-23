@@ -1,0 +1,18 @@
+int a; 
+int b; 
+int c;
+int d;
+
+void main() {  
+    a = b = c = 5;
+   
+    write (" a =  ", a );
+    write (" b =  ", b );
+    write (" c =  ", c );
+
+	  d = a++ + ++a;
+	write (" a =  ", a );
+    write (" d =  ", d );
+   
+}
+
