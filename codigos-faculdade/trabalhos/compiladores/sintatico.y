@@ -16,21 +16,30 @@
 %}
 
 %token NL, HELP, SAVE
+%token IDENTIFICADOR, FLOAT, BOOL, NUMERO, LITERAL, PRINT, IF, ELSE
+%token WHILE,TRUE, FALSE, IF, ELSE
+%token IGUAL, DIFERENTE, MAIORIGUAL, MENORIGUAL 
+%token AND, OR, FOR
+%token BREAK
+
 %token <dval> NUMERO
 %token <sval> IDENTIFICADOR
 %token <sval> VARIAVEL
 
 %type <obj> bc, line, exp, atribuicao, help, save
 
-%nonassoc '<'
-%left '-' '+'
-%left '*', '/'
+%right '='
+%left OR
+%left AND
+%left  '>' '<' IGUAL DIFERENTE MAIORIGUAL MENORIGUAL
+%left '+' '-'
+%left '*' '/' '%'
 %left NEG          /* negation--unary minus */
 %right '^'         /* expoente */
 
 %%
 
-bc:   	  /* empty string */ {$$=null;}
+bc:   	/* empty string */ {$$=null;}
 	| bc line { System.out.print("\n> "); }
 	| error NL { System.out.println("entrada ignorada"); }
 	;

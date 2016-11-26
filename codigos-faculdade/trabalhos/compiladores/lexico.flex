@@ -1,17 +1,6 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Trabalho Compiladores - 2016			                           *
- * BC - Calculadora Unix			                           *
- * 						                           *
- * Alunos:					                           *
- * Emanoel A Vianna Fabiano			                           *
- * Jessica Arruda Ferreira de Santana		                           *
- * Matheus Cosme Britzke			                           *
- *                                                                         *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 %%
+
 %byaccj
-%class BC
 
 %{
 	private Parser yyparser;
@@ -26,35 +15,55 @@
 	}
 %}
 
-NUMERO =	([0-9]*\.)*[0-9]+
-DIGIT =		[0-9]
-LETTER =	[a-zA-Z]
-NL = 		\n | \r | \r\n
+NL  = \n | \r | \r\n
 
 %%
 
-{LETTER}({LETTER}|{DIGIT})* 	{ yyparser.yylval = new ParserVal(yytext());  return Parser.IDENTIFICADOR;}
-{NUMERO}  { yyparser.yylval = new ParserVal(Double.parseDouble(yytext())); return Parser.NUMERO; }
-#help  				{ return Parser.HELP; } 
-#save  				{ return Parser.SAVE; } 
+{NL}   {yyline++;}
+[ \t]+ { }
 
-"<" |
+"+" |
+"-" |
+"*" | 
+"/" | 
+"%" | 
 ">" |
-"(" |
+"<" |
+"=" |
+"!" |
+";" |
+"(" | 
 ")" |
 "{" |
 "}" |
 "," |
-";" |
-"+" |
-"-" |
-"*" |
-"/" |
-"%" |
-"^" |
-"="    				{ return (int) yycharat(0); } 
+"\[" | 
+"\]"    { return (int) yycharat(0); }
 
-{NL}   { return Parser.NL; } /* nova linha */ 
-[ \t]+ { }
+[-]?[0-9]+\.[0-9]+  { yyparser.yylval = new ParserVal(yytext()); 
+         return Parser.NUMERO; }
+
+"=="		{ return Parser.IGUAL; }
+"!="		{ return Parser.DIFERENTE; }
+">="		{ return Parser.MAIORIGUAL; }
+"<="		{ return Parser.MENORIGUAL; }
+"&&"		{ return Parser.AND; }
+"||"		{ return Parser.OR; }
  
-. { System.err.println("Erro (linha " + yyline + "): unexpected character '" + yytext() + "'"); return YYEOF; }
+define   	{ return Parser.DEFINE;}
+for   		{ return Parser.FOR;}
+float  		{ return Parser.FLOAT;   }
+bool   		{ return Parser.BOOL; }
+print   	{ return Parser.PRINT; }
+while   	{ return Parser.WHILE; }
+if   		{ return Parser.IF; }
+else   		{ return Parser.ELSE; }
+true   		{ return Parser.TRUE; }
+false   	{ return Parser.FALSE; }
+break 		{return Parser.BREAK; }
+
+[a-zA-Z]+([a-zA-Z0-9]+)? { yyparser.yylval = new ParserVal(yytext()); return Parser.IDENTIFICADOR; }
+
+\"[^\n]+\" { yyparser.yylval = new ParserVal(yytext().substring(1, yylength() -1)); return Parser.LITERAL; }
+
+[^]    { System.err.println("Error: unexpected character '"+yytext()+"'"); return -1; }
