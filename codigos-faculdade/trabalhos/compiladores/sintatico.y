@@ -15,12 +15,12 @@
   import java.util.HashMap;
 %}
 
-%token NL          /* nova linha  */
+%token NL, HELP, SAVE
 %token <dval> NUMERO
 %token <sval> IDENTIFICADOR
 %token <sval> VARIAVEL
 
-%type <obj> bc, line, exp, atribuicao, help
+%type <obj> bc, line, exp, atribuicao, help, save
 
 %nonassoc '<'
 %left '-' '+'
@@ -56,15 +56,8 @@ line:    NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
 				}
 			}
 
-//			{  
-//				TS_entry nodo = ts.pesquisa($2);
-//    	                		if (nodo != null) 
-//                            			yyerror("variavel " + $2 + " ja declarada");
-//					else ts.insert(new TS_entry($2, $1)); 
-//			}
-
-
-	| help NL	
+	| help NL
+	| save NL	
 	;
 
 atribuicao:	IDENTIFICADOR '=' exp	{ $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }	
@@ -85,10 +78,18 @@ exp:	NUMERO				{ $$ = new NodoTDouble($1); }
 help:	HELP				
 	{ System.out.println(
 		"O que é possível fazer:\n"+
-		"- Operações imediatas: Exemplo: 2^3+5\n" +
- 		"- Operações de atribuições: Exemplo: x = 2^b+5\n"+
-		"- Declaração de função: Exemplo: define d (n) { return (2*n); } \n"
-	); }
+		"- Operações imediatas. Exemplo: 2^3+5\n" +
+ 		"- Operações de atribuições. Exemplo: x = 2^b+5\n"+
+		"- Declaração de função. Exemplo: define d (n) { return (2*n); } \n"
+	); 
+	}
+	;
+
+save: SAVE 
+	{ System.out.println(
+		"Gravando o conteúdo atual da tabela de funções.\n"
+	); 
+	}
 	;
 
 %%
@@ -122,7 +123,7 @@ help:	HELP
   static boolean interactive;
 
   public static void main(String args[]) throws IOException {
-    System.out.println("-- BC simples calculadora --");
+    System.out.println("-- BC calculadora --");
 
     Parser yyparser;
     if ( args.length > 0 ) {
