@@ -48,6 +48,9 @@ NL  = \n | \r | \r\n
 "||"		{ return Parser.OR; }
  
 define   	{ return Parser.DEFINE; }
+void   		{ return Parser.VOID; }
+main   		{ return Parser.MAIN; }
+
 for   		{ return Parser.FOR;}
 float  		{ return Parser.FLOAT;   }
 bool   		{ return Parser.BOOL; }

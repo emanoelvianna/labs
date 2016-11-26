@@ -13,6 +13,8 @@
 %{
   import java.io.*;
   import java.util.HashMap;
+  import java.util.ArrayList;
+  import java.util.Stack;
 %}
 
 %token NL, HELP, SAVE
@@ -26,8 +28,9 @@
 %token <dval> NUMERO
 %token <sval> IDENTIFICADOR
 %token <sval> VARIAVEL
+%type <sval>  LITERAL
 
-%type <obj> bc, line, exp, atribuicao, help, save, funcao
+%type <obj> bc, line, exp, atribuicao, help, save, funcao, cmd
 
 %right '='
 %left OR
@@ -41,8 +44,8 @@
 %%
 
 bc:   	/* empty string */ {$$=null;}
-	| bc line { System.out.print("\n> "); }
-	| error NL { System.out.println("entrada ignorada"); }
+	| bc line { currEscopo = ""; System.out.print("\n> "); } 	
+	| error NL { System.out.println("entrada ignorada"); System.out.print("\n> "); }
 	;
 
 line:    NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
@@ -65,9 +68,7 @@ line:    NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
 					System.out.print("\n "); 
 				}
 			}
-	| funcao NL 	{ 	
-				System.out.print("percebi que é uma funcao ");
-			}
+	| funcao NL	
 	| help NL
 	| save NL	
 	;
@@ -75,9 +76,20 @@ line:    NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
 atribuicao:	IDENTIFICADOR '=' exp	{ $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }	
 		;
 
-funcao:		DEFINE IDENTIFICADOR'(' ')'{ System.out.println("_start:"); }
-        	'{' '}'
+funcao:		IDENTIFICADOR'(' ')'	{  	
+							System.out.println("funcao");
+							TS_entry nodo = ts.pesquisa($1);
+    	                      				if (nodo != null) 
+                                 				yyerror("funcao " + $1 + " já declarada");
+                               				else ts.insert(new TS_entry($1, Tp_DEFINE, currEscopo, ClasseID.NomeStruct));
+ 								currEscopo = $1; currClass = ClasseID.CampoStruct; 
+						}
+        	'{' cmd '}'
          	; 
+
+cmd 	: exp		{  System.out.println("expressao");}
+	;
+
 
 exp:	NUMERO				{ $$ = new NodoTDouble($1); }
        | IDENTIFICADOR			{ $$ = new NodoID($1);}
@@ -114,6 +126,22 @@ save: SAVE
   private BC bc;
   private TabSimb ts = new TabSimb();
 
+  private int strCount = 0;
+  private ArrayList<String> strTab = new ArrayList<String>();
+
+  private Stack<Integer> pRot = new Stack<Integer>();
+  private Stack<Integer> pRotSel = new Stack<Integer>();
+  private int proxRot = 1;
+
+  private String currEscopo;
+  private ClasseID currClass;
+
+
+  public static TS_entry Tp_BOOL = new TS_entry("bool", null, "", ClasseID.TipoBase);
+  public static TS_entry Tp_FLOAT = new TS_entry("float", null, "", ClasseID.TipoBase);
+  public static TS_entry Tp_DEFINE = new TS_entry("define", null, "", ClasseID.TipoBase);
+  public static TS_entry Tp_ARRAY = new TS_entry("array", null, "", ClasseID.TipoBase);
+  public static TS_entry Tp_ERRO = new TS_entry("_erro_", null, "", ClasseID.TipoBase);
 
   private int yylex () {
     int yyl_return = -1;

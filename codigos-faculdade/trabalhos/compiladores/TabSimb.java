@@ -11,15 +11,15 @@ public class TabSimb
         lista = new ArrayList<TS_entry>();
     }
     
-    public void insert( TS_entry nodo ) {
+     public void insert( TS_entry nodo ) {
       lista.add(nodo);
     }    
     
     public void listar() {
       int cont = 0;  
-      System.out.println("\n\n# Listagem da tabela de simbolos:\n");
+      System.out.println("\n\nListagem da tabela de simbolos:\n");
       for (TS_entry nodo : lista) {
-          System.out.println("# " + nodo);
+          System.out.println(nodo);
       }
     }
       
@@ -32,15 +32,7 @@ public class TabSimb
       return null;
     }
 
-	public void geraGlobais() {
-          // assume que todas variáveis são globais e inteiras.
-	      for (TS_entry nodo : lista) {
-	            	System.out.println("_"+nodo.getId()+":"+"	.zero 4");
-	            }
-	      }
-	     
-
-
+    public  ArrayList<TS_entry> getLista() {return lista;}
 }
 
 

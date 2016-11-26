@@ -1,27 +1,30 @@
+import java.util.ArrayList;
 
-/**
- * Write a description of class Paciente here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class TS_entry
 {
    private String id;
-   private int tipo;
-   private int numeroElementos;
-   private int tipoBase;
+   private ClasseID classe;  
+   private String escopo;
+   private TS_entry tipo;
+   private int nElem;
+   private TS_entry tipoBase;
+   private TabSimb locais;
 
 
-   public TS_entry(String umId, int umTipo, int ne, int umTBase) {
+   // construtor para arrays
+   public TS_entry(String umId, TS_entry umTipo, int ne, TS_entry umTBase, String umEscopo, ClasseID umaClasse) {
       id = umId;
       tipo = umTipo;
-      numeroElementos = ne;
+      escopo = umEscopo;
+      nElem = ne;
       tipoBase = umTBase;
+      classe = umaClasse;
+      locais = new TabSimb();
    }
 
-   public TS_entry(String umId, int umTipo) {
-      this(umId, umTipo, -1, -1);
+   // construtor default
+   public TS_entry(String umId, TS_entry umTipo, String escopo, ClasseID classe) {
+      this(umId, umTipo, -1, null, escopo, classe);
    }
 
 
@@ -29,23 +32,68 @@ public class TS_entry
        return id; 
    }
 
-   public int getTipo() {
+   public TS_entry getTipo() {
        return tipo; 
    }
    
-   public int getNumElem() {
-       return numeroElementos; 
+   public String getTipoStr() {
+       return tipo2str(this); 
    }
 
-   public int getTipoBase() {
+   public int getNumElem() {
+       return nElem; 
+   }
+
+   public TS_entry getTipoBase() {
        return tipoBase; 
    }
 
-   
    public String toString() {
-       String aux = (numeroElementos != -1) ? "\t array(" + numeroElementos + "): "+tipoBase : "";
-       return "Id: " + id + "\t tipo: " + tipo + aux;
+       StringBuilder aux = new StringBuilder("");
+        
+	     aux.append("Id: ");
+	     aux.append(String.format("%-10s", id));
+
+	     aux.append("\tClasse: ");
+	     aux.append(classe);
+	     aux.append("\tEscopo: ");
+	     aux.append(String.format("%-4s", escopo));
+	     aux.append("\tTipo: "); 
+	     aux.append(tipo2str(this.tipo)); 
+       
+      if (this.tipo == Parser.Tp_ARRAY) {
+    	     aux.append(" (ne: ");
+	         aux.append(nElem);
+    	     aux.append(", tBase: ");
+	         aux.append(tipo2str(this.tipoBase));
+    	     aux.append(")");
+
+    }    
+
+        ArrayList<TS_entry> lista = locais.getLista();
+        for (TS_entry t : lista) {
+            aux.append("\n\t");
+	    		  aux.append(t.toString());
+        }
+
+      return aux.toString();
+
    }
 
+    public String tipo2str(TS_entry tipo) {
+      if (tipo == null)  return "null";  
+      else if (tipo==Parser.Tp_BOOL)   	return "boolean"; 
+      else if (tipo==Parser.Tp_FLOAT)  	return "float"; 
+      else if (tipo==Parser.Tp_DEFINE)  return "define";
+      else if (tipo==Parser.Tp_ARRAY)  return "array";
+      else if (tipo==Parser.Tp_ERRO)  	return  "_erro_";
+      else return "erro/tp";
+   }
 
 }
+
+
+
+
+
+
