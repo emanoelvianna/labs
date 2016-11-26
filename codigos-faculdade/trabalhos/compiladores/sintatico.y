@@ -87,21 +87,27 @@ atribuicao:	IDENTIFICADOR '=' exp	{ $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INo
 funcao:		IDENTIFICADOR'(' ')'	{  	
 						System.out.println("funcao");
 						TS_entry nodo = ts.pesquisa($1);
-                      				if (nodo != null) 
+                      				if (nodo != null) {
                          				yyerror("funcao " + $1 + " já declarada");
-							//System.out.print(nodo);
-                       				else ts.insert(new TS_entry($1, Tp_DEFINE, currEscopo, ClasseID.NomeFuncao));
+							//System.out.print(" Resultado: " + ((INodo) $$).avalia());
+							System.out.print(" Resultado: " + $$); 
+						}
+                       				else {
+							ts.insert(new TS_entry($1, Tp_DEFINE, currEscopo, ClasseID.NomeFuncao));
+						}						
 						currEscopo = $1; currClass = ClasseID.CampoDefine; 
 					}
-        	'{' cmd '}'
+        	'{' cmd '}'		
          	; 
 
-cmd 	: exp		{  System.out.println("expressao"); }
-	;
+cmd :  exp 				{ $$ = $1; System.out.println("expressao");}
+    |  WHILE '(' exp ')' cmd       	{ $$ = new NodoNT(TipoOperacao.WHILE,(INodo)$3, (INodo)$5, null); }
+    | '{' cmd '}'                 	{ $$ = $2; }
+    ;
 
 exp:	NUMERO				{ $$ = new NodoTDouble($1); }
        | IDENTIFICADOR			{ $$ = new NodoID($1);}
-       | exp '+' exp			{ $$ = new NodoNT(TipoOperacao.ADD,(INodo)$1,(INodo)$3); System.out.println("estou aqui");}
+       | exp '+' exp			{ $$ = new NodoNT(TipoOperacao.ADD,(INodo)$1,(INodo)$3); System.out.println("exp '+' exp");}
        | exp '-' exp			{ $$ = new NodoNT(TipoOperacao.SUB,(INodo)$1,(INodo)$3); }
        | exp '*' exp			{ $$ = new NodoNT(TipoOperacao.MULL,(INodo)$1,(INodo)$3); }
        | exp '/' exp			{ $$ = new NodoNT(TipoOperacao.DIV,(INodo)$1,(INodo)$3); }
@@ -116,7 +122,9 @@ help:	HELP
 		"O que é possível fazer:\n"+
 		"- Operações imediatas. Exemplo: 2^3+5\n" +
  		"- Operações de atribuições. Exemplo: x = 2^b+5\n"+
-		"- Declaração de função. Exemplo: define d (n) { return (2*n); } \n"
+		"- Declaração de função. Exemplo: define d (n) { return (2*n); } \n\n" +
+		"--- \n"		
+		"- É possível também executar os exemplos por linha de comando. \n"
 	); 
 	}
 	;
