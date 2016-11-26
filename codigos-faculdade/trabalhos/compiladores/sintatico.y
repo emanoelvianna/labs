@@ -16,9 +16,10 @@
 %}
 
 %token NL, HELP, SAVE
-%token IDENTIFICADOR, FLOAT, BOOL, NUMERO, LITERAL, PRINT, IF, ELSE
+%token IDENTIFICADOR, FLOAT, BOOL, NUMERO, LITERAL, PRINT, IF, ELSE, DEFINE
 %token WHILE,TRUE, FALSE, IF, ELSE
 %token IGUAL, DIFERENTE, MAIORIGUAL, MENORIGUAL 
+%token RETURN, DEFINE
 %token AND, OR, FOR
 %token BREAK
 
@@ -26,7 +27,7 @@
 %token <sval> IDENTIFICADOR
 %token <sval> VARIAVEL
 
-%type <obj> bc, line, exp, atribuicao, help, save
+%type <obj> bc, line, exp, atribuicao, help, save, funcao
 
 %right '='
 %left OR
@@ -34,8 +35,8 @@
 %left  '>' '<' IGUAL DIFERENTE MAIORIGUAL MENORIGUAL
 %left '+' '-'
 %left '*' '/' '%'
-%left NEG          /* negation--unary minus */
-%right '^'         /* expoente */
+%left NEG          
+%right '^'       
 
 %%
 
@@ -64,13 +65,19 @@ line:    NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
 					System.out.print("\n "); 
 				}
 			}
-
+	| funcao NL 	{ 	
+				System.out.print("percebi que é uma funcao ");
+			}
 	| help NL
 	| save NL	
 	;
 
 atribuicao:	IDENTIFICADOR '=' exp	{ $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }	
-		;	
+		;
+
+funcao:		DEFINE IDENTIFICADOR'(' ')'{ System.out.println("_start:"); }
+        	'{' '}'
+         	; 
 
 exp:	NUMERO				{ $$ = new NodoTDouble($1); }
        | IDENTIFICADOR			{ $$ = new NodoID($1);}
