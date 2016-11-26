@@ -68,7 +68,15 @@ line:    NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
 					System.out.print("\n "); 
 				}
 			}
-	| funcao NL	
+	| funcao NL	{ 
+				if ($1 != null) {		  		
+					System.out.print("\n" + ((INodo) $$).avalia()); 
+					$$=$1;
+			 	}
+			  	if (interactive){ 
+					System.out.print("\n "); 
+				}
+			}
 	| help NL
 	| save NL	
 	;
@@ -77,23 +85,23 @@ atribuicao:	IDENTIFICADOR '=' exp	{ $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INo
 		;
 
 funcao:		IDENTIFICADOR'(' ')'	{  	
-							System.out.println("funcao");
-							TS_entry nodo = ts.pesquisa($1);
-    	                      				if (nodo != null) 
-                                 				yyerror("funcao " + $1 + " já declarada");
-                               				else ts.insert(new TS_entry($1, Tp_DEFINE, currEscopo, ClasseID.NomeStruct));
- 								currEscopo = $1; currClass = ClasseID.CampoStruct; 
-						}
+						System.out.println("funcao");
+						TS_entry nodo = ts.pesquisa($1);
+                      				if (nodo != null) 
+                         				yyerror("funcao " + $1 + " já declarada");
+							//System.out.print(nodo);
+                       				else ts.insert(new TS_entry($1, Tp_DEFINE, currEscopo, ClasseID.NomeFuncao));
+						currEscopo = $1; currClass = ClasseID.CampoDefine; 
+					}
         	'{' cmd '}'
          	; 
 
-cmd 	: exp		{  System.out.println("expressao");}
+cmd 	: exp		{  System.out.println("expressao"); }
 	;
-
 
 exp:	NUMERO				{ $$ = new NodoTDouble($1); }
        | IDENTIFICADOR			{ $$ = new NodoID($1);}
-       | exp '+' exp			{ $$ = new NodoNT(TipoOperacao.ADD,(INodo)$1,(INodo)$3); }
+       | exp '+' exp			{ $$ = new NodoNT(TipoOperacao.ADD,(INodo)$1,(INodo)$3); System.out.println("estou aqui");}
        | exp '-' exp			{ $$ = new NodoNT(TipoOperacao.SUB,(INodo)$1,(INodo)$3); }
        | exp '*' exp			{ $$ = new NodoNT(TipoOperacao.MULL,(INodo)$1,(INodo)$3); }
        | exp '/' exp			{ $$ = new NodoNT(TipoOperacao.DIV,(INodo)$1,(INodo)$3); }
