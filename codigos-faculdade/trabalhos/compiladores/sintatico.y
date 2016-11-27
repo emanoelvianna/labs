@@ -30,7 +30,7 @@
 %token <sval> VARIAVEL
 %type <sval>  LITERAL
 
-%type <obj> bc, line, exp, atribuicao, help, save, funcao, cmd
+%type <obj> bc, line, exp, atribuicao, help, save, declaracaofuncao, chamadaFuncao, cmd
 
 %right '='
 %left OR
@@ -68,15 +68,8 @@ line:    NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
 					System.out.print("\n "); 
 				}
 			}
-	| funcao NL	{ 
-				if ($1 != null) {		  		
-					System.out.print("\n" + ((INodo) $$).avalia()); 
-					$$=$1;
-			 	}
-			  	if (interactive){ 
-					System.out.print("\n "); 
-				}
-			}
+	| declaracaofuncao NL
+	| chamadaFuncao NL
 	| help NL
 	| save NL	
 	;
@@ -84,7 +77,8 @@ line:    NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
 atribuicao:	IDENTIFICADOR '=' exp	{ $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }	
 		;
 
-funcao:		IDENTIFICADOR'(' ')'	{  	
+declaracaofuncao:		IDENTIFICADOR'(' ')'	
+        	'{' cmd '}' 		{  	
 						System.out.println("funcao");
 						TS_entry nodo = ts.pesquisa($1);
                       				if (nodo != null) {
@@ -96,9 +90,21 @@ funcao:		IDENTIFICADOR'(' ')'	{
 							ts.insert(new TS_entry($1, Tp_DEFINE, currEscopo, ClasseID.NomeFuncao));
 						}						
 						currEscopo = $1; currClass = ClasseID.CampoDefine; 
-					}
-        	'{' cmd '}'		
+					}		
          	; 
+
+chamadaFuncao:	IDENTIFICADOR'(' ')'    {  	
+						System.out.println("funcao");
+						TS_entry nodo = ts.pesquisa($1);
+                      				if (nodo != null) {
+                         				System.out.print(" executando a funcao... "); 
+						}
+                       				else {
+							System.out.print(" funcao não declarada ");
+						}
+					}
+		; 
+
 
 cmd :  exp 				{ $$ = $1; System.out.println("expressao");}
     |  WHILE '(' exp ')' cmd       	{ $$ = new NodoNT(TipoOperacao.WHILE,(INodo)$3, (INodo)$5, null); }
@@ -123,7 +129,7 @@ help:	HELP
 		"- Operações imediatas. Exemplo: 2^3+5\n" +
  		"- Operações de atribuições. Exemplo: x = 2^b+5\n"+
 		"- Declaração de função. Exemplo: define d (n) { return (2*n); } \n\n" +
-		"--- \n"		
+		"--- \n" +		
 		"- É possível também executar os exemplos por linha de comando. \n"
 	); 
 	}
