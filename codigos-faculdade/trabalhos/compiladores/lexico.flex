@@ -47,7 +47,7 @@ NL  = \n | \r | \r\n
 "&&"		{ return Parser.AND; }
 "||"		{ return Parser.OR; }
  
-define   	{ return Parser.DEFINE; }
+DEFINE   	{ return Parser.DEFINE; }
 void   		{ return Parser.VOID; }
 main   		{ return Parser.MAIN; }
 

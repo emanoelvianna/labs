@@ -18,8 +18,8 @@
 %}
 
 %token NL, HELP, SAVE
-%token IDENTIFICADOR, FLOAT, BOOL, NUMERO, LITERAL, PRINT, IF, ELSE, DEFINE
-%token WHILE,TRUE, FALSE, IF, ELSE
+%token IDENTIFICADOR, FLOAT, BOOL, NUMERO, LITERAL, PRINT, DEFINE
+%token WHILE, TRUE, FALSE, IF, ELSE
 %token IGUAL, DIFERENTE, MAIORIGUAL, MENORIGUAL 
 %token RETURN, DEFINE
 %token AND, OR, FOR
@@ -43,7 +43,7 @@
 
 %%
 
-bc:   	/* empty string */ {$$=null;}
+bc:   	/* empty string */ {$$=null;}	
 	| bc line { currEscopo = ""; System.out.print("\n> "); } 	
 	| error NL { System.out.println("entrada ignorada"); System.out.print("\n> "); }
 	;
@@ -77,8 +77,8 @@ line:    NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
 atribuicao:	IDENTIFICADOR '=' exp	{ $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }	
 		;
 
-declaracaofuncao:		IDENTIFICADOR'(' ')'	
-        	'{' cmd '}' 		{  	
+declaracaofuncao:	IDENTIFICADOR'(' ')'	
+        		'{' cmd '}' 	{  	
 						System.out.println("funcao");
 						TS_entry nodo = ts.pesquisa($1);
                       				if (nodo != null) {
@@ -97,7 +97,7 @@ chamadaFuncao:	IDENTIFICADOR'(' ')'    {
 						System.out.println("funcao");
 						TS_entry nodo = ts.pesquisa($1);
                       				if (nodo != null) {
-                         				System.out.print(" executando a funcao... "); 
+                         				System.out.print(" executando a funcao... ");
 						}
                        				else {
 							System.out.print(" funcao não declarada ");
@@ -118,6 +118,7 @@ exp:	NUMERO				{ $$ = new NodoTDouble($1); }
        | exp '*' exp			{ $$ = new NodoNT(TipoOperacao.MULL,(INodo)$1,(INodo)$3); }
        | exp '/' exp			{ $$ = new NodoNT(TipoOperacao.DIV,(INodo)$1,(INodo)$3); }
        | exp '<' exp			{ $$ = new NodoNT(TipoOperacao.LESS,(INodo)$1,(INodo)$3); }
+       | exp '>' exp			{ $$ = new NodoNT(TipoOperacao.MORE,(INodo)$1,(INodo)$3); }	
        | '-' exp  %prec NEG		{ $$ = new NodoNT(TipoOperacao.UMINUS,(INodo)$2,null); }
        | exp '^' exp			{ $$ = new NodoNT(TipoOperacao.POW,(INodo)$1,(INodo)$3); }
        | '(' exp ')'			{ $$ = $2; }

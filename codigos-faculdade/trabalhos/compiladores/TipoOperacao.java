@@ -7,6 +7,7 @@ public enum TipoOperacao
     DIV, 
     POW, 
     LESS,
+    MORE,	
     ATRIB,
     IF,
     IFELSE,	
