@@ -372,7 +372,7 @@ final static String yyrule[] = {
 "save : SAVE",
 };
 
-//#line 146 "sintatico.y"
+//#line 145 "sintatico.y"
 
   public static HashMap<String, ResultValue> memory = new HashMap<>();
   private BC bc;
@@ -671,71 +671,71 @@ case 14:
 					}
 break;
 case 15:
-//#line 106 "sintatico.y"
-{ yyval.obj = val_peek(0).obj; System.out.println("expressao");}
+//#line 105 "sintatico.y"
+{ yyval.obj = val_peek(0).obj; }
 break;
 case 16:
-//#line 107 "sintatico.y"
+//#line 106 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.ATRIB, val_peek(3).sval, (INodo)val_peek(1).obj); }
 break;
 case 17:
-//#line 108 "sintatico.y"
+//#line 107 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.WHILE,(INodo)val_peek(2).obj, (INodo)val_peek(0).obj, null); }
 break;
 case 18:
-//#line 109 "sintatico.y"
+//#line 108 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.IF,(INodo)val_peek(2).obj, (INodo)val_peek(0).obj, null); }
 break;
 case 19:
-//#line 110 "sintatico.y"
+//#line 109 "sintatico.y"
 { yyval.obj = val_peek(1).obj; }
 break;
 case 20:
-//#line 113 "sintatico.y"
+//#line 112 "sintatico.y"
 { yyval.obj = new NodoTDouble(val_peek(0).dval); }
 break;
 case 21:
-//#line 114 "sintatico.y"
+//#line 113 "sintatico.y"
 { yyval.obj = new NodoID(val_peek(0).sval);}
 break;
 case 22:
-//#line 115 "sintatico.y"
+//#line 114 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.ADD,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); System.out.println("exp '+' exp");}
 break;
 case 23:
-//#line 116 "sintatico.y"
+//#line 115 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.SUB,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 24:
-//#line 117 "sintatico.y"
+//#line 116 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.MULL,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 25:
-//#line 118 "sintatico.y"
+//#line 117 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.DIV,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 26:
-//#line 119 "sintatico.y"
+//#line 118 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.LESS,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 27:
-//#line 120 "sintatico.y"
+//#line 119 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.MORE,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 28:
-//#line 121 "sintatico.y"
+//#line 120 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.UMINUS,(INodo)val_peek(0).obj,null); }
 break;
 case 29:
-//#line 122 "sintatico.y"
+//#line 121 "sintatico.y"
 { yyval.obj = new NodoNT(TipoOperacao.POW,(INodo)val_peek(2).obj,(INodo)val_peek(0).obj); }
 break;
 case 30:
-//#line 123 "sintatico.y"
+//#line 122 "sintatico.y"
 { yyval.obj = val_peek(1).obj; }
 break;
 case 31:
-//#line 127 "sintatico.y"
+//#line 126 "sintatico.y"
 { System.out.println(
 		"O que é possível fazer:\n"+
 		"- Operações imediatas. Exemplo: 2^3+5\n" +
@@ -747,7 +747,7 @@ case 31:
 	}
 break;
 case 32:
-//#line 139 "sintatico.y"
+//#line 138 "sintatico.y"
 { System.out.println(
 		"Gravando o conteúdo atual da tabela de funções.\n"
 	); 

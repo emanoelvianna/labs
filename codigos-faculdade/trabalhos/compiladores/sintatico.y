@@ -70,7 +70,7 @@ line:    NL		{ $$ = null; }
 			}
 	| declaracaofuncao NL
 	| chamadaFuncao NL
-	| cmd NL	{ System.out.println("fui chamado"); }
+	| cmd NL
 	| help NL
 	| save NL	
 	;
@@ -102,8 +102,7 @@ chamadaFuncao:	IDENTIFICADOR'(' ')'    {
 					}
 		; 
 
-
-cmd :  exp 				{ $$ = $1; System.out.println("expressao");}
+cmd :  exp 				{ $$ = $1; }
     |  IDENTIFICADOR '=' exp ';'        { $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }
     |  WHILE '(' exp ')' cmd       	{ $$ = new NodoNT(TipoOperacao.WHILE,(INodo)$3, (INodo)$5, null); }
     |  IF '(' exp ')' cmd               { $$ = new NodoNT(TipoOperacao.IF,(INodo)$3, (INodo)$5, null); }	
