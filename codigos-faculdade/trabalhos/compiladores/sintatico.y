@@ -48,7 +48,7 @@ bc:   	/* empty string */ {$$=null;}
 	| error NL { System.out.println("entrada ignorada"); System.out.print("\n> "); }
 	;
 
-line:    NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
+line:    NL		{ $$ = null; }
 	| exp NL	{ 
 				if ($1 != null) {
 					System.out.println("\n Expressão = " + $1); 			  		
@@ -70,6 +70,7 @@ line:    NL		{ if (interactive) System.out.print("\n> "); $$ = null; }
 			}
 	| declaracaofuncao NL
 	| chamadaFuncao NL
+	| cmd NL	{ System.out.println("fui chamado"); }
 	| help NL
 	| save NL	
 	;
@@ -79,12 +80,9 @@ atribuicao:	IDENTIFICADOR '=' exp	{ $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INo
 
 declaracaofuncao:	IDENTIFICADOR'(' ')'	
         		'{' cmd '}' 	{  	
-						System.out.println("funcao");
 						TS_entry nodo = ts.pesquisa($1);
                       				if (nodo != null) {
                          				yyerror("funcao " + $1 + " já declarada");
-							//System.out.print(" Resultado: " + ((INodo) $$).avalia());
-							System.out.print(" Resultado: " + $$); 
 						}
                        				else {
 							ts.insert(new TS_entry($1, Tp_DEFINE, currEscopo, ClasseID.NomeFuncao));
@@ -94,7 +92,6 @@ declaracaofuncao:	IDENTIFICADOR'(' ')'
          	; 
 
 chamadaFuncao:	IDENTIFICADOR'(' ')'    {  	
-						System.out.println("funcao");
 						TS_entry nodo = ts.pesquisa($1);
                       				if (nodo != null) {
                          				System.out.print(" executando a funcao... ");
@@ -107,7 +104,9 @@ chamadaFuncao:	IDENTIFICADOR'(' ')'    {
 
 
 cmd :  exp 				{ $$ = $1; System.out.println("expressao");}
+    |  IDENTIFICADOR '=' exp ';'        { $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }
     |  WHILE '(' exp ')' cmd       	{ $$ = new NodoNT(TipoOperacao.WHILE,(INodo)$3, (INodo)$5, null); }
+    |  IF '(' exp ')' cmd               { $$ = new NodoNT(TipoOperacao.IF,(INodo)$3, (INodo)$5, null); }	
     | '{' cmd '}'                 	{ $$ = $2; }
     ;
 

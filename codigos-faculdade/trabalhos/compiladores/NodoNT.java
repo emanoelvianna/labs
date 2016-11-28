@@ -28,7 +28,7 @@ public class NodoNT implements INodo
     }
    
     public ResultValue avalia() {
-
+	System.out.println("avalia chamado!");
         ResultValue result = null;
         ResultValue  left, right, expressao;
         
