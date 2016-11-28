@@ -78,7 +78,7 @@ line:    NL		{ $$ = null; }
 atribuicao:	IDENTIFICADOR '=' exp	{ $$ = new NodoNT(TipoOperacao.ATRIB, $1, (INodo)$3); }	
 		;
 
-declaracaofuncao:	IDENTIFICADOR'(' ')'	
+declaracaofuncao:	DEFINE IDENTIFICADOR'(' ')'	
         		'{' cmd '}' 	{  	
 						TS_entry nodo = ts.pesquisa($1);
                       				if (nodo != null) {
