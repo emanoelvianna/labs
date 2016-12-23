@@ -1,0 +1,19 @@
+----
+- Cronograma de estudos
+----
+
+-- Matematica:
+	Matematica do zero (youtube)
+	Coleção de livros matematica
+
+-- Ingles:
+	Duolingo 
+	Exercicios gramatica / tradução de textos
+	Provas de proficiência
+
+-- Programação/Desenvolvimento:
+	Java
+	Javascript
+	AngularJS
+	MongoDB
+	
