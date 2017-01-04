@@ -12,10 +12,21 @@ class NegociacaoController {
         this.inputValor = $('#valor');
     }
 
-    adicionar(event) {
+    adiciona(event) {
         // lá no html estou utilizando o onsubmit="negociacaoController.adicionar(event)"
         event.preventDefault(); // não deixa recaregar o formulário, assim os dados não são perdidos
 
-        console.log(this.inputData.value);
+        let data = new Date(...this._inputData
+            .value.split('-')
+            .map((item, indice) => item - indice % 2)); // decrementando caso index igual a mês
+
+        let negociacao = new Negociacao(
+            data,
+            this._inputQuantidade.value,
+            this._inputValor.value
+        );
+
+        console.log(negociacao);
     }
+
 }
