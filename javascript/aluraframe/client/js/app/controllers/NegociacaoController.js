@@ -7,18 +7,16 @@ class NegociacaoController {
         **/
         // mas assim o código fica mais limpo:
         let $ = document.querySelector.bind(document); // bind deixando o contexto ainda sobre document
-        this.inputData = $('#data');
-        this.inputQuantidade = $('#quantidade');
-        this.inputValor = $('#valor');
+        this._inputData = $('#data');
+        this._inputQuantidade = $('#quantidade');
+        this._inputValor = $('#valor');
     }
 
     adiciona(event) {
         // lá no html estou utilizando o onsubmit="negociacaoController.adicionar(event)"
         event.preventDefault(); // não deixa recaregar o formulário, assim os dados não são perdidos
 
-        let data = new Date(...this._inputData
-            .value.split('-')
-            .map((item, indice) => item - indice % 2)); // decrementando caso index igual a mês
+        let data = DateHelper.textoParaData(this._inputData.value);
 
         let negociacao = new Negociacao(
             data,
@@ -26,7 +24,7 @@ class NegociacaoController {
             this._inputValor.value
         );
 
-        console.log(negociacao);
+        console.log(DateHelper.dataParaTexto(data));
     }
 
 }
