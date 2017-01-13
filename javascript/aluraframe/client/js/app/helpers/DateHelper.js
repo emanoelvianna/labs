@@ -8,14 +8,17 @@ class DateHelper {
     }
 
     static textoParaData(texto) {
+        //fail fast, detectando caso usuário passe como parametro algo fora de ano-mes-dia
+        if (!(/^\d{4}-\d{2}-\d{2}$/.test(texto)))
+            throw new Error('Deve estar no formato aaaa/mm/dd');
+
         // decrementando caso index igual a mês
         return new Date(...texto.split('-').map((item, indice) => item - indice % 2));
     }
 
     static dataParaTexto(data) {
-
-        return data.getDate() +
-            '/' + (data.getMonth() + 1) + // incrementado o mês, lembre-se mes é guardado em um vetor no js
-            '/' + data.getFullYear();
+        // usando um novo modo de concatenar strings no js6
+        // templateString
+        return `${data.getDate()}/${data.getMonth()+1}/${data.getFullYear()}`;
     }
 }
