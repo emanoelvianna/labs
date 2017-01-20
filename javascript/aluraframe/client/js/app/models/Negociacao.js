@@ -5,7 +5,7 @@ class Negociacao {
     constructor(data, quantidade, valor) {
         // _algumaCoisa = conversão para deixar claro que as propriedade dessa classe
         // só devem ser acessadas atravez da propria classe, ou seja, não deve ser acessado de fora!
-        this._data = new Date(data.getTime()); // programação defensiva 
+        this._data = new Date(data.getTime()); // programação defensiva
         this._quantidade = quantidade;
         this._valor = valor;
 
@@ -13,7 +13,7 @@ class Negociacao {
     }
 
     // declarando o metodo para calcular o volume
-    obterVolume() {
+    get volume() {
         return this._quantidade * this._valor;
     }
 
