@@ -1,13 +1,11 @@
 // declarando  a view no mundo JavaScript
-
-class NegociacoesView {
+class NegociacoesView extends View { // realizando herança da class View
 
     constructor(elemento) {
-
-        this.elemento = elemento;
+        super(elemento); // chamando o constructor da classe pai passando o elemento
     }
 
-    _template(model) {
+    template(model) {
 
             return `<table class="table table-hover table-bordered">
                     <thead>
@@ -43,7 +41,4 @@ class NegociacoesView {
             `;
     }
 
-    update(model) {
-        this.elemento.innerHTML = this._template(model);
-    }
 }
