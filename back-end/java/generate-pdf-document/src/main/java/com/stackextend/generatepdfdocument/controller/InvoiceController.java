@@ -1,5 +1,6 @@
 package com.stackextend.generatepdfdocument.controller;
 
+import com.stackextend.generatepdfdocument.model.DemonstrativoDetalhadoDTO;
 import com.stackextend.generatepdfdocument.model.OrderModel;
 import com.stackextend.generatepdfdocument.service.InvoiceService;
 import com.stackextend.generatepdfdocument.service.MockOrderService;
@@ -47,7 +48,8 @@ public class InvoiceController {
                                                                @RequestParam(name = "lang", defaultValue = "en") String lang) throws IOException {
         logger.info("Start invoice generation...");
         final OrderModel order = mockOrderService.getOrderByCode(code);
-        final File invoicePdf = invoiceService.generateInvoiceFor(order, Locale.forLanguageTag(lang));
+        final DemonstrativoDetalhadoDTO demonstrativo = mockOrderService.getDemonstrativo();
+        final File invoicePdf = invoiceService.generateInvoiceFor(demonstrativo, Locale.forLanguageTag(lang));
         logger.info("Invoice generated successfully...");
 
         final HttpHeaders httpHeaders = getHttpHeaders(code, lang, invoicePdf);

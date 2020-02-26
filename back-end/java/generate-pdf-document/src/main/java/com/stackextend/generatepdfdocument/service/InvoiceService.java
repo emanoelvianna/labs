@@ -1,5 +1,6 @@
 package com.stackextend.generatepdfdocument.service;
 
+import com.stackextend.generatepdfdocument.model.DemonstrativoDetalhadoDTO;
 import com.stackextend.generatepdfdocument.model.OrderModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -33,7 +34,7 @@ public class InvoiceService {
     @Value("${invoice.template.path}")
     private String invoice_template;
 
-    public File generateInvoiceFor(OrderModel order, Locale locale) throws IOException {
+    public File generateInvoiceFor(DemonstrativoDetalhadoDTO demonstrativo, Locale locale) throws IOException {
 
         File pdfFile = File.createTempFile("my-invoice", ".pdf");
 
@@ -45,7 +46,7 @@ public class InvoiceService {
             final JasperReport report = loadTemplate();
 
             // Fill parameters map.
-            final Map<String, Object> parameters = parameters(order, locale);
+            final Map<String, Object> parameters = parameters(demonstrativo, locale);
 
             // Create an empty datasource.
             final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(Collections.singletonList("Invoice"));
@@ -64,10 +65,10 @@ public class InvoiceService {
     }
 
     // Fill template order params
-    private Map<String, Object> parameters(OrderModel order, Locale locale) {
+    private Map<String, Object> parameters(DemonstrativoDetalhadoDTO demonstrativo, Locale locale) {
         final Map<String, Object> parameters = new HashMap<>();
         parameters.put("logo", getClass().getResourceAsStream(logo_path));
-        parameters.put("order",  order);
+        parameters.put("demonstrativo",  demonstrativo);
         parameters.put("REPORT_LOCALE", locale);
         return parameters;
     }

@@ -7,12 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Generated;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
-@Generated
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
 public class DemonstrativoDetalhadoDTO {
 
 	private String nomeInstituicaoFinanceira;
@@ -37,5 +31,13 @@ public class DemonstrativoDetalhadoDTO {
 	// others
 	private Integer idOperacao;
 	private String dataValorDevedor;
+	
+	public DemonstrativoDetalhadoDTO(String nomeInstituicaoFinanceira) {
+		this.nomeInstituicaoFinanceira = nomeInstituicaoFinanceira;
+	}
+	
+	public String getNomeInstituicaoFinanceira() {
+		return nomeInstituicaoFinanceira;
+	}
 
 }

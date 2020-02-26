@@ -1,6 +1,7 @@
 package com.stackextend.generatepdfdocument.service;
 
 import com.stackextend.generatepdfdocument.model.AddressModel;
+import com.stackextend.generatepdfdocument.model.DemonstrativoDetalhadoDTO;
 import com.stackextend.generatepdfdocument.model.OrderEntryModel;
 import com.stackextend.generatepdfdocument.model.OrderModel;
 import org.springframework.stereotype.Service;
@@ -12,9 +13,7 @@ import java.util.List;
 public class MockOrderService {
 
     public OrderModel getOrderByCode(final String code) {
-
         return order(code);
-
     }
 
     private OrderModel order(String code) {
@@ -38,4 +37,8 @@ public class MockOrderService {
             }
         };
     }
+
+	public DemonstrativoDetalhadoDTO getDemonstrativo() {
+		return new DemonstrativoDetalhadoDTO("Teste");
+	}
 }

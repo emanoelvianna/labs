@@ -37,14 +37,191 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="36">
-			<textField>
-				<reportElement x="0" y="3" width="166" height="13" uuid="0d1c0e34-7065-4202-af1d-9be726facd95"/>
-				<textFieldExpression><![CDATA[Nome da Instituição Financeira]]></textFieldExpression>
-			</textField>
-		</band>
-		<band height="20">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		<band height="480">
+			<frame>
+				<reportElement x="0" y="-1" width="555" height="481" uuid="9b0937be-cdb3-4505-a5df-5573ea0e9e17"/>
+				<staticText>
+					<reportElement x="10" y="10" width="250" height="15" uuid="404edc47-3151-432a-a725-b7bd2f73c00f">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Nome da Instituição Financeira]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="50" width="250" height="15" uuid="64692c57-9eb3-4a7c-b3f6-3c43e1ebd4b3">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Nome do Cliente / Associado]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="280" y="10" width="264" height="15" uuid="2311a529-3726-4039-a1bf-1d2d0cdb43e8">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Data de Emissão]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="280" y="270" width="265" height="15" uuid="e235ee6f-6878-46c3-ab53-2582720f19b3">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Sistema de Amortização]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="280" y="50" width="265" height="15" uuid="3fd64bcf-6499-418d-82c6-c94e27e2a956">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Documento Descritivo de Crédito]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="280" y="190" width="265" height="15" uuid="e73bd27a-1604-449e-8a26-bee417429d4c">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Modalidade Bacen do Contrato]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="350" width="250" height="15" uuid="c0ba690a-b9e6-43c0-8c6a-06816b62b344">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Data do Último Vencimento da Operação]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="180" width="250" height="15" uuid="fa30c1b3-9ffc-408d-9a8e-601e5b97f9bc">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Taxa de Juros Nominal (% a.m.)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="140" width="250" height="15" uuid="1fa203ef-9587-4297-ad1e-c16f3aff479d">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Taxa de Juros Efetiva (% a.a.)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="280" y="228" width="265" height="15" uuid="6f6ec4d7-2ad1-43de-8b08-127b37ea67ac">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Taxa de Juros Anual (% a.a.)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="280" y="310" width="265" height="15" uuid="d922a5c7-0d12-4b29-baa0-3b6f6f28c483">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Indexador]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="310" width="250" height="15" uuid="a1407986-4658-4689-b5cb-6c25de67d0b2">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Valor do Saldo Devedor Atualizado]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="280" y="350" width="265" height="15" uuid="a0d4c9cc-a13d-4870-992d-d1edb256a77b">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Prazo Remanescente (Parcelas em Aberto) da Operação]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="390" width="250" height="15" uuid="ccc69227-643d-4095-a49e-af05ee29aa1a">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Data da Informação do Saldo Devedor]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="220" width="250" height="15" uuid="fec47809-9b6e-45bd-a9ec-ce7a563d4c59">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Total de Parcelas da Operação]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="268" width="250" height="15" uuid="9f68f955-7b1d-4ecc-b8b3-761265bfdde7">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Data da Liberação da Operação]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="91" width="250" height="15" uuid="08f32717-993e-4146-b29a-96bce0e296a6">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Código do Contrato]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="280" y="140" width="265" height="15" uuid="2ae22cd9-07bc-447c-9b5a-ca0d1c404969">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[CPF ou CNPJ do Cliente / Associado]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="280" y="100" width="265" height="15" uuid="b01ff1b2-8327-47e8-b2db-eaf29cbd9bc9">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[ISPB / CNPJ da Instituição Financeira]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="10" y="30" width="270" height="15" uuid="c3d3a693-af0c-406e-808d-9ebc0bfa98fa">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Top">
+						<font fontName="Arial" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{demonstrativo}.getNomeInstituicaoFinanceira()]]></textFieldExpression>
+				</textField>
+			</frame>
 		</band>
 	</detail>
 	<columnFooter>
